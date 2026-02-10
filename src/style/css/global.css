@@ -1,0 +1,41 @@
+.header{
+    display:flex;   
+}
+.icon{
+    width:90px;
+    height:90px;
+}
+
+.chart_card{
+    display: flex;
+}
+
+.jacket_holder img{
+    width: 114px;
+    height: 114px;
+}
+
+.level_diff{
+    display: inline-block;
+    border-radius: 5px;
+    padding: 4px 8px;
+    margin-right: 3px;
+    font-weight:bold;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.exp{
+    background-color:#ff7b7b;
+    color: #000;
+}
+
+.mas{
+    background-color:#9f51dc;
+    color: #fff;
+
+}
+
+.remas{
+    background-color:#dbaaff;
+    color: #000;
+}
