@@ -7,8 +7,11 @@ input::-webkit-inner-spin-button {
 /* Remove num. up/down firefox */
 input[type=number] {
   -moz-appearance: textfield;
+<<<<<<< HEAD
 }
 
 body{
   background-color: #F5F5F5;
+=======
+>>>>>>> cfadb7c436d5a2403bb5f42529ac2f0f8397beac
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *{
     margin: 0;
     padding: 0
@@ -47,11 +48,17 @@ body{
     justify-content: space-around;
 }
 
+=======
+.header{
+    display:flex;   
+}
+>>>>>>> cfadb7c436d5a2403bb5f42529ac2f0f8397beac
 .icon{
     width:90px;
     height:90px;
 }
 
+<<<<<<< HEAD
 .search input{
     width: 380px;
     height: 65px;
@@ -92,22 +99,35 @@ body{
     font-size: 25px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif
+=======
+.chart_card{
+    display: flex;
+>>>>>>> cfadb7c436d5a2403bb5f42529ac2f0f8397beac
 }
 
 .jacket_holder img{
     width: 114px;
     height: 114px;
+<<<<<<< HEAD
     margin-left: 10px;
     border-radius: 10px;
+=======
+>>>>>>> cfadb7c436d5a2403bb5f42529ac2f0f8397beac
 }
 
 .level_diff{
     display: inline-block;
     border-radius: 5px;
     padding: 4px 8px;
+<<<<<<< HEAD
     margin-left: 10px;
     margin-right: 3px;
     font-family: Arial, Helvetica, sans-serif
+=======
+    margin-right: 3px;
+    font-weight:bold;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+>>>>>>> cfadb7c436d5a2403bb5f42529ac2f0f8397beac
 }
 
 .exp{
@@ -117,7 +137,11 @@ body{
 
 .mas{
     background-color:#9f51dc;
+<<<<<<< HEAD
     color: #000000;
+=======
+    color: #fff;
+>>>>>>> cfadb7c436d5a2403bb5f42529ac2f0f8397beac
 
 }
 
