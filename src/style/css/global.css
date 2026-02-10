@@ -61,6 +61,7 @@ body{
 }
 
 .search input{
+    margin-left: -60px;
     width: 380px;
     height: 65px;
     border-radius: 10px;
@@ -82,6 +83,7 @@ body{
 }
 
 .sort_by{
+    margin-right: -60px;
     width: 380px;
     height: 65px;
     border-radius: 10px;
