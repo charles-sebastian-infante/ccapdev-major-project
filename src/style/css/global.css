@@ -9,7 +9,7 @@ body{
     background-color: #F5F5F5;
 }
 
-.header{
+header{
     display:flex;   
     background-image: linear-gradient(to left, #FFFF, #86CECB);
     height: 110px;
@@ -42,7 +42,7 @@ body{
     gap: 15px;
 }
 
-.navbar{
+search{
     display: flex;
     background-color: #FFFF;
     gap: 80px;
@@ -55,12 +55,12 @@ body{
 }
 
 .icon{
-    width:90px;
-    height:90px;
+    width:32px;
+    height:32px;
     padding-right: 20px;
 }
 
-.search input{
+.search_bar input{
     margin-left: -60px;
     width: 380px;
     height: 65px;

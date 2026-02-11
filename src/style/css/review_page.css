@@ -1,0 +1,157 @@
+.reviews_holder {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    width: 100%;
+    align-items: flex-start; /* align to top */
+}
+
+.prev_reviews {
+    flex: 1;
+    min-width: 0;
+}
+
+.user_review {
+    flex: 1;
+    min-width: 0;
+}
+
+.prev_reviews h2,
+.user_review h2 {
+    margin-bottom: 20px;
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.prev_review_instance {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.user_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0; 
+}
+
+.user_avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user_skill {
+    font-size: 12px;
+    color: #666;
+    font-weight: bold;
+}
+
+.review_content {
+    flex: 1;
+    min-width: 0;
+}
+
+.review_header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap; 
+}
+
+.username {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.user_cc {
+    color: #666;
+    font-weight: bold;
+}
+
+.recommendation_icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.review_comment {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    color: #333;
+    line-height: 1.4;
+}
+
+.review_form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.level_input_section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.level_input_section label {
+    font-weight: 500;
+    color: #333;
+}
+
+.level_input {
+    width: 80px;
+    padding: 8px 12px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.level_range {
+    color: #666;
+    font-size: 14px;
+}
+
+.review_text {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 120px;
+    box-sizing: border-box;
+}
+
+.review_actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.delete_btn,
+.submit_btn {
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
