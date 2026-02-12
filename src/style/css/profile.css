@@ -8,10 +8,10 @@
 }
 
 .parent{
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .top{
@@ -82,21 +82,34 @@
 }
 
 .form_edit input{
-  width: 556px;
-  height: 57px;
-  background-color: rgba(30, 30, 30, 0.07);
-  border: none;
-  border-radius: 10px;
-  font-size: clamp(20px);
-  padding-left: 10px;
+    width: 556px;
+    height: 57px;
+    background-color: rgba(30, 30, 30, 0.07);
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(20px);
+    padding-left: 10px;
 }
 
 input:hover{
-  box-shadow: 0 6px 15px #86CECB;
+    box-shadow: 0 6px 15px #86CECB;
 }
 
 .form_edit label{
     font-size: clamp(18px);
+}
+.back{
+    top:-50px;
+    left: 0;
+    padding: 8px 16px;
+}
+
+.back input{
+    display: flex;
+    width: 5vw;
+    height: 57px;
+    border: none;
+    background-color: #FFFF;
 }
 
 .form_edit #new_avatar{
@@ -105,11 +118,11 @@ input:hover{
 }
 
 .form_edit textarea{
-  height: 100px;
-  width: 556px;
-  resize: none;
-  font-size: 20px;
-  border-radius: 10px;
+    height: 100px;
+    width: 556px;
+    resize: none;
+    font-size: 20px;
+    border-radius: 10px;
 }
 
 .form_edit button{
