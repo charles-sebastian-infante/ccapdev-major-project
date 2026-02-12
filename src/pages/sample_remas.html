@@ -18,12 +18,12 @@
                     <p>Rate and track your favorite rhythm game songs</p>
                     </div>
                 </div>
-                <a href = "pages/signup.html">
+                <a href = "signup.html">
                     <img class="icon" src="../style/assets/icons/pfp_placeholder.png"> 
                 </a>
             </div>
 
-            <div class="chart_card remaster">
+            <div class="chart_card">
                 <div class="jacket_holder">
                     <img src="../style/assets/placeholders/pppp.png">
                 </div>
@@ -36,96 +36,73 @@
                         <span class="level_diff remas"> Re:Master</span>
                     </div>   
                 </div>
-                <div class="reco_actions">
-                        <button class="accurate"> Rated Accurately </button>
-                        <button class="not_accurate"> Not Rated Well </button>
-                </div>
             </div>
         </div>
 
         <div class="reviews_holder">
             <div class="prev_reviews">
                 <h2> Previous Reviews </h2>
-                <div class="prev_review_instance">
-                    <div class="user_info">
-                        <img src="../style/assets/placeholders/pfp1.png" class="user_avatar">
-                        <span class="user_skill"> 12310 </span>
-                    </div>
 
-                    <div class="review_content">
-                        <div class="review_header">
-                            <span class="username"> pieisspy </span>
-                            <span class="user_cc"> 12.4 </span>
-                            <img src="../style/assets/icons/reco.png" class="recommendation_icon">
+                <search class="search_bar">
+                    <input type="text" placeholder="Search comments...">
+                </search>
+            
+                <div class="review_wrapper">
+                    <div class="prev_review_instance">
+                        <div class="user_info">
+                            <img src="../style/assets/placeholders/pfp1.png" class="user_avatar">
+                            <span class="user_skill"> 14210 </span>
                         </div>
-                        <p class="review_comment"> THIS CHART IS SO FIRE BROOOO </p>
-                    </div>
-                </div>
-
-                 <div class="prev_review_instance">
-                    <div class="user_info">
-                        <img src="../style/assets/placeholders/pfp1.png" class="user_avatar">
-                        <span class="user_skill"> 12310 </span>
-                    </div>
-
-                    <div class="review_content">
-                        <div class="review_header">
-                            <span class="username"> pieisspy </span>
-                            <span class="user_cc"> 12.4 </span>
-                            <img src="../style/assets/icons/reco.png" class="recommendation_icon">
+                        <div class="review_content">
+                            <div class="review_header">
+                                <span class="username"> maIding_maimai </span>
+                                <span class="user_cc"> 13.9 </span>
+                                <img src="../style/assets/icons/not_reco.png" class="recommendation_icon">
+                            </div>
+                            <p class="review_comment"> chart is quite difficult for a 13.7, multiple trills & jack patterns make it hard </p>
                         </div>
-                        <p class="review_comment"> THIS CHART IS SO FIRE BROOOO </p>
-                    </div>
-                </div>
-
-                <div class="prev_review_instance">
-                    <div class="user_info">
-                        <img src="../style/assets/placeholders/pfp1.png" class="user_avatar">
-                        <span class="user_skill"> 12310 </span>
-                    </div>
-
-                    <div class="review_content">
-                        <div class="review_header">
-                            <span class="username"> pieisspy </span>
-                            <span class="user_cc"> 12.4 </span>
-                            <img src="../style/assets/icons/reco.png" class="recommendation_icon">
+                        <div class="review_actions">
+                            <button class="see_full">
+                                <span> See full review </span>
+                            </button>
+                            <button class="like_button">
+                                <img src="../style/assets/icons/heart.png" class="icon">
+                                <span class="like_count">1.3k</span>
+                            </button>
                         </div>
-                        <p class="review_comment"> THIS CHART IS SO FIRE BROOOO </p>
-                    </div>
-                </div>
-
-                <div class="prev_review_instance">
-                    <div class="user_info">
-                        <img src="../style/assets/placeholders/pfp1.png" class="user_avatar">
-                        <span class="user_skill"> 12310 </span>
-                    </div>
-
-                    <div class="review_content">
-                        <div class="review_header">
-                            <span class="username"> pieisspy </span>
-                            <span class="user_cc"> 12.4 </span>
-                            <img src="../style/assets/icons/reco.png" class="recommendation_icon">
-                        </div>
-                        <p class="review_comment"> THIS CHART IS SO FIRE BROOOO </p>
                     </div>
                 </div>
             </div>
+
             <div class="user_review">
                 <h2>My Review</h2>
 
             <div class="review_form">
                 <div class="level_input_section">
+                    <div class="reco_actions">
+                        <input type="radio" id="acc" name="accuracy">
+                        <label class ="accurate" for="acc"> Rated Accurately </label>
+
+                        <input type ="radio" id="notacc" name="accuracy">
+                        <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
+                    </div>
+
                     <label for="level_rating">Level should be...</label>
-                    <input type="number" id="level_rating" class="level_input" placeholders0" step="0.1" min="1" max="15">
-                    <span class="level_range">11.5 15.0</span>
+                    <div class="slider_container">
+                        <span class="range_label"> 11.5 </span>
+                        <input type="range" min="11.5" max="15.0" value="13.7" class="level_range" id="level_rating" step="0.1">
+                        <span class="range_label">15.0</span>
+                    </div>
                 </div>
-            
-                <textarea class="review_text" placeholdersite your review here..." rows="6"></textarea>
-            
-                <div class="review_actions">
+                <div class="review_body">
+                    <textarea class="review_text" placeholder="Write your review here..." rows="6"></textarea>
+                    <input type="file" accept="video/*, image/jpeg, image/png, image/webp">
+                </div>
+                <div class="my_review_actions">
                     <button class="delete_btn">Delete</button>
                     <button class="submit_btn">Submit / Edit</button>
                 </div>
+            </div>
             </div>
         </div>
 </body>
