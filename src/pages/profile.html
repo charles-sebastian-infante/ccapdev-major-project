@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> offbeat - profile </title>
+        <link rel="stylesheet" href="../style/css/global.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="header_left">
+                    <img class="icon" src="../style/assets/icons/music_icon.png">
+                    <div class="header_text">
+                    <h1>Off Beat: Rhythm Rating Dashboard</h1>
+                    <p>Rate and track your favorite rhythm game songs</p>
+                    </div>
+                </div>
+                <a href = "profile.html">
+                    <img class="icon" src="../style/assets/placeholders/pfp1.png"> 
+                </a>
+        </header>
+        
+        <a href="/src/index.html" class = "back">
+                <input type="button" value="< Back">
+        </a>
+        <main>
+            <h1> My Profile </h1>
+            <section class="profile_display">
+                <img src="../style/assets/placeholders/pfp1.png" alt="profile_picture" class="avatar">
+                <dl class="user_info">
+                    <dt>Username: </dt>
+                    <dd id="user_username"> pieisspy </dd>
+                    <dt>Email: </dt>
+                    <dd id="user_email"> pieisspy@gmail.com </dd>
+                    <dt>Rating: </dt>
+                    <dd id="user_rating"> 12345</dd>
+                    <dt>Description: </dt>
+                    <dd id="user_description">This is the default description! </dd>
+                </dl>
+            </section>
+
+            <section class="edit_profile">
+                <h2> Edit Profile </h2>
+                <form>
+                    <label for="new_avatar"> Avatar </label>
+                    <input type="file" id="new_avatar" accept="image/jpeg, image/png, image/webp"> 
+                    <label for="new_username">Username</label>
+                    <input type="text" id="new_username">
+
+                    <label for="new_email"> Email </label>
+                    <input type="email" id="new_email">
+
+                    <label for="new_rating"> Rating </label>
+                    <input type="number" id="new_rating">
+
+                    <label for="new_description"> Description </label>
+                    <textarea placeholder="Your new description goes here" id="new_description"></textarea>
+                    <button type="submit"> Save Changes </button>
+                </form>
+            </section>
+
+            <section class="security_settings">
+                <h2> Security Settings </h2>
+                <form>
+                    <label for="current_pw"> Current password: </label>
+                    <input type="password" id="current_pw" required>
+                    <label for="new_pw"> New password: </label>
+                    <input type="password" id="new_pw" required>
+                    <label for="confirm_pw"> Confirm password: </label>
+                    <input type="password" id="confirm_pw" required>
+                    <button type="submit"> Save Password </button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
