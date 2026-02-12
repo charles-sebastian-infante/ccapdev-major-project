@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Remove num. up/down Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Remove num. up/down firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+*{
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  background-color: #F5F5F5;
+}
+
+.parent{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form .back input{
+  display: flex;
+  width: 10vw;
+  height: 57px;
+}
+
+.form{
+  display: flex;
+  background-color: #FFFF;
+  height: 1100px;
+  width: 1323px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form input{
+  width: 556px;
+  height: 57px;
+  background-color: rgba(30, 30, 30, 0.07);
+  border: none;
+  border-radius: 10px;
+  font-size: clamp(20px);
+  padding-left: 10px;
+}
+
+input:hover{
+  box-shadow: 0 6px 15px #86CECB;
+}
+
+.form p{
+  font-size: clamp(18px);
+}
+
+.form textarea{
+  height: 100px;
+  width: 556px;
+  resize: none;
+  font-size: 20px;
+  border-radius: 10px;
+}
