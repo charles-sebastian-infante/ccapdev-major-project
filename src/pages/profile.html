@@ -3,6 +3,7 @@
     <head>
         <title> offbeat - profile </title>
         <link rel="stylesheet" href="../style/css/global.css">
+        <link rel="stylesheet" href="../style/css/profile.css">
     </head>
 
     <body>
@@ -18,26 +19,37 @@
                     <img class="icon" src="../style/assets/placeholders/pfp1.png"> 
                 </a>
         </header>
-        
+        <div class = "parent">
+        <div class = "top">
         <a href="/src/index.html" class = "back">
                 <input type="button" value="< Back">
         </a>
         <main>
-            <h1> My Profile </h1>
+        </div>
             <section class="profile_display">
                 <img src="../style/assets/placeholders/pfp1.png" alt="profile_picture" class="avatar">
-                <dl class="user_info">
+            <div class = "user_info">
+                <h1> My Profile </h1>
+                <dl>
                     <dt>Username: </dt>
                     <dd id="user_username"> pieisspy </dd>
+                </dl>
+                <dl>
                     <dt>Email: </dt>
                     <dd id="user_email"> pieisspy@gmail.com </dd>
+                </dl>
+                <dl>
                     <dt>Rating: </dt>
                     <dd id="user_rating"> 12345</dd>
+                </dl>
+                <dl>
                     <dt>Description: </dt>
                     <dd id="user_description">This is the default description! </dd>
                 </dl>
+            </div>      
             </section>
 
+            <div class = "form_edit">
             <section class="edit_profile">
                 <h2> Edit Profile </h2>
                 <form>
@@ -53,11 +65,15 @@
                     <input type="number" id="new_rating">
 
                     <label for="new_description"> Description </label>
+
                     <textarea placeholder="Your new description goes here" id="new_description"></textarea>
                     <button type="submit"> Save Changes </button>
                 </form>
             </section>
+            </div>
 
+
+            <div class="security_form">
             <section class="security_settings">
                 <h2> Security Settings </h2>
                 <form>
@@ -70,6 +86,8 @@
                     <button type="submit"> Save Password </button>
                 </form>
             </section>
+            </div>
         </main>
+        </div>
     </body>
 </html>

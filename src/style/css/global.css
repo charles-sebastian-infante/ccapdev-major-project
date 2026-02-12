@@ -2,7 +2,8 @@
 
 *{
     margin: 0;
-    padding: 0
+    padding: 0;
+    font-family: "Poppins", sans-serif;
 }
 
 body{
@@ -32,8 +33,12 @@ header{
     font-family: "Poppins", sans-serif;
 }
 .header_text h1{
-    font-size: 25px;
+    font-size: clamp(5px, 10vw, 25px);
     font-weight: Bold;   
+}
+
+.header_text p{
+    font-size: clamp(5px, 5vw, 18px);
 }
 
 .parent{
@@ -61,8 +66,7 @@ search{
 }
 
 .search_bar input{
-    margin-left: -60px;
-    width: 380px;
+    width: clamp(50px, 20vw, 380px);
     height: 65px;
     border-radius: 10px;
     font-size: 15px;
@@ -72,7 +76,7 @@ search{
 }
 
 .diff_sel{
-    width: 380px;
+    width: clamp(50px, 20vw, 380px);
     height: 65px;
     border-radius: 10px;
     font-size: 15px;
@@ -83,15 +87,13 @@ search{
 }
 
 .sort_by{
-    margin-right: -60px;
-    width: 380px;
+    width: clamp(50px, 20vw, 380px);
     height: 65px;
     border-radius: 10px;
     font-size: 15px;
     border: 2px solid #919191;
     padding-left: 10px;
     color: #919191;
-    font-family: "Poppins", sans-serif;
 }
 
 .chart_card{
@@ -108,25 +110,24 @@ search{
 .chart_card p{
     margin-left: 10px;
     font-size: 18px;
-    font-family: "Poppins", sans-serif;
 }
 
 .expert:hover{
-    box-shadow: 0 8px 20px #C02138;
+    box-shadow: 0 8px 20px hsl(351, 71%, 44%);
 }
 
 .master:hover{
-    box-shadow: 0 8px 20px #67148D;
+    box-shadow: 0 8px 20px hsl(281, 75%, 32%);
 }
 
 .remaster:hover{
-    box-shadow: 0 8px 20px #8C2CD5;
+    box-shadow: 0 8px 20px hsl(274, 67%, 50%);
 }
 
 .title{
     font-size: 25px;
     font-weight: bold;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .jacket_holder img{
@@ -142,21 +143,21 @@ search{
     padding: 4px 8px;
     margin-left: 10px;
     margin-right: 3px;
-    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
 }
 
 .exp{
-    background-color:#ff7b7b;
+    background-color:hsl(0, 76%, 74%);
     color: #000;
 }
 
 .mas{
-    background-color:#9f51dc;
+    background-color:hsl(274, 52%, 64%);
     color: #000000;
 
 }
 
 .remas{
-    background-color:#dbaaff;
+    background-color:hsl(275, 76%, 83%);
     color: #000;
 }

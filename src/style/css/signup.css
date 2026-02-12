@@ -23,16 +23,17 @@ body{
   align-items: center;
   justify-content: center;
 }
+
 .form .back input{
   display: flex;
-  margin-left: -650px;
-  width: 100px;
+  width: 10vw;
   height: 57px;
 }
+
 .form{
   display: flex;
   background-color: #FFFF;
-  height: 916px;
+  height: 1100px;
   width: 1323px;
   border-radius: 10px;
   flex-direction: column;
@@ -46,7 +47,7 @@ body{
   background-color: rgba(30, 30, 30, 0.07);
   border: none;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: clamp(20px);
   padding-left: 10px;
 }
 
@@ -55,5 +56,14 @@ input:hover{
 }
 
 .form p{
+  font-size: clamp(18px);
+}
+
+
+.form textarea{
+  height: 100px;
+  width: 556px;
+  resize: none;
   font-size: 20px;
+  border-radius: 10px;
 }

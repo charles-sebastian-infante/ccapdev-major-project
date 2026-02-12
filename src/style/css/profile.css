@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    gap: 10px;
+}
+
+.parent{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.top{
+    display: flex;
+    gap: 80px;
+    height: clamp(10px, 10vw 90px);
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content:flex-start;
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.back input{
+    display: flex;
+    width: 5vw;
+    height: 57px;
+    border-radius: 10px;
+}
+
+.profile_display{
+    display: flex;
+    background-color: #ffff;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    align-items: center;
+    justify-items: center;
+    height: 250px;
+    width: 600px;
+    padding: 20px;
+}
+
+.profile_display img{
+    height: clamp(10px, 10vw, 100px);
+    width: clamp(10px, 10vw, 100px);
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.user_info dl{
+    display: flex;
+    margin-left: 10px;
+    padding: 2px;
+}
+
+.user_info dt{
+    margin-left: 100px;
+    flex:1;
+    font-weight:500;
+    letter-spacing:.04em;
+    font-size: 20px;
+    margin-left:0;
+}
+
+.form_edit form{
+    display: flex;
+    background-color: #FFFF;
+    height: 600px;
+    width: 600px;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.form_edit input{
+  width: 556px;
+  height: 57px;
+  background-color: rgba(30, 30, 30, 0.07);
+  border: none;
+  border-radius: 10px;
+  font-size: clamp(20px);
+  padding-left: 10px;
+}
+
+input:hover{
+  box-shadow: 0 6px 15px #86CECB;
+}
+
+.form_edit label{
+    font-size: clamp(18px);
+}
+
+.form_edit #new_avatar{
+    width: 556px;
+    height: 57px;
+}
+
+.form_edit textarea{
+  height: 100px;
+  width: 556px;
+  resize: none;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.form_edit button{
+    height: 50px;
+    width: 556px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.form_edit button:hover{
+    box-shadow: 0 6px 15px #86CECB;
+}
+
+.security_form form{
+    display: flex;
+    background-color: #FFFF;
+    height: 250px;
+    width: 600px;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.security_form input{
+    width: 556px;
+    height: 57px;
+    background-color: rgba(30, 30, 30, 0.07);
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(20px);
+    padding-left: 10px;
+}
+
+.security_form label{
+    font-size: clamp(18px);
+}
+
+.security_form button{
+    height: 50px;
+    width: 556px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.security_form button:hover{
+    box-shadow: 0 6px 15px #86CECB;
+}
