@@ -43,7 +43,7 @@ body{
 
 .form input{
   width: 556px;
-  height: 57px;
+  height: 30px;
   background-color: rgba(30, 30, 30, 0.07);
   border: none;
   border-radius: 10px;
@@ -60,7 +60,7 @@ input:hover{
 }
 
 .form textarea{
-  height: 100px;
+  height: 40px;
   width: 556px;
   resize: none;
   font-size: 20px;

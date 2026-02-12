@@ -7,6 +7,10 @@
     gap: 10px;
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .parent{
     display:flex;
     align-items: center;
@@ -58,6 +62,7 @@
     display: flex;
     margin-left: 10px;
     padding: 2px;
+    align-items: flex-end;
 }
 
 .user_info dt{
@@ -93,6 +98,7 @@
 
 input:hover{
     box-shadow: 0 6px 15px #86CECB;
+    transition: 0.2s;
 }
 
 .form_edit label{
@@ -134,6 +140,7 @@ input:hover{
 
 .form_edit button:hover{
     box-shadow: 0 6px 15px #86CECB;
+    transition:0.2s;
 }
 
 .security_form form{
@@ -171,4 +178,16 @@ input:hover{
 
 .security_form button:hover{
     box-shadow: 0 6px 15px #86CECB;
+}
+
+.logout{
+    height: 50px;
+    width: 556px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.logout:hover{
+     box-shadow: 0 8px 20px hsl(351, 71%, 44%);
+     transition:0.2s;
 }

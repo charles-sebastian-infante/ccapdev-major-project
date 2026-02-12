@@ -418,3 +418,10 @@ input[type=number] {
     line-height: 1.5;
     margin: 0;
 }
+
+.user_review.blur .review_form {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+}
+

@@ -54,35 +54,34 @@
                 </div>
             </div>
 
-            <div class="user_review">
-                <h2>My Review</h2>
+            <div class="user_review blur">
+                <h2>Sign up/log in to review this chart!</h2>
+                <div class="review_form">
+                    <div class="level_input_section">
+                        <div class="reco_actions">
+                            <input type="radio" id="acc" name="accuracy">
+                            <label class ="accurate" for="acc"> Rated Accurately </label>
 
-            <div class="review_form">
-                <div class="level_input_section">
-                    <div class="reco_actions">
-                        <input type="radio" id="acc" name="accuracy">
-                        <label class ="accurate" for="acc"> Rated Accurately </label>
+                            <input type ="radio" id="notacc" name="accuracy">
+                            <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
+                        </div>
 
-                        <input type ="radio" id="notacc" name="accuracy">
-                        <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
+                        <label for="level_rating">Level should be...</label>
+                        <div class="slider_container">
+                            <span class="range_label"> 11.5 </span>
+                            <input type="range" min="11.5" max="15.0" value="13.7" class="level_range" id="level_rating" step="0.1">
+                            <span class="range_label">15.0</span>
+                        </div>
                     </div>
-
-                    <label for="level_rating">Level should be...</label>
-                    <div class="slider_container">
-                        <span class="range_label"> 11.5 </span>
-                        <input type="range" min="11.5" max="15.0" value="13.7" class="level_range" id="level_rating" step="0.1">
-                        <span class="range_label">15.0</span>
+                    <div class="review_body">
+                        <textarea class="review_text" placeholder="Write your review here..." rows="6"></textarea>
+                        <input type="file" accept="video/*, image/jpeg, image/png, image/webp">
+                    </div>
+                    <div class="my_review_actions">
+                        <button class="delete_btn">Delete</button>
+                        <button class="submit_btn">Submit / Edit</button>
                     </div>
                 </div>
-                <div class="review_body">
-                    <textarea class="review_text" placeholder="Write your review here..." rows="6"></textarea>
-                    <input type="file" accept="video/*, image/jpeg, image/png, image/webp">
-                </div>
-                <div class="my_review_actions">
-                    <button class="delete_btn">Delete</button>
-                    <button class="submit_btn">Submit / Edit</button>
-                </div>
-            </div>
             </div>
         </div>
     </body>
