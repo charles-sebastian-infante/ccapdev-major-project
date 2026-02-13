@@ -66,3 +66,11 @@ input:hover{
   font-size: 20px;
   border-radius: 10px;
 }
+
+.remember_me {
+    width: 16px !important;
+    height: 16px !important;
+    margin-left: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
