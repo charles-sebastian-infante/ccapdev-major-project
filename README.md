@@ -9,10 +9,10 @@
 
 ## How to Setup and Run the Application Locally
 - Open Command Prompt and go to the "src" folder of this project
-- Use "npm install <module name>" to install the following modules:
+- Use `npm install <module name>` to install the following modules:
   - express
   - path
-- Run the command "node index.js"
+- Run the command `node index.js`
 - On a browser, go to localhost:3000
 
 ## Planned Features & Feature Descriptions
