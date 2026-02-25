@@ -5,7 +5,8 @@
         "charterName": "SEGA",
         "numericRating": 12.4,
         "difficultyLevel": "Expert",
-        "imagePath": "/public/sample_images/pppp.png"
+        "imagePath": "/sample_images/pppp.png",
+        "url": "/sample_exp"
     },
     {
         "songName": "PPPP",
@@ -13,7 +14,8 @@
         "charterName": "SEGA",
         "numericRating": 13.0,
         "difficultyLevel": "Master",
-        "imagePath": "/public/sample_images/pppp.png"
+        "imagePath": "/sample_images/pppp.png",
+        "url": "/sample_mas"
     },
     {
         "songName": "PPPP",
@@ -21,7 +23,8 @@
         "charterName": "SEGA",
         "numericRating": 13.7,
         "difficultyLevel": "Re:Master",
-        "imagePath": "/public/sample_images/pppp.png"
+        "imagePath": "/sample_images/pppp.png",
+        "url": "/sample_remas"
     },
     {
         "songName": "the EmpErroR",
@@ -29,14 +32,16 @@
         "charterName": "すきやき奉行",
         "numericRating": 13.4,
         "difficultyLevel": "Expert",
-        "imagePath": "/public/sample_images/emperror.png"
+        "imagePath": "/sample_images/emperror.png",
+        "url": "/emperror_exp"
     },
     {
         "songName": "the EmpErroR",
         "songAuthor": "sasakure.UK",
-        "charterName": "すきやき奉行",
+        "charterName": "小鳥遊さん",
         "numericRating": 14.8,
         "difficultyLevel": "Master",
-        "imagePath": "/public/sample_images/emperror.png"
+        "imagePath": "/sample_images/emperror.png",
+        "url": "/emperror_mas"
     }
 ]

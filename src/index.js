@@ -25,8 +25,13 @@ if (args.length === 3) { // if there's one additional argument
     }
 }
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages", "index.html"))
+const hbs = require("hbs");
+hbs.registerHelper(require("./hbs_helpers"));
+app.set("view engine", "hbs");
+
+app.get("/", async (req, res) => {
+    const charts = await Chart.find({});
+    res.render("index", {charts});
 });
 
 // add better method later

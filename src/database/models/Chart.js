@@ -11,7 +11,8 @@ const ChartSchema = new mongoose.Schema({
         type: String,
         enum: ['Expert', 'Master', 'Re:Master']
     },
-    imagePath: String
+    imagePath: String,
+    url: String
 });
 
 const Chart = mongoose.model('Chart', ChartSchema);
