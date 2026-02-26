@@ -34,7 +34,7 @@ hbs.registerHelper(require("./hbs_helpers"));
 app.set("view engine", "hbs");
 
 app.get("/", async (req, res) => {
-    const charts = await Chart.find({});
+    const charts = await Chart.find({}).populate("charterId");
     res.render("index", {charts});
 });
 
