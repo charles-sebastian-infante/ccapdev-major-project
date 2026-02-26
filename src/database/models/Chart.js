@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types.ObjectId
 
 const ChartSchema = new mongoose.Schema({
-    _id: ObjectId,
     songName: String,
     songAuthor: String,
-    charterName: String, // replace with charterId later
+    charterId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
     numericRating: Number,
     difficultyLevel: {
         type: String,

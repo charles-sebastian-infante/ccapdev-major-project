@@ -1,0 +1,74 @@
+[
+    {
+        "userType": "regular",
+        "username": "pieisspy",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/pfp1.png",
+        "rating": 11394,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "malding_maimai",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/pfp1.png",
+        "rating": 14210,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "tarosushiramen",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/pfp1.png",
+        "rating": 15200,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "teslacia",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/pfp1.png",
+        "rating": 12950,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "pro_baiter",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/pfp1.png",
+        "rating": 16200,
+        "description": ""
+    },
+    {
+        "userType": "charter",
+        "username": "SEGA",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/derakkuma.png",
+        "rating": 0,
+        "description": ""
+    },
+    {
+        "userType": "charter",
+        "username": "すきやき奉行",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/derakkuma.png",
+        "rating": 0,
+        "description": ""
+    },
+    {
+        "userType": "charter",
+        "username": "小鳥遊さん",
+        "password": "123456",
+        "email": "abc@xyz.com",
+        "imagePath": "sample_images/derakkuma.png",
+        "rating": 0,
+        "description": ""
+    }
+]

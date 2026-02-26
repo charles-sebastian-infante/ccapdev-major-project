@@ -11,10 +11,12 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/offbeatDB");
 
 const Chart = require("./database/models/Chart");
+const Review = require("./database/models/Review");
+const User = require("./database/models/User");
 
 /* handling command line arguments (we can use them to manipulate
    the database, at least for now) */
-const { clearDb, insertSampleData } = require("./sample_data_handler");
+const { clearDb, insertSampleData, resetDatabase } = require("./sample_data_handler");
 const args = process.argv;
 if (args.length === 3) { // if there's one additional argument
     const arg = args[2];
@@ -22,6 +24,8 @@ if (args.length === 3) { // if there's one additional argument
         clearDb();
     } else if (arg === "insert-sample-data") {
         insertSampleData();
+    } else if (arg === "reset") {
+        resetDatabase(); // clears database and inserts sample data
     }
 }
 

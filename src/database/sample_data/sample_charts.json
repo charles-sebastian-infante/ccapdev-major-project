@@ -2,7 +2,6 @@
     {
         "songName": "PPPP",
         "songAuthor": "Hatsune Miku & Kasane Teto",
-        "charterName": "SEGA",
         "numericRating": 12.4,
         "difficultyLevel": "Expert",
         "imagePath": "/sample_images/pppp.png",
@@ -11,7 +10,6 @@
     {
         "songName": "PPPP",
         "songAuthor": "Hatsune Miku & Kasane Teto",
-        "charterName": "SEGA",
         "numericRating": 13.0,
         "difficultyLevel": "Master",
         "imagePath": "/sample_images/pppp.png",
@@ -20,7 +18,6 @@
     {
         "songName": "PPPP",
         "songAuthor": "Hatsune Miku & Kasane Teto",
-        "charterName": "SEGA",
         "numericRating": 13.7,
         "difficultyLevel": "Re:Master",
         "imagePath": "/sample_images/pppp.png",
@@ -29,7 +26,6 @@
     {
         "songName": "the EmpErroR",
         "songAuthor": "sasakure.UK",
-        "charterName": "すきやき奉行",
         "numericRating": 13.4,
         "difficultyLevel": "Expert",
         "imagePath": "/sample_images/emperror.png",
@@ -38,7 +34,6 @@
     {
         "songName": "the EmpErroR",
         "songAuthor": "sasakure.UK",
-        "charterName": "小鳥遊さん",
         "numericRating": 14.8,
         "difficultyLevel": "Master",
         "imagePath": "/sample_images/emperror.png",

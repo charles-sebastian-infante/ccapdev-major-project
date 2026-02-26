@@ -25,5 +25,17 @@ module.exports = {
                 return "";
         }
     },
-    round: (number, numDecimalPlaces) => number.toFixed(numDecimalPlaces)
+    round: (number, numDecimalPlaces) => number.toFixed(numDecimalPlaces),
+    displayLikeCount: number => {
+        if (number <= 999) {
+            return number.toString();
+        } else {
+            number /= 1000;
+            if (number < 10) {
+                return number.toFixed(1) + "k";
+            } else {
+                return number.toFixed(0) + "k";
+            }
+        }
+    }
 }
