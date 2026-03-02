@@ -4,7 +4,7 @@
         "username": "pieisspy",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/pfp1.png",
+        "imagePath": "/sample_images/pfp1.png",
         "rating": 11394,
         "description": ""
     },
@@ -13,7 +13,7 @@
         "username": "malding_maimai",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/pfp1.png",
+        "imagePath": "/sample_images/pfp1.png",
         "rating": 14210,
         "description": ""
     },
@@ -22,7 +22,7 @@
         "username": "tarosushiramen",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/pfp1.png",
+        "imagePath": "/sample_images/pfp1.png",
         "rating": 15200,
         "description": ""
     },
@@ -31,7 +31,7 @@
         "username": "teslacia",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/pfp1.png",
+        "imagePath": "/sample_images/pfp1.png",
         "rating": 12950,
         "description": ""
     },
@@ -40,7 +40,7 @@
         "username": "pro_baiter",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/pfp1.png",
+        "imagePath": "/sample_images/pfp1.png",
         "rating": 16200,
         "description": ""
     },
@@ -49,7 +49,7 @@
         "username": "SEGA",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/derakkuma.png",
+        "imagePath": "/sample_images/derakkuma.png",
         "rating": 0,
         "description": ""
     },
@@ -58,7 +58,7 @@
         "username": "すきやき奉行",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/derakkuma.png",
+        "imagePath": "/sample_images/derakkuma.png",
         "rating": 0,
         "description": ""
     },
@@ -67,7 +67,7 @@
         "username": "小鳥遊さん",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "sample_images/derakkuma.png",
+        "imagePath": "/sample_images/derakkuma.png",
         "rating": 0,
         "description": ""
     }

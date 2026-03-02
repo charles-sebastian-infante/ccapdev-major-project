@@ -48,18 +48,21 @@
                 </search>
             
                 <div class="review_wrapper">
+                    {{#each reviews}}
                     <div class="prev_review_instance">
                         <div class="user_info">
-                            <img src="/assets/placeholders/pfp1.png" class="user_avatar">
-                            <span class="user_skill"> 12950 </span>
+                            <img src="{{userId.imagePath}}" class="user_avatar">
+                            <span class="user_skill">{{userId.rating}}</span>
                         </div>
                         <div class="review_content">
                             <div class="review_header">
-                                <span class="username"> teslacia </span>
-                                <span class="user_cc"> 13.4 </span>
-                                <img src="/assets/icons/reco.png" class="recommendation_icon">
+                                <span class="username">{{userId.username}}</span>
+                                <span class="user_cc">{{rating}}</span>
+                                <img src="/assets/icons/
+                                {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
+                                " class="recommendation_icon">
                             </div>
-                            <p class="review_comment"> fun except the end lol, that superlong trill is insane </p>
+                            <p class="review_comment">{{body}}</p>
                         </div>
                         <div class="review_actions">
                             <button class="see_full">
@@ -67,10 +70,24 @@
                             </button>
                             <button class="like_button">
                                 <img src="/assets/icons/heart.png" class="icon">
-                                <span class="like_count">1.3k</span>
+                                <span class="like_count">{{displayLikeCount likes}}</span>
                             </button>
                         </div>
                     </div>
+                        {{#if charterResponse}}
+                    <div class="charter_response">
+                        <div class="charter_response_header">
+                            <img src="/assets/placeholders/derakkuma.jpg" class="charter_avatar">
+                            <span class="charter_name"><i>Charter Response: {{../charterId.username}}</i></span>
+                        </div>
+                        <p class="charter_response_text">{{charterResponse}}</p>
+                    </div>
+                        {{/if}}
+                    {{else}}
+                    <div class="prev_review_instance">
+                        <p class="review_comment"> No reviews yet...</p>
+                    </div>
+                    {{/each}}
                 </div>
             </div>
 

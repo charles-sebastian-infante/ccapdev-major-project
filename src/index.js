@@ -34,7 +34,7 @@ hbs.registerHelper(require("./hbs_helpers"));
 app.set("view engine", "hbs");
 
 app.get("/", async (req, res) => {
-    const charts = await Chart.find({}).populate("charterId");
+    const charts = await Chart.find({}).populate("charterId", "username");
     res.render("index", {charts});
 });
 
@@ -46,12 +46,15 @@ app.get("/charts/:chartId", async (req, res) => {
         return;
     }
 
-    const chart = await Chart.findById(chartId).populate("charterId").lean();
+    const chart = await Chart.findById(chartId).populate("charterId", "username").lean();
 
     if (!chart) {
         res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
         return;
     }
+
+    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
+    chart.reviews = reviews;
 
     res.render("chart", chart);
 });
