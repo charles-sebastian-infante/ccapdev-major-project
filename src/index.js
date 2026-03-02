@@ -38,6 +38,24 @@ app.get("/", async (req, res) => {
     res.render("index", {charts});
 });
 
+app.get("/charts/:chartId", async (req, res) => {
+    const chartId = req.params.chartId;
+
+    if (!mongoose.isValidObjectId(chartId)) {
+        res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
+        return;
+    }
+
+    const chart = await Chart.findById(chartId).populate("charterId").lean();
+
+    if (!chart) {
+        res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
+        return;
+    }
+
+    res.render("chart", chart);
+});
+
 // add better method later
 const pages = [
     "edit_profile",

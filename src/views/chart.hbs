@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> off beat: rate charts </title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/review_page.css">
+</head>
+<body>
+     <div class="parent">
+            <header>
+                <div class="header_left">
+                    <a href="/">
+                        <img class="icon" src="/assets/icons/music_icon.png">
+                    </a>
+                    <div class="header_text">
+                    <h1>Off Beat: Rhythm Rating Dashboard</h1>
+                    <p>Rate and track your favorite rhythm game songs</p>
+                    </div>
+                </div>
+                <a href = "/signup">
+                    <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
+                </a>
+            </header>
+
+            <div class="chart_card">
+                <div class="jacket_holder">
+                    <img src="{{imagePath}}">
+                </div>
+                <div class="chart_info">
+                    <p class="title">{{songName}}</p>
+                    <p>{{songAuthor}}</p>
+                    <p>Charter: {{charterId.username}}</p>
+                    <div> 
+                        <span class="level_diff {{dlToShortName difficultyLevel}}">{{round numericRating 1}}</span>
+                        <span class="level_diff {{dlToShortName difficultyLevel}}">{{difficultyLevel}}</span>
+                    </div>   
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews_holder">
+            <div class="prev_reviews">
+                <h2> Previous Reviews </h2>
+
+                <search class="search_bar">
+                    <input type="text" placeholder="Search comments...">
+                </search>
+            
+                <div class="review_wrapper">
+                    <div class="prev_review_instance">
+                        <div class="user_info">
+                            <img src="/assets/placeholders/pfp1.png" class="user_avatar">
+                            <span class="user_skill"> 12950 </span>
+                        </div>
+                        <div class="review_content">
+                            <div class="review_header">
+                                <span class="username"> teslacia </span>
+                                <span class="user_cc"> 13.4 </span>
+                                <img src="/assets/icons/reco.png" class="recommendation_icon">
+                            </div>
+                            <p class="review_comment"> fun except the end lol, that superlong trill is insane </p>
+                        </div>
+                        <div class="review_actions">
+                            <button class="see_full">
+                                <span> See full review </span>
+                            </button>
+                            <button class="like_button">
+                                <img src="/assets/icons/heart.png" class="icon">
+                                <span class="like_count">1.3k</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user_review">
+                <h2>My Review</h2>
+
+            <div class="review_form">
+                <div class="level_input_section">
+                    <div class="reco_actions">
+                        <input type="radio" id="acc" name="accuracy">
+                        <label class ="accurate" for="acc"> Rated Accurately </label>
+
+                        <input type ="radio" id="notacc" name="accuracy">
+                        <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
+                    </div>
+
+                    <label for="level_rating">Level should be...</label>
+                    <div class="slider_container">
+                        <span class="range_label"> 11.5 </span>
+                        <input type="range" min="11.5" max="15.0" value="13.7" class="level_range" id="level_rating" step="0.1">
+                        <span class="range_label">15.0</span>
+                    </div>
+                </div>
+                <div class="review_body">
+                    <textarea class="review_text" placeholder="Write your review here..." rows="6"></textarea>
+                    <input type="file" accept="video/*, image/jpeg, image/png, image/webp">
+                </div>
+                <div class="my_review_actions">
+                    <button class="delete_btn">Delete</button>
+                    <button class="submit_btn">Submit / Edit</button>
+                </div>
+            </div>
+            </div>
+        </div>
+</body>
+
+</html>

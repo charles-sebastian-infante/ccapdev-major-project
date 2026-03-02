@@ -4,39 +4,34 @@
         "songAuthor": "Hatsune Miku & Kasane Teto",
         "numericRating": 12.4,
         "difficultyLevel": "Expert",
-        "imagePath": "/sample_images/pppp.png",
-        "url": "/sample_exp"
+        "imagePath": "/sample_images/pppp.png"
     },
     {
         "songName": "PPPP",
         "songAuthor": "Hatsune Miku & Kasane Teto",
         "numericRating": 13.0,
         "difficultyLevel": "Master",
-        "imagePath": "/sample_images/pppp.png",
-        "url": "/sample_mas"
+        "imagePath": "/sample_images/pppp.png"
     },
     {
         "songName": "PPPP",
         "songAuthor": "Hatsune Miku & Kasane Teto",
         "numericRating": 13.7,
         "difficultyLevel": "Re:Master",
-        "imagePath": "/sample_images/pppp.png",
-        "url": "/sample_remas"
+        "imagePath": "/sample_images/pppp.png"
     },
     {
         "songName": "the EmpErroR",
         "songAuthor": "sasakure.UK",
         "numericRating": 13.4,
         "difficultyLevel": "Expert",
-        "imagePath": "/sample_images/emperror.png",
-        "url": "/emperror_exp"
+        "imagePath": "/sample_images/emperror.png"
     },
     {
         "songName": "the EmpErroR",
         "songAuthor": "sasakure.UK",
         "numericRating": 14.8,
         "difficultyLevel": "Master",
-        "imagePath": "/sample_images/emperror.png",
-        "url": "/emperror_mas"
+        "imagePath": "/sample_images/emperror.png"
     }
 ]
