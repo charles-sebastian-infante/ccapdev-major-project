@@ -14,21 +14,21 @@
                 <input type="submit" value="< Back">
             </a>
             <h1>Sign Up / Log In</h1>
-            <!-- FOR PHASE 2: make this redirect to a user instance rather than profile.html -->
-            <form action="/edit_profile">
+            
+            <form id="login_form">
                 <p> Username </p>
-                <input type="text" placeholder="Input username" required>
+                <input name="username" type="text" placeholder="Input username" required>
                 <p> Email </p>
-                <input type="email" placeholder="Input email" required>
+                <input name="email" type="email" placeholder="Input email" required>
                 <p> Password </p>
-                <input type="password" placeholder="Password" required>
+                <input name="password" type="password" placeholder="Password" required>
                 <p> Rating </p>
-                <input type="number" placeholder="Input maimai rating here" required>
+                <input name="rating" type="number" placeholder="Input maimai rating here" required>
                 <p> Description (optional) </p>
-                <textarea placeholder="This is the default bio!"></textarea>
+                <textarea name="description" placeholder="This is the default bio!"></textarea>
                 <br><br>
                 <label for="remember"> Remember Me </label>
-                <input id="remember" type="checkbox" class="remember_me"><br><br>
+                <input name="rememberMe" id="remember" type="checkbox" class="remember_me"><br><br>
                 <input type="submit" value="Sign Up" class="sign_button">
                 <br><br>
                 <input type="submit" value="Log In" class="log_button">
@@ -36,6 +36,40 @@
 
         </div>
         </div>
+
+        <script>
+            const loginForm = document.getElementById("login_form");
+
+            loginForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const loginInfo = new FormData(loginForm);
+
+                const clickedButton = event.submitter;
+                const buttonClasses = clickedButton.classList;
+
+                if (buttonClasses.contains("sign_button")) {
+                    loginInfo.append("type", "signup");
+                } else if (buttonClasses.contains("log_button")){
+                    loginInfo.append("type", "login");
+                }
+
+                const response = await fetch("/submit_login", {
+                    method: "POST",
+                    body: loginInfo
+                });
+
+                if (!response.ok) {
+                    const message = await response.text();
+                    if (message) {
+                        alert(message);
+                    }
+                    return;
+                }
+
+                window.location.href = response.url;
+            });
+        </script>
     </body>
 
 </html>

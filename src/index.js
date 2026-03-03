@@ -4,8 +4,10 @@ const path = require("path");
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 
-// add these if necessary
-// app.use(express.urlencoded({extended: false}));
+// add more if necessary
+app.use(express.urlencoded({extended: false}));
+const fileUpload = require("express-fileupload");
+app.use(fileUpload());
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/offbeatDB");
@@ -59,16 +61,35 @@ app.get("/charts/:chartId", async (req, res) => {
     res.render("chart", chart);
 });
 
+app.get("/login", (req, res) => {
+    res.sendFile(path.join(__dirname, "pages", "signup.html"));
+});
+
+app.post("/submit_login", (req, res) => {
+    const loginInfo = req.body;
+    console.log(loginInfo);
+    
+    /* note: to differentiate between login and signup, use the typeattribute of loginInfo,
+       which is either type: "login" or type: "signup" */
+
+    // check if info is valid later (e.g. username taken)
+    const isValidInfo = true;
+
+    if (!isValidInfo) {
+        res.status(422).send("Put message here");
+        // message can be something like "This username is taken"
+        // this is just displayed using an alert for now
+        return;
+    }
+
+    // when sessions are implemented, this should maybe redirect to whatever the previous page was
+    res.redirect("/edit_profile");
+});
+
 // add better method later
 const pages = [
     "edit_profile",
-    "signup",
-    "view_profile",
-    "emperror_exp",
-    "emperror_mas",
-    "sample_exp",
-    "sample_mas",
-    "sample_remas",
+    "view_profile"
 ];
 
 pages.forEach(page => {
