@@ -9,7 +9,11 @@ const UserSchema = new mongoose.Schema({
     username: String,
     password: String, // hash this later
     email: String, // encrypt this later (?)
-    imagePath: String,
+    imagePath: {
+        type: String,
+        default: "/sample_images/pfp1.png"
+        // probably should have a different default pfp later
+    },
     rating: Int32,
     description: String
 });

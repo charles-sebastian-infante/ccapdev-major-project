@@ -31,6 +31,42 @@ if (args.length === 3) { // if there's one additional argument
     }
 }
 
+/* Checks if an object's keys are the same as the given array
+   (order doesn't matter) */
+const checkObjKeys = (obj, arrKeys) => {
+    const objKeys = Object.keys(obj);
+    const len = objKeys.length;
+
+    if (len !== arrKeys.length) {
+        return false;
+    }
+
+    const sortedObjKeys = objKeys.toSorted();
+    const sortedArrKeys = arrKeys.toSorted();
+
+    for (let i = 0; i < len; i++) {
+        if (sortedObjKeys[i] !== sortedArrKeys[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/* Returns a middleware function that checks if the body of the POST request
+   has exactly the required keys */
+const validateReqBody = (...requiredKeys) => {
+    return (req, res, next) => {
+        const isValid = checkObjKeys(req.body, requiredKeys);
+
+        if (isValid) {
+            next();
+        } else {
+            res.status(400).send("Invalid request");
+        }
+    };
+};
+
 const hbs = require("hbs");
 hbs.registerHelper(require("./hbs_helpers"));
 app.set("view engine", "hbs");
@@ -65,21 +101,47 @@ app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "pages", "signup.html"));
 });
 
-app.post("/submit_login", (req, res) => {
+app.post("/submit_login",
+        validateReqBody("username", "email", "password", "rating", "description", "rememberMe", "type"),
+        async (req, res) => {
     const loginInfo = req.body;
     console.log(loginInfo);
     
-    /* note: to differentiate between login and signup, use the typeattribute of loginInfo,
-       which is either type: "login" or type: "signup" */
+    if (loginInfo.type === "login") {
+        const user = await User.findOne({ username: loginInfo.username });
 
-    // check if info is valid later (e.g. username taken)
-    const isValidInfo = true;
+        if (!user) {
+            res.status(422).send("User does not exist");
+            return;
+        }
 
-    if (!isValidInfo) {
-        res.status(422).send("Put message here");
-        // message can be something like "This username is taken"
-        // this is just displayed using an alert for now
-        return;
+        // use hashing functions later
+        if (loginInfo.password !== user.password) {
+            res.status(422).send("Incorrect password");
+            return;
+        }
+
+        // this is where the user data would be put into the session
+    } else if (loginInfo.type === "signup") {
+        const existingUser = await User.findOne({ username: loginInfo.username });
+
+        if (existingUser) {
+            res.status(422).send("Username is taken");
+            return;
+        }
+
+        const newUser = new User({
+            userType: "regular",
+            username: loginInfo.username,
+            password: loginInfo.password,
+            email: loginInfo.email,
+            rating: loginInfo.rating,
+            description: loginInfo.description
+        });
+
+        await newUser.save();
+
+        // this is where the user data would be put into the session
     }
 
     // when sessions are implemented, this should maybe redirect to whatever the previous page was

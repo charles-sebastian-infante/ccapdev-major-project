@@ -45,6 +45,11 @@
 
                 const loginInfo = new FormData(loginForm);
 
+                // making sure the request body always has a rememberMe property (for consistency)
+                if (!loginInfo.has("rememberMe")) {
+                    loginInfo.append("rememberMe", "off");
+                }
+
                 const clickedButton = event.submitter;
                 const buttonClasses = clickedButton.classList;
 
