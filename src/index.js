@@ -16,6 +16,8 @@ const Chart = require("./database/models/Chart");
 const Review = require("./database/models/Review");
 const User = require("./database/models/User");
 
+const { body, matchedData, validationResult } = require("express-validator");
+
 /* handling command line arguments (we can use them to manipulate
    the database, at least for now) */
 const { clearDb, insertSampleData, resetDatabase } = require("./sample_data_handler");
@@ -30,42 +32,6 @@ if (args.length === 3) { // if there's one additional argument
         resetDatabase(); // clears database and inserts sample data
     }
 }
-
-/* Checks if an object's keys are the same as the given array
-   (order doesn't matter) */
-const checkObjKeys = (obj, arrKeys) => {
-    const objKeys = Object.keys(obj);
-    const len = objKeys.length;
-
-    if (len !== arrKeys.length) {
-        return false;
-    }
-
-    const sortedObjKeys = objKeys.toSorted();
-    const sortedArrKeys = arrKeys.toSorted();
-
-    for (let i = 0; i < len; i++) {
-        if (sortedObjKeys[i] !== sortedArrKeys[i]) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/* Returns a middleware function that checks if the body of the POST request
-   has exactly the required keys */
-const validateReqBody = (...requiredKeys) => {
-    return (req, res, next) => {
-        const isValid = checkObjKeys(req.body, requiredKeys);
-
-        if (isValid) {
-            next();
-        } else {
-            res.status(400).send("Invalid request");
-        }
-    };
-};
 
 const hbs = require("hbs");
 hbs.registerHelper(require("./hbs_helpers"));
@@ -101,48 +67,73 @@ app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "pages", "signup.html"));
 });
 
-app.post("/submit_login",
-        validateReqBody("username", "email", "password", "rating", "description", "rememberMe", "type"),
-        async (req, res) => {
-    const loginInfo = req.body;
+app.post("/login", [
+    body("username").notEmpty(),
+    body("password").notEmpty(),
+    body("rememberMe").optional()
+], async (req, res) => {
+    const result = validationResult(req);
+	if (!result.isEmpty()) {
+		res.status(400).send("Invalid request");
+        return;
+	}
+    const loginInfo = matchedData(req);
     console.log(loginInfo);
     
-    if (loginInfo.type === "login") {
-        const user = await User.findOne({ username: loginInfo.username });
+    const user = await User.findOne({ username: loginInfo.username });
 
-        if (!user) {
-            res.status(422).send("User does not exist");
-            return;
-        }
-
-        // use hashing functions later
-        if (loginInfo.password !== user.password) {
-            res.status(422).send("Incorrect password");
-            return;
-        }
-
-        // this is where the user data would be put into the session
-    } else if (loginInfo.type === "signup") {
-        const existingUser = await User.findOne({ username: loginInfo.username });
-
-        if (existingUser) {
-            res.status(422).send("Username is taken");
-            return;
-        }
-
-        const newUser = new User({
-            userType: "regular",
-            username: loginInfo.username,
-            password: loginInfo.password,
-            email: loginInfo.email,
-            rating: loginInfo.rating,
-            description: loginInfo.description
-        });
-
-        await newUser.save();
-
-        // this is where the user data would be put into the session
+    if (!user) {
+        res.status(422).send("User does not exist");
+        return;
     }
+
+    // use hashing functions later
+    if (loginInfo.password !== user.password) {
+        res.status(422).send("Incorrect password");
+        return;
+    }
+
+    // this is where the user data would be put into the session
+
+    // when sessions are implemented, this should maybe redirect to whatever the previous page was
+    res.redirect("/edit_profile");
+});
+
+app.post("/signup", [
+    body("username").notEmpty(),
+    body("email").notEmpty(),
+    body("password").notEmpty(),
+    body("rating").notEmpty(),
+    body("description"),
+    body("rememberMe").optional()
+], async (req, res) => {
+    const result = validationResult(req);
+	if (!result.isEmpty()) {
+		res.status(400).send("Invalid request");
+        return;
+	}
+    const loginInfo = matchedData(req);
+    console.log(loginInfo);
+
+    const existingUser = await User.findOne({ username: loginInfo.username });
+
+    if (existingUser) {
+        res.status(422).send("Username is taken");
+        return;
+    }
+
+    const newUser = new User({
+        userType: "regular",
+        username: loginInfo.username,
+        password: loginInfo.password,
+        email: loginInfo.email,
+        rating: loginInfo.rating,
+        description: loginInfo.description
+    });
+
+    await newUser.save();
+
+    // this is where the user data would be put into the session
 
     // when sessions are implemented, this should maybe redirect to whatever the previous page was
     res.redirect("/edit_profile");

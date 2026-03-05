@@ -45,21 +45,17 @@
 
                 const loginInfo = new FormData(loginForm);
 
-                // making sure the request body always has a rememberMe property (for consistency)
-                if (!loginInfo.has("rememberMe")) {
-                    loginInfo.append("rememberMe", "off");
-                }
-
                 const clickedButton = event.submitter;
                 const buttonClasses = clickedButton.classList;
 
+                let route;
                 if (buttonClasses.contains("sign_button")) {
-                    loginInfo.append("type", "signup");
+                    route = "/signup";
                 } else if (buttonClasses.contains("log_button")){
-                    loginInfo.append("type", "login");
+                    route = "/login";
                 }
 
-                const response = await fetch("/submit_login", {
+                const response = await fetch(route, {
                     method: "POST",
                     body: loginInfo
                 });
