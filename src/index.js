@@ -1,22 +1,34 @@
 const express = require("express");
 const path = require("path");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const fileUpload = require("express-fileupload");
+const { body, matchedData, validationResult } = require("express-validator");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 
-// add more if necessary
+// middleware for parsing requests
 app.use(express.urlencoded({extended: false}));
-const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
-const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/offbeatDB");
 
 const Chart = require("./database/models/Chart");
 const Review = require("./database/models/Review");
 const User = require("./database/models/User");
 
-const { body, matchedData, validationResult } = require("express-validator");
+const hbs = require("hbs");
+hbs.registerHelper(require("./hbs_helpers"));
+app.set("view engine", "hbs");
+
+app.use(
+    session({
+        secret: "secret-key",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 
 /* handling command line arguments (we can use them to manipulate
    the database, at least for now) */
@@ -33,9 +45,27 @@ if (args.length === 3) { // if there's one additional argument
     }
 }
 
-const hbs = require("hbs");
-hbs.registerHelper(require("./hbs_helpers"));
-app.set("view engine", "hbs");
+const COOKIE_MAX_AGE = 1000 * 24 * 60 * 60 * 30; // 30 days
+
+const isAuthenticated = (req, res, next) => {
+    if (req.session.userId) {
+        next();
+    } else {
+        res.redirect("/login");
+    }
+}
+
+/* checks if the request is valid based on previous validator
+   middleware made using express-validator, and sends a message
+   to the user otherwise */
+const checkIfRequestIsValid = (req, res, next) => {
+    const result = validationResult(req);
+	if (result.isEmpty()) { // if there are no errors
+        next();
+	} else {
+        res.status(400).send("Invalid request");
+    }
+};
 
 app.get("/", async (req, res) => {
     const charts = await Chart.find({}).populate("charterId", "username");
@@ -71,12 +101,7 @@ app.post("/login", [
     body("username").notEmpty(),
     body("password").notEmpty(),
     body("rememberMe").optional()
-], async (req, res) => {
-    const result = validationResult(req);
-	if (!result.isEmpty()) {
-		res.status(400).send("Invalid request");
-        return;
-	}
+], checkIfRequestIsValid, async (req, res) => {
     const loginInfo = matchedData(req);
     console.log(loginInfo);
     
@@ -93,9 +118,17 @@ app.post("/login", [
         return;
     }
 
-    // this is where the user data would be put into the session
+    req.session.userId = user.id;
 
-    // when sessions are implemented, this should maybe redirect to whatever the previous page was
+    if (loginInfo.rememberMe) {
+        req.session.cookie.maxAge = COOKIE_MAX_AGE;
+    } else {
+        // cookie is deleted when browser is closed
+        req.session.cookie.expires = false;
+    }
+
+    /* when sessions are implemented, this should maybe redirect to whatever the previous page was
+       (whichever page had the button which the user pressed to get to the login page) */
     res.redirect("/edit_profile");
 });
 
@@ -106,12 +139,7 @@ app.post("/signup", [
     body("rating").notEmpty(),
     body("description"),
     body("rememberMe").optional()
-], async (req, res) => {
-    const result = validationResult(req);
-	if (!result.isEmpty()) {
-		res.status(400).send("Invalid request");
-        return;
-	}
+], checkIfRequestIsValid, async (req, res) => {
     const loginInfo = matchedData(req);
     console.log(loginInfo);
 
@@ -133,22 +161,28 @@ app.post("/signup", [
 
     await newUser.save();
 
-    // this is where the user data would be put into the session
+    req.session.userId = newUser.id;
 
-    // when sessions are implemented, this should maybe redirect to whatever the previous page was
+    if (loginInfo.rememberMe) {
+        req.session.cookie.maxAge = COOKIE_MAX_AGE;
+    } else {
+        // cookie is deleted when browser is closed
+        req.session.cookie.expires = false;
+    }
+
+    /* when sessions are implemented, this should maybe redirect to whatever the previous page was
+       (whichever page had the button which the user pressed to get to the signup page) */
     res.redirect("/edit_profile");
 });
 
-// add better method later
-const pages = [
-    "edit_profile",
-    "view_profile"
-];
+app.get("/edit_profile", isAuthenticated, async (req, res) => {
+    const user = await User.findById(req.session.userId).lean();
 
-pages.forEach(page => {
-    app.get("/" + page, (req, res) => {
-        res.sendFile(path.join(__dirname, "pages", page + ".html"));
-    });
+    res.render("edit_profile", user);
+});
+
+app.get("/view_profile", (req, res) => {
+    res.sendFile(path.join(__dirname, "pages", "view_profile.html"));
 });
 
 app.listen(3000, () => {
