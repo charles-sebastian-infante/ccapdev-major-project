@@ -10,6 +10,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // middleware for parsing requests
 app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 app.use(fileUpload());
 
 mongoose.connect("mongodb://localhost/offbeatDB");
@@ -73,6 +74,16 @@ app.get("/", async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();
 
     res.render("index", {charts, currentUser});
+});
+
+// this is where search, filter, and sort by are handled
+app.post("/", async (req, res) => {
+    const charts = await Chart.find({}).populate("charterId", "username");
+
+    // for now, just displays all the charts
+    // in the future, use req.body to handle search, filter, and sort by
+
+    res.render("partials/chart_list", {charts}); 
 });
 
 app.get("/charts/:chartId", async (req, res) => {

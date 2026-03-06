@@ -1,0 +1,18 @@
+{{#each charts}}
+<a href="/charts/{{_id}}">
+    <div class="chart_card {{dlToLongName difficultyLevel}}">
+        <div class="jacket_holder">
+            <img src="{{imagePath}}">
+        </div>
+        <div class="chart_info">
+            <p class="title">{{songName}}</p>
+            <p>{{songAuthor}}</p>
+            <p>Charter: {{charterId.username}}</p>
+            <div> 
+                <span class="level_diff {{dlToShortName difficultyLevel}}">{{round numericRating 1}}</span>
+                <span class="level_diff {{dlToShortName difficultyLevel}}">{{difficultyLevel}}</span>
+            </div>
+        </div>
+    </div>
+</a>
+{{/each}}
