@@ -19,8 +19,9 @@ const Review = require("./database/models/Review");
 const User = require("./database/models/User");
 
 const hbs = require("hbs");
-hbs.registerHelper(require("./hbs_helpers"));
 app.set("view engine", "hbs");
+hbs.registerHelper(require("./hbs_helpers"));
+hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
 app.use(
     session({
@@ -69,11 +70,16 @@ const checkIfRequestIsValid = (req, res, next) => {
 
 app.get("/", async (req, res) => {
     const charts = await Chart.find({}).populate("charterId", "username");
-    res.render("index", {charts});
+    const user = await User.findById(req.session.userId).lean();
+    const profilePic = user?.imagePath;
+
+    res.render("index", {charts, profilePic});
 });
 
 app.get("/charts/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
+    const user = await User.findById(req.session.userId).lean();
+    const profilePic = user?.imagePath;
 
     if (!mongoose.isValidObjectId(chartId)) {
         res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
@@ -90,11 +96,15 @@ app.get("/charts/:chartId", async (req, res) => {
     const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
     chart.reviews = reviews;
 
-    res.render("chart", chart);
+    res.render("chart", {chart, profilePic});
 });
 
 app.get("/login", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages", "signup.html"));
+    if (req.session.userId) {
+        res.redirect("/edit_profile")
+    } else {
+        res.sendFile(path.join(__dirname, "pages", "signup.html"));
+    }
 });
 
 app.post("/login", [

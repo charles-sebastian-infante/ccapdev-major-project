@@ -1,0 +1,20 @@
+<header>
+    <div class="header_left">
+        <a href="/">
+            <img class="icon" src="/assets/icons/music_icon.png">
+        </a>
+        <div class="header_text">
+            <h1>Off Beat: Rhythm Rating Dashboard</h1>
+            <p>Rate and track your favorite rhythm game songs</p>
+        </div>
+    </div>
+    {{#if profilePic}} <!-- if there is a profile pic specified, that means the user is signed in -->
+    <a href = "/edit_profile">
+        <img class="icon" src="{{profilePic}}"> 
+    </a>
+    {{else}}
+    <a href = "/login">
+        <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
+    </a>
+    {{/if}}
+</header>

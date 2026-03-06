@@ -8,32 +8,18 @@
 </head>
 <body>
      <div class="parent">
-            <header>
-                <div class="header_left">
-                    <a href="/">
-                        <img class="icon" src="/assets/icons/music_icon.png">
-                    </a>
-                    <div class="header_text">
-                    <h1>Off Beat: Rhythm Rating Dashboard</h1>
-                    <p>Rate and track your favorite rhythm game songs</p>
-                    </div>
-                </div>
-                <a href = "/login">
-                    <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
-                </a>
-            </header>
-
+            {{> header profilePic=profilePic }}
             <div class="chart_card">
                 <div class="jacket_holder">
-                    <img src="{{imagePath}}">
+                    <img src="{{chart.imagePath}}">
                 </div>
                 <div class="chart_info">
-                    <p class="title">{{songName}}</p>
-                    <p>{{songAuthor}}</p>
-                    <p>Charter: {{charterId.username}}</p>
+                    <p class="title">{{chart.songName}}</p>
+                    <p>{{chart.songAuthor}}</p>
+                    <p>Charter: {{chart.charterId.username}}</p>
                     <div> 
-                        <span class="level_diff {{dlToShortName difficultyLevel}}">{{round numericRating 1}}</span>
-                        <span class="level_diff {{dlToShortName difficultyLevel}}">{{difficultyLevel}}</span>
+                        <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{round chart.numericRating 1}}</span>
+                        <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{chart.difficultyLevel}}</span>
                     </div>   
                 </div>
             </div>
@@ -48,7 +34,7 @@
                 </search>
             
                 <div class="review_wrapper">
-                    {{#each reviews}}
+                    {{#each chart.reviews}}
                     <div class="prev_review_instance">
                         <div class="user_info">
                             <img src="{{userId.imagePath}}" class="user_avatar">
@@ -78,7 +64,7 @@
                     <div class="charter_response">
                         <div class="charter_response_header">
                             <img src="/assets/placeholders/derakkuma.jpg" class="charter_avatar">
-                            <span class="charter_name"><i>Charter Response: {{../charterId.username}}</i></span>
+                            <span class="charter_name"><i>Charter Response: {{../chart.charterId.username}}</i></span>
                         </div>
                         <p class="charter_response_text">{{charterResponse}}</p>
                     </div>

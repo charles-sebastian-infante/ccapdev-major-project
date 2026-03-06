@@ -7,19 +7,7 @@
 
     <body>
         <div class="parent">
-            <header>
-                <div class="header_left">
-                    <img class="icon" src="/assets/icons/music_icon.png">
-                    <div class="header_text">
-                    <h1>Off Beat: Rhythm Rating Dashboard</h1>
-                    <p>Rate and track your favorite rhythm game songs</p>
-                    </div>
-                </div>
-                <a href = "/login">
-                    <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
-                </a>
-            </header>
-
+            {{> header profilePic=profilePic }}
             <search>
                 <div class="search_bar">
                     <input type="text" placeholder="Search song">
