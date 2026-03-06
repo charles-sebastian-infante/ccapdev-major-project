@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> offbeat - profile </title>
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/profile.css">
+        <link rel="stylesheet" href="/css/review_page.css">
+    </head>
+
+    <body>
+        {{> header currentUser=currentUser }}
+
+        <div class = "parent">
+        <div class = "top">
+        <a href="/" class = "back">
+                <input type="button" value="< Back">
+        </a>
+        <main>
+        </div>
+            <section class="profile_display">
+                <img src="{{user.imagePath}}" alt="profile_picture" class="avatar">
+            <div class = "user_info">
+                <h1> User Profile </h1>
+                <dl>
+                    <dt>Username: </dt>
+                    <dd id="user_username">{{user.username}}</dd>
+                </dl>
+                <dl>
+                    <dt>Email: </dt>
+                    <dd id="user_email">{{user.email}}</dd>
+                </dl>
+                <dl>
+                    <dt>Rating: </dt>
+                    <dd id="user_rating">{{user.rating}}</dd>
+                </dl>
+                <dl>
+                    <dt>Description: </dt>
+                    <dd id="user_description">{{user.description}}</dd>
+                </dl>
+            </div>      
+            </section>
+
+            {{#if user.isCurrentUser}}
+            <button><a href="/edit_profile">Click here to edit your profile</a></button>
+            {{/if}}
+
+            <div class="review_wrapper">
+            {{#each user.reviews}}
+                <div class="prev_review_instance">
+                    <div class="user_info">
+                        <img src="/assets/placeholders/pfp1.png" class="user_avatar">
+                        <span class="user_skill">{{../user.rating}}</span>
+                    </div>
+                    <div class="review_content">
+                        <div class="review_header">
+                            <span class="username">{{../user.username}}</span>
+                            <span class="user_cc">{{rating}}</span>
+                            <a href="/view_profile">
+                                <img src="/assets/icons/
+                                {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
+                                " class="recommendation_icon">
+                            </a>
+                        </div>
+                        <p class="review_comment">{{body}}</p>
+                    </div>
+                    <div class="review_actions">
+                        <button class="see_full">
+                            <a href="/charts/{{chartId}}">See full review</a>
+                        </button>
+                        <button class="like_button">
+                            <img src="/assets/icons/heart.png" class="icon">
+                            <span class="like_count">{{displayLikeCount likes}}</span>
+                        </button>
+                    </div>
+                </div>
+            {{/each}}
+            </div>
+        </main>
+        </div>
+    </body>
+</html>

@@ -70,16 +70,14 @@ const checkIfRequestIsValid = (req, res, next) => {
 
 app.get("/", async (req, res) => {
     const charts = await Chart.find({}).populate("charterId", "username");
-    const user = await User.findById(req.session.userId).lean();
-    const profilePic = user?.imagePath;
+    const currentUser = await User.findById(req.session.userId).lean();
 
-    res.render("index", {charts, profilePic});
+    res.render("index", {charts, currentUser});
 });
 
 app.get("/charts/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
-    const user = await User.findById(req.session.userId).lean();
-    const profilePic = user?.imagePath;
+    const currentUser = await User.findById(req.session.userId).lean();
 
     if (!mongoose.isValidObjectId(chartId)) {
         res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
@@ -96,7 +94,7 @@ app.get("/charts/:chartId", async (req, res) => {
     const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
     chart.reviews = reviews;
 
-    res.render("chart", {chart, profilePic});
+    res.render("chart", {chart, currentUser});
 });
 
 app.get("/login", (req, res) => {
@@ -186,13 +184,24 @@ app.post("/signup", [
 });
 
 app.get("/edit_profile", isAuthenticated, async (req, res) => {
-    const user = await User.findById(req.session.userId).lean();
+    const currentUser = await User.findById(req.session.userId).lean();
 
-    res.render("edit_profile", user);
+    res.render("edit_profile", {currentUser});
 });
 
-app.get("/view_profile", (req, res) => {
-    res.sendFile(path.join(__dirname, "pages", "view_profile.html"));
+app.get("/view_profile/:userId", async (req, res) => {
+    const currentUser = await User.findById(req.session.userId).lean();
+
+    const userId = req.params.userId;
+    const user = await User.findById(userId).lean();
+    const reviews = await Review.find({ userId: userId }).lean();
+    user.reviews = reviews;
+
+    if (req.session.userId === userId) {
+        user.isCurrentUser = true;
+    }
+
+    res.render("view_profile", {user, currentUser});
 });
 
 app.listen(3000, () => {

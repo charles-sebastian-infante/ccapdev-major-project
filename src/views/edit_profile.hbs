@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        {{> header profilePic=imagePath }}
+        {{> header currentUser=currentUser }}
         <div class = "parent">
         <div class = "top">
         <a href="/" class = "back">
@@ -21,19 +21,19 @@
                 <h1> My Profile </h1>
                 <dl>
                     <dt>Username: </dt>
-                    <dd id="user_username">{{username}}</dd>
+                    <dd id="user_username">{{currentUser.username}}</dd>
                 </dl>
                 <dl>
                     <dt>Email: </dt>
-                    <dd id="user_email">{{email}}</dd>
+                    <dd id="user_email">{{currentUser.email}}</dd>
                 </dl>
                 <dl>
                     <dt>Rating: </dt>
-                    <dd id="user_rating">{{rating}}</dd>
+                    <dd id="user_rating">{{currentUser.rating}}</dd>
                 </dl>
                 <dl>
                     <dt>Description: </dt>
-                    <dd id="user_description">{{description}}</dd>
+                    <dd id="user_description">{{currentUser.description}}</dd>
                 </dl>
             </div>      
             </section>
@@ -45,18 +45,18 @@
                     <label for="new_avatar"> Avatar </label>
                     <input type="file" id="new_avatar" accept="image/jpeg, image/png, image/webp"> 
                     <label for="new_username">Username</label>
-                    <input type="text" id="new_username" value="{{username}}">
+                    <input type="text" id="new_username" value="{{currentUser.username}}">
 
                     <label for="new_email"> Email </label>
-                    <input type="email" id="new_email" value="{{email}}">
+                    <input type="email" id="new_email" value="{{currentUser.email}}">
 
                     <label for="new_rating"> Rating </label>
-                    <input type="number" id="new_rating" value="{{rating}}">
+                    <input type="number" id="new_rating" value="{{currentUser.rating}}">
 
                     <label for="new_description"> Description </label>
 
                     <textarea placeholder="Your new description goes here" id="new_description"
-                            value="{{description}}"></textarea>
+                            value="{{currentUser.description}}"></textarea>
                     <button type="submit"> Save Changes </button>
                 </form>
             </section>

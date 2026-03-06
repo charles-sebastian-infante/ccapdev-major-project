@@ -8,9 +8,9 @@
             <p>Rate and track your favorite rhythm game songs</p>
         </div>
     </div>
-    {{#if profilePic}} <!-- if there is a profile pic specified, that means the user is signed in -->
-    <a href = "/edit_profile">
-        <img class="icon" src="{{profilePic}}"> 
+    {{#if currentUser}} <!-- if user is signed in -->
+    <a href = "/view_profile/{{currentUser._id}}">
+        <img class="icon" src="{{currentUser.imagePath}}"> 
     </a>
     {{else}}
     <a href = "/login">
