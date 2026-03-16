@@ -425,3 +425,17 @@ input[type=number] {
     user-select: none;
 }
 
+.reply{
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: clamp(9px, 1.1vw, 12px);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.reply:hover{
+    box-shadow: 0 6px 15px #86CECB;
+}
