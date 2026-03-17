@@ -47,7 +47,7 @@ if (args.length === 3) { // if there's one additional argument
     }
 }
 
-const COOKIE_MAX_AGE = 1000 * 24 * 60 * 60 * 30; // 30 days
+const COOKIE_MAX_AGE = 1000 * 24 * 60 * 60 * 21; // 3 weeks
 
 const isAuthenticated = (req, res, next) => {
     if (req.session.userId) {
@@ -106,6 +106,78 @@ app.get("/charts/:chartId", async (req, res) => {
     chart.reviews = reviews;
 
     res.render("chart", {chart, currentUser});
+});
+
+// submitting or editing a review
+app.post("/charts/:chartId/submit_review", [
+    body("accuracy").notEmpty(),
+    body("rating").notEmpty(),
+    body("body").notEmpty(),
+    body("file").optional()
+], async (req, res) => {
+    const userId = req.session.userId;
+    const chartId = req.params.chartId;
+    const reqData = matchedData(req);
+
+    if (!userId) {
+        res.status(401).send("Error: You are not signed in.");
+        return;
+    }
+
+    const body = reqData.body;
+    const ratedAccurately = (reqData.accuracy === "accurate");
+
+    let rating;
+    if (ratedAccurately) {
+        const chartObj = await Chart.findById(chartId).lean();
+        rating = chartObj.numericRating;
+    } else {
+        rating = reqData.rating;
+    }
+
+    const comment = await Review.findOne({ chartId: chartId, userId: userId });
+
+    if (!comment) { // submitting a review
+        const newReview = await Review.create({
+            userId: userId,
+            chartId: chartId,
+            body: body,
+            rating: rating,
+            ratedAccurately: ratedAccurately,
+            // put file path here (if we don't change it)
+            isEdited: false,
+            likes: 0
+        });
+    } else { // editing the review
+        comment.body = body;
+        comment.rating = rating;
+        comment.ratedAccurately = ratedAccurately;
+        comment.isEdited = true;
+        await comment.save();
+    }
+
+    res.send("Success");
+});
+
+app.post("/charts/:chartId/delete_review", async (req, res) => {
+    const userId = req.session.userId;
+    const chartId = req.params.chartId;
+
+    if (!userId) {
+        res.status(401).send("Error: You are not signed in.");
+        return;
+    }
+
+    const comment = await Review.findOne({ chartId: chartId, userId: userId });
+
+    if (!comment) {
+        res.status(422).send("You do not have a review to delete.");
+        return;
+    }
+
+    await comment.deleteOne();
+
+    res.send("Success");
 });
 
 app.get("/login", (req, res) => {

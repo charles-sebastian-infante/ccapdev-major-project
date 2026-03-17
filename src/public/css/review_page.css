@@ -419,7 +419,7 @@ input[type=number] {
     margin: 0;
 }
 
-.user_review.blur .review_form {
+.user_review.blur .review_form, .accuracy_blur {
     filter: blur(4px);
     pointer-events: none;
     user-select: none;
