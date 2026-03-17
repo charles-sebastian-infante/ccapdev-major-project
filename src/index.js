@@ -108,6 +108,16 @@ app.get("/charts/:chartId", async (req, res) => {
     res.render("chart", {chart, currentUser});
 });
 
+// also filtering comments in the future
+app.post("/charts/:chartId", async (req, res) => {
+    const chartId = req.params.chartId;
+    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
+
+    // filter/sort comments here
+
+    res.render("partials/review_list", {reviews}); 
+});
+
 // submitting or editing a review
 app.post("/charts/:chartId/submit_review", [
     body("accuracy").notEmpty(),
@@ -148,15 +158,17 @@ app.post("/charts/:chartId/submit_review", [
             isEdited: false,
             likes: 0
         });
+
+        res.json({ action: "submit", success: true });
     } else { // editing the review
         comment.body = body;
         comment.rating = rating;
         comment.ratedAccurately = ratedAccurately;
         comment.isEdited = true;
         await comment.save();
-    }
 
-    res.send("Success");
+        res.json({ action: "edit", success: true });
+    }
 });
 
 app.post("/charts/:chartId/delete_review", async (req, res) => {
@@ -177,7 +189,7 @@ app.post("/charts/:chartId/delete_review", async (req, res) => {
 
     await comment.deleteOne();
 
-    res.send("Success");
+    res.json({ action: "delete", success: true });
 });
 
 app.get("/login", (req, res) => {

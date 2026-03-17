@@ -33,7 +33,7 @@
                     <input type="text" placeholder="Search comments...">
                 </search>
             
-                <div class="review_wrapper">
+                <div class="review_wrapper" id="reviews_div">
                     {{#each chart.reviews}}
                     <div class="prev_review_instance">
                         <div class="user_info">
@@ -43,7 +43,7 @@
                         <div class="review_content">
                             <div class="review_header">
                                 <span class="username">{{userId.username}}</span>
-                                <span class="user_cc">{{rating}}</span>
+                                <span class="user_cc">{{round rating 1}}</span>
                                 <img src="/assets/icons/
                                 {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
                                 " class="recommendation_icon">
@@ -116,9 +116,28 @@
         const sliderLabel = document.getElementById("slider_label");
         const sliderDiv = document.getElementById("slider_div");
         const slider = document.getElementById("level_rating");
+        const reviewsDiv = document.getElementById("reviews_div");
 
         const currRoute = window.location.pathname;
         const origSliderValue = slider.value;
+
+        async function renderReviews() {
+            reviewsDiv.innerHTML = "" // this line is just for testing (making sure it works)
+
+            const body = {}; // in the future, should get stuff from search, filter, etc.
+
+            const response = await fetch(currRoute, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+            const reviewsHtml = await response.text();
+
+            reviewsDiv.innerHTML = reviewsHtml;
+        }
 
         function updateAccuracySliderBlur() {
             if (accButton.checked) {
@@ -163,18 +182,31 @@
                 });
             }
 
-            const message = await response.text();
-
             if (!response.ok) {
+                const message = await response.text();
                 if (message) {
                     alert(message);
                 }
                 return;
             }
 
-            if (message === "Success") {
-                // refresh page so user can see the submitted/edited/deleted comment
-                window.location.reload();
+            const responseObj = await response.json();
+            const { action, success } = responseObj;
+
+            if (success) {
+                await renderReviews(); // re-render the reviews to display the change
+
+                switch (action) {
+                    case "delete":
+                        alert("Review successfully deleted.");
+                        break;
+                    case "edit":
+                        alert("Review successfully edited.");
+                        break;
+                    case "submit":
+                        alert("Review successfully submitted.");
+                        break;
+                }
             }
 		});
 	</script>

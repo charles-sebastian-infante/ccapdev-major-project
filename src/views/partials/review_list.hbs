@@ -1,0 +1,40 @@
+{{#each reviews}}
+<div class="prev_review_instance">
+    <div class="user_info">
+        <img src="{{userId.imagePath}}" class="user_avatar">
+        <span class="user_skill">{{userId.rating}}</span>
+    </div>
+    <div class="review_content">
+        <div class="review_header">
+            <span class="username">{{userId.username}}</span>
+            <span class="user_cc">{{round rating 1}}</span>
+            <img src="/assets/icons/
+            {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
+            " class="recommendation_icon">
+        </div>
+        <p class="review_comment">{{body}}</p>
+    </div>
+    <div class="review_actions">
+        <button class="see_full">
+            <span> See full review </span>
+        </button>
+        <button class="like_button">
+            <img src="/assets/icons/heart.png" class="icon">
+            <span class="like_count">{{displayLikeCount likes}}</span>
+        </button>
+    </div>
+</div>
+    {{#if charterResponse}}
+<div class="charter_response">
+    <div class="charter_response_header">
+        <img src="{{../chart.charterId.imagePath}}" class="charter_avatar">
+        <span class="charter_name"><i>Charter Response: {{../chart.charterId.username}}</i></span>
+    </div>
+    <p class="charter_response_text">{{charterResponse}}</p>
+</div>
+    {{/if}}
+{{else}}
+<div class="prev_review_instance">
+    <p class="review_comment">No reviews yet...</p>
+</div>
+{{/each}}
