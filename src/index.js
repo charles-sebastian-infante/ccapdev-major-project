@@ -95,7 +95,7 @@ app.get("/charts/:chartId", async (req, res) => {
         return;
     }
 
-    const chart = await Chart.findById(chartId).populate("charterId", "username").lean();
+    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
     if (!chart) {
         res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");

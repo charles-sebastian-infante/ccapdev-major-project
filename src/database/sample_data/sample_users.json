@@ -49,7 +49,7 @@
         "username": "SEGA",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/derakkuma.png",
+        "imagePath": "/sample_images/derakkuma.jpg",
         "rating": 0,
         "description": ""
     },
@@ -58,7 +58,7 @@
         "username": "すきやき奉行",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/derakkuma.png",
+        "imagePath": "/sample_images/derakkuma.jpg",
         "rating": 0,
         "description": ""
     },
@@ -67,7 +67,7 @@
         "username": "小鳥遊さん",
         "password": "123456",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/derakkuma.png",
+        "imagePath": "/sample_images/derakkuma.jpg",
         "rating": 0,
         "description": ""
     }

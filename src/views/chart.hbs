@@ -63,7 +63,7 @@
                         {{#if charterResponse}}
                     <div class="charter_response">
                         <div class="charter_response_header">
-                            <img src="/assets/placeholders/derakkuma.jpg" class="charter_avatar">
+                            <img src="{{../chart.charterId.imagePath}}" class="charter_avatar">
                             <span class="charter_name"><i>Charter Response: {{../chart.charterId.username}}</i></span>
                         </div>
                         <p class="charter_response_text">{{charterResponse}}</p>
@@ -93,7 +93,7 @@
                     <label for="level_rating">Level should be...</label>
                     <div class="slider_container">
                         <span class="range_label"> 11.5 </span>
-                        <input type="range" min="11.5" max="15.0" value="13.7" class="level_range" id="level_rating" step="0.1">
+                        <input type="range" min="11.5" max="15.0" value="{{chart.numericRating}}" class="level_range" id="level_rating" step="0.1">
                         <span class="range_label">15.0</span>
                     </div>
                 </div>
