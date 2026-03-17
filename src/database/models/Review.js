@@ -16,7 +16,7 @@ const ReviewSchema = new mongoose.Schema({
     filePath: String,
     isEdited: Boolean,
     likes: Int32,   // in the future, maybe change to list of users
-                    // that liked and list of users that disliked
+                    // that liked
     charterResponse: String
 });
 

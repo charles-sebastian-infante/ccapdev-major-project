@@ -37,5 +37,6 @@ module.exports = {
                 return number.toFixed(0) + "k";
             }
         }
-    }
+    },
+    isFalse: expression => (expression === false)
 }

@@ -88,7 +88,8 @@ app.post("/", async (req, res) => {
 
 app.get("/charts/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
-    const currentUser = await User.findById(req.session.userId).lean();
+    const userId = req.session.userId;
+    const currentUser = await User.findById(userId).lean();
 
     if (!mongoose.isValidObjectId(chartId)) {
         res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
@@ -105,7 +106,30 @@ app.get("/charts/:chartId", async (req, res) => {
     const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
     chart.reviews = reviews;
 
-    res.render("chart", {chart, currentUser});
+    // null if the user is not signed in or the user doesn't have a comment
+    const userReview = await Review.findOne({ chartId: chartId, userId: userId }).lean();
+
+    res.render("chart", {chart, currentUser, userReview});
+});
+
+/* this is for getting the chart info through a fetch request (not supposed to be directly
+   viewed by the user) */
+app.get("/get_chart_info/:chartId/", async (req, res) => {
+    const chartId = req.params.chartId;
+
+    if (!mongoose.isValidObjectId(chartId)) {
+        res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
+        return;
+    }
+
+    const chart = await Chart.findById(chartId).lean();
+
+    if (!chart) {
+        res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
+        return;
+    }
+
+    res.json(chart);
 });
 
 // also filtering comments in the future

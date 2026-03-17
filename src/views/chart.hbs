@@ -77,28 +77,34 @@
                 </div>
             </div>
 
-            <div class="user_review">
-                <h2>My Review</h2>
+            <div class="user_review {{#unless currentUser}}blur{{/unless}}">
+                <h2>{{#if currentUser}}My Review{{else}}Sign up/log in to review this chart!{{/if}}</h2>
 
             <form class="review_form" id="review_form">
                 <div class="level_input_section">
                     <div class="reco_actions">
-                        <input type="radio" id="acc" name="accuracy" value="accurate">
+                        <input type="radio" id="acc" name="accuracy" value="accurate"
+                            {{#if userReview.ratedAccurately}}checked{{/if}}>
                         <label class ="accurate" for="acc"> Rated Accurately </label>
 
-                        <input type ="radio" id="notacc" name="accuracy" value="not_accurate">
+                        <input type ="radio" id="notacc" name="accuracy" value="not_accurate"
+                            {{#if (isFalse userReview.ratedAccurately)}}checked{{/if}}>
                         <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
                     </div>
                     
                     <label for="level_rating" class="accuracy_blur" id="slider_label">Level should be...</label>
                     <div class="slider_container accuracy_blur" id="slider_div">
                         <span class="range_label"> 11.5 </span>
-                        <input name="rating" type="range" min="11.5" max="15.0" value="{{chart.numericRating}}" class="level_range" id="level_rating" step="0.1">
+                        <input name="rating" type="range" min="11.5" max="15.0"
+                            value="{{#if userReview.rating}}{{userReview.rating}}{{else}}{{chart.numericRating}}{{/if}}"
+                            class="level_range" id="level_rating" step="0.1">
                         <span class="range_label">15.0</span>
                     </div>
                 </div>
                 <div class="review_body">
-                    <textarea name="body" class="review_text" placeholder="Write your review here..." rows="6"></textarea>
+                    <textarea name="body" class="review_text" placeholder="Write your review here..." rows="6">
+                        {{~#if userReview.body}}{{userReview.body}}{{/if~}}
+                    </textarea>
                     <input name="file" type="file" accept="video/*, image/jpeg, image/png, image/webp">
                 </div>
                 <div class="my_review_actions">
@@ -119,12 +125,11 @@
         const reviewsDiv = document.getElementById("reviews_div");
 
         const currRoute = window.location.pathname;
-        const origSliderValue = slider.value;
-
+        const chartId = currRoute.split("/")[2];
+        let chartRating = slider.value; // placeholder for until async function executes
+        
         async function renderReviews() {
-            reviewsDiv.innerHTML = "" // this line is just for testing (making sure it works)
-
-            const body = {}; // in the future, should get stuff from search, filter, etc.
+            const body = {}; // user should be able to filter/search for comments in the future
 
             const response = await fetch(currRoute, {
                 method: "POST",
@@ -141,7 +146,7 @@
 
         function updateAccuracySliderBlur() {
             if (accButton.checked) {
-                slider.value = origSliderValue;
+                slider.value = chartRating;
                 sliderLabel.classList.add("accuracy_blur");
                 sliderDiv.classList.add("accuracy_blur");
             } else if (notAccButton.checked) {
@@ -149,6 +154,16 @@
                 sliderDiv.classList.remove("accuracy_blur");
             }
         }
+
+        async function getChartRating() {
+            const response = await fetch("/get_chart_info/" + chartId);
+            const chartInfo = await response.json();
+
+            chartRating = chartInfo.numericRating;
+        }
+
+        getChartRating();
+        updateAccuracySliderBlur();
 
         accButton.addEventListener("change", updateAccuracySliderBlur);
         notAccButton.addEventListener("change", updateAccuracySliderBlur);
