@@ -3,7 +3,7 @@
 <html>
 
     <head>
-        <title>Sign Up</title>
+        <title>Log In</title>
         <link rel="stylesheet" href="/css/signup.css">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     </head>
@@ -14,26 +14,18 @@
             <a href="/" class = "back">
                 <input type="submit" value="< Back">
             </a>
-            <h1>Sign Up</h1>
+            <h1>Log In</h1>
             
             <form id="login_form">
                 <p> Username </p>
                 <input name="username" type="text" placeholder="Input username" required>
-                <p> Email </p>
-                <input name="email" type="email" placeholder="Input email" required>
                 <p> Password </p>
                 <input name="password" type="password" placeholder="Password" required>
-                <p> Verify Password </p>
-                <input name="verify_password" type="password" placeholder="Verify Password" required>
-                <p> Rating </p>
-                <input name="rating" type="number" placeholder="Input maimai rating here" required>
-                <p> Description (optional) </p>
-                <textarea name="description" placeholder="This is the default bio!"></textarea>
                 <br><br>
                 <label for="remember"> Remember Me </label>
                 <input name="rememberMe" id="remember" type="checkbox" class="remember_me"><br><br>
-                <input type="submit" value="Sign Up" class="log_button">
-                <p>Already have an account? <a href="\login"> Log In Here! </a></p>
+                <input type="submit" value="Log In" class="log_button">
+                <p>Don't have an account yet? <a href="\signup"> Sign Up Here! </a></p>
             </form>
 
         </div>
@@ -47,12 +39,7 @@
 
                 const loginInfo = new FormData(loginForm);
 
-                if (loginInfo.get("password") !== loginInfo.get("verify_password")) {
-                    alert("The passwords you entered do not match. Please try again.");
-                    return;
-                }
-
-                const response = await fetch("/signup", {
+                const response = await fetch("/login", {
                     method: "POST",
                     body: loginInfo
                 });

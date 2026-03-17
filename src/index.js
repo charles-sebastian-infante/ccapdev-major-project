@@ -110,7 +110,15 @@ app.get("/charts/:chartId", async (req, res) => {
 
 app.get("/login", (req, res) => {
     if (req.session.userId) {
-        res.redirect("/edit_profile")
+        res.redirect("/edit_profile");
+    } else {
+        res.sendFile(path.join(__dirname, "pages", "login.html"));
+    }
+});
+
+app.get("/signup", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/edit_profile");
     } else {
         res.sendFile(path.join(__dirname, "pages", "signup.html"));
     }
