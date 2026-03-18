@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const { body, matchedData, validationResult } = require("express-validator");
+const argon2id = require("@node-rs/argon2");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
@@ -124,16 +125,29 @@ app.post("/login", [
     const loginInfo = matchedData(req);
     console.log(loginInfo);
     
+
     const user = await User.findOne({ username: loginInfo.username });
 
     if (!user) {
-        res.status(422).send("User does not exist");
+        res.status(422).send("Incorrect username/password");
         return;
     }
+    // Making the errors more generic cause you don't want to be specific about
+    // whether the username or the password is wrong
+     
+    let validPassword = false;
 
-    // use hashing functions later
-    if (loginInfo.password !== user.password) {
-        res.status(422).send("Incorrect password");
+    try {
+        validPassword = await argon2id.verify(user.password, loginInfo.password);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Server-side password error. Please notify the devs!");
+        return;
+    }
+    
+    if (!validPassword) {
+        res.status(422).send("Incorrect username/password");
         return;
     }
 
@@ -149,6 +163,7 @@ app.post("/login", [
     /* when sessions are implemented, this should maybe redirect to whatever the previous page was
        (whichever page had the button which the user pressed to get to the login page) */
     res.redirect("/edit_profile");
+
 });
 
 app.post("/signup", [
@@ -169,10 +184,21 @@ app.post("/signup", [
         return;
     }
 
+    let hashedPassword; 
+
+    try {
+        hashedPassword = await argon2id.hash(loginInfo.password);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Server-side password error. Please notify the devs!");
+        return;
+    }
+
     const newUser = new User({
         userType: "regular",
         username: loginInfo.username,
-        password: loginInfo.password,
+        password: hashedPassword,
         email: loginInfo.email,
         rating: loginInfo.rating,
         description: loginInfo.description
