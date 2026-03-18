@@ -163,10 +163,15 @@ app.post("/charts/:chartId/submit_review", [
     const ratedAccurately = (reqData.accuracy === "accurate");
 
     let rating;
+    const chartObj = await Chart.findById(chartId).lean();
+
     if (ratedAccurately) {
-        const chartObj = await Chart.findById(chartId).lean();
         rating = chartObj.numericRating;
     } else {
+        if (chartObj.numericRating == reqData.rating) {
+            res.status(422).send("Error: If it's not rated accurately, you must provide a new rating.");
+            return;
+        }
         rating = reqData.rating;
     }
 
