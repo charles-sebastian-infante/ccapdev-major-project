@@ -7,8 +7,7 @@ const UserSchema = new mongoose.Schema({
         enum: ['regular', 'charter']
     },
     username: String,
-    password: String, // hash this later
-    email: String, // encrypt this later (?)
+    password: String,
     imagePath: {
         type: String,
         default: "/sample_images/pfp1.png"
