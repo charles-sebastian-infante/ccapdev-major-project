@@ -6,6 +6,7 @@ const fileUpload = require("express-fileupload");
 const { body, matchedData, validationResult } = require("express-validator");
 const argon2id = require("@node-rs/argon2");
 const crypto = require("crypto");
+const fs = require('node:fs/promises');
 
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
@@ -34,6 +35,16 @@ app.use(
         saveUninitialized: false,
     })
 );
+
+// deletes a file with a path in the form "/uploads/(file name)"
+async function deleteUpload(filePath) {
+    const fullPath = path.join(__dirname, "public", filePath);
+    try {
+        await fs.unlink(fullPath);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 /* handling command line arguments (we can use them to manipulate
    the database, at least for now) */
@@ -262,6 +273,7 @@ app.post("/charts/:chartId/submit_review", [
         comment.isEdited = true;
 
         if (file) {
+            deleteUpload(comment.filePath); // deleting the old file
             comment.filePath = filePath;
             comment.fileType = fileType;
         }
@@ -288,6 +300,7 @@ app.post("/charts/:chartId/delete_review", async (req, res) => {
         return;
     }
 
+    deleteUpload(comment.filePath); // deleting the old file
     await comment.deleteOne();
 
     res.json({ action: "delete", success: true });
