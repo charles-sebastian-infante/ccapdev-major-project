@@ -172,10 +172,11 @@ app.get("/get_review_info/:reviewId", async (req, res) => {
 app.post("/charts/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
     const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
+    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
     // filter/sort comments here
 
-    res.render("partials/review_list", {reviews}); 
+    res.render("partials/review_list", {reviews, chart}); 
 });
 
 // submitting or editing a review
@@ -273,7 +274,9 @@ app.post("/charts/:chartId/submit_review", [
         comment.isEdited = true;
 
         if (file) {
-            deleteUpload(comment.filePath); // deleting the old file
+            if (comment.filePath) { // deleting the old file if there was one
+                deleteUpload(comment.filePath);
+            }
             comment.filePath = filePath;
             comment.fileType = fileType;
         }
@@ -296,11 +299,14 @@ app.post("/charts/:chartId/delete_review", async (req, res) => {
     const comment = await Review.findOne({ chartId: chartId, userId: userId });
 
     if (!comment) {
-        res.status(422).send("You do not have a review to delete.");
+        res.status(422).send("Error: You do not have a review to delete.");
         return;
     }
 
-    deleteUpload(comment.filePath); // deleting the old file
+    if (comment.filePath) { // deleting the file if there was one
+        deleteUpload(comment.filePath);
+    }
+
     await comment.deleteOne();
 
     res.json({ action: "delete", success: true });
