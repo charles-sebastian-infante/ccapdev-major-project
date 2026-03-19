@@ -23,7 +23,8 @@ const User = require("./database/models/User");
 
 const hbs = require("hbs");
 app.set("view engine", "hbs");
-hbs.registerHelper(require("./hbs_helpers"));
+const customHbsHelpers = require("./hbs_helpers");
+hbs.registerHelper(customHbsHelpers);
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
 app.use(
@@ -114,9 +115,9 @@ app.get("/charts/:chartId", async (req, res) => {
     res.render("chart", {chart, currentUser, userReview});
 });
 
-/* this is for getting the chart info through a fetch request (not supposed to be directly
+/* this is for getting chart info through a fetch request (not supposed to be directly
    viewed by the user) */
-app.get("/get_chart_info/:chartId/", async (req, res) => {
+app.get("/get_chart_info/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
 
     if (!mongoose.isValidObjectId(chartId)) {
@@ -132,6 +133,28 @@ app.get("/get_chart_info/:chartId/", async (req, res) => {
     }
 
     res.json(chart);
+});
+
+/* this is for getting review info through a fetch request (not supposed to be directly
+   viewed by the user) */
+app.get("/get_review_info/:reviewId", async (req, res) => {
+    const reviewId = req.params.reviewId;
+
+    if (!mongoose.isValidObjectId(reviewId)) {
+        res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
+        return;
+    }
+
+    const review = await Review.findById(reviewId).populate("userId", "username imagePath rating").lean();
+
+    if (!review) {
+        res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
+        return;
+    }
+
+    review.formattedRating = customHbsHelpers.round(review.rating, 1);
+    review.formattedLikes = customHbsHelpers.displayLikeCount(review.likes);
+    res.json(review);
 });
 
 // also filtering comments in the future
@@ -202,9 +225,9 @@ app.post("/charts/:chartId/submit_review", [
         }
 
         const newFileName = crypto.randomUUID() + "." + fileExtension;
-        filePath = path.join("/public", "uploads", newFileName);
+        filePath = path.join("/uploads", newFileName);
 
-        file.mv(path.join(__dirname, filePath), (error) => {
+        file.mv(path.join(__dirname, "public", filePath), (error) => {
             if (error) {
                 console.log(error);
                 res.status(500).send("There was an error uploading your file to the server.");
