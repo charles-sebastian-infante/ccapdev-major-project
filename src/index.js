@@ -169,7 +169,7 @@ app.post("/charts/:chartId/submit_review", [
         rating = chartObj.numericRating;
     } else {
         if (chartObj.numericRating == reqData.rating) {
-            res.status(422).send("Error: If it's not rated accurately, you must provide a new rating.");
+            res.status(422).send("Error: If it's not rated accurately, you must provide a rating that is different from the chart's.");
             return;
         }
         rating = reqData.rating;
@@ -245,7 +245,6 @@ app.post("/login", [
 ], checkIfRequestIsValid, async (req, res) => {
     const loginInfo = matchedData(req);
     console.log(loginInfo);
-    
 
     const user = await User.findOne({ username: loginInfo.username });
 
@@ -253,9 +252,9 @@ app.post("/login", [
         res.status(422).send("Incorrect username/password");
         return;
     }
-    // Making the errors more generic cause you don't want to be specific about
+    // Making the errors more generic because you don't want to be specific about
     // whether the username or the password is wrong
-     
+    
     let validPassword = false;
 
     try {

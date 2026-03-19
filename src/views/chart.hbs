@@ -92,8 +92,8 @@
                         <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
                     </div>
                     
-                    <label for="level_rating" class="accuracy_blur" id="slider_label">Level should be...</label>
-                    <div class="slider_container accuracy_blur" id="slider_div">
+                    <label for="level_rating" id="slider_label">Level should be...</label>
+                    <div class="slider_container" id="slider_div">
                         <span class="range_label"> 11.5 </span>
                         <input name="rating" type="range" min="11.5" max="15.0"
                             value="{{#if userReview.rating}}{{userReview.rating}}{{else}}{{chart.numericRating}}{{/if}}"
@@ -144,14 +144,14 @@
             reviewsDiv.innerHTML = reviewsHtml;
         }
 
-        function updateAccuracySliderBlur() {
-            if (accButton.checked) {
+        function updateAccuracySliderDisplay() {
+            if (notAccButton.checked) {
+                sliderLabel.style.display = "flex";
+                sliderDiv.style.display = "flex";
+            } else {
                 slider.value = chartRating;
-                sliderLabel.classList.add("accuracy_blur");
-                sliderDiv.classList.add("accuracy_blur");
-            } else if (notAccButton.checked) {
-                sliderLabel.classList.remove("accuracy_blur");
-                sliderDiv.classList.remove("accuracy_blur");
+                sliderLabel.style.display = "none";
+                sliderDiv.style.display = "none";
             }
         }
 
@@ -163,10 +163,10 @@
         }
 
         getChartRating();
-        updateAccuracySliderBlur();
+        updateAccuracySliderDisplay();
 
-        accButton.addEventListener("change", updateAccuracySliderBlur);
-        notAccButton.addEventListener("change", updateAccuracySliderBlur);
+        accButton.addEventListener("change", updateAccuracySliderDisplay);
+        notAccButton.addEventListener("change", updateAccuracySliderDisplay);
 
 		reviewForm.addEventListener("submit", async (event) => {
 			event.preventDefault();
