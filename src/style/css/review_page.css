@@ -188,6 +188,12 @@ input[type=number] {
     opacity: 1;
 }
 
+.like_button .icon {
+	width: 32px;
+	height: 32px;
+	padding: 0px;
+}
+
 .like_count {
     font-size: clamp(8px, 1.1vw, 13px);
     color: #666;
@@ -455,6 +461,8 @@ dialog {
     gap: 12px;
     margin-left: 25px;
     margin-right: 25px;
+	margin-top: 10px;
+	margin-bottom: 20px;
 }
 
 .dialog_header{
