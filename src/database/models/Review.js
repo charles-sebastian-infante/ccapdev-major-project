@@ -14,6 +14,10 @@ const ReviewSchema = new mongoose.Schema({
     rating: Number,
     ratedAccurately: Boolean,
     filePath: String,
+    fileType: {
+        type: String,
+        enum: ["image", "video"]
+    },
     isEdited: Boolean,
     likes: Int32,   // in the future, maybe change to list of users
                     // that liked

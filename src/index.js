@@ -5,6 +5,7 @@ const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const { body, matchedData, validationResult } = require("express-validator");
 const argon2id = require("@node-rs/argon2");
+const crypto = require("crypto");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
@@ -153,6 +154,7 @@ app.post("/charts/:chartId/submit_review", [
     const userId = req.session.userId;
     const chartId = req.params.chartId;
     const reqData = matchedData(req);
+    const { file } = req.files;
 
     if (!userId) {
         res.status(401).send("Error: You are not signed in.");
@@ -177,17 +179,57 @@ app.post("/charts/:chartId/submit_review", [
 
     const comment = await Review.findOne({ chartId: chartId, userId: userId });
 
+    let fileType, filePath;
+    if (file) {
+        let fileExtension;
+        let isValid = true;
+        
+        try {
+            fileType = file.mimetype.split("/")[0];
+            fileExtension = file.name.split(".").at(-1);
+
+            if (fileType !== "image" && fileType !== "video") {
+                isValid = false;
+            }
+        } catch (error) {
+            console.log(error);
+            isValid = false;
+        }
+
+        if (!isValid) {
+            res.status(400).send("Error: Invalid file.");
+            return;
+        }
+
+        const newFileName = crypto.randomUUID() + "." + fileExtension;
+        filePath = path.join("/public", "uploads", newFileName);
+
+        file.mv(path.join(__dirname, filePath), (error) => {
+            if (error) {
+                console.log(error);
+                res.status(500).send("There was an error uploading your file to the server.");
+                return;
+            }
+        });
+    }
+
     if (!comment) { // submitting a review
-        const newReview = await Review.create({
+        const reviewObj = {
             userId: userId,
             chartId: chartId,
             body: body,
             rating: rating,
             ratedAccurately: ratedAccurately,
-            // put file path here (if we don't change it)
             isEdited: false,
             likes: 0
-        });
+        }
+
+        if (file) {
+            reviewObj.filePath = filePath;
+            reviewObj.fileType = fileType;
+        }
+
+        await Review.create(reviewObj);
 
         res.json({ action: "submit", success: true });
     } else { // editing the review
@@ -195,6 +237,12 @@ app.post("/charts/:chartId/submit_review", [
         comment.rating = rating;
         comment.ratedAccurately = ratedAccurately;
         comment.isEdited = true;
+
+        if (file) {
+            comment.filePath = filePath;
+            comment.fileType = fileType;
+        }
+
         await comment.save();
 
         res.json({ action: "edit", success: true });
