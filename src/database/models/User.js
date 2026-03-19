@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
     },
     username: String,
     password: String,
+    email: String,
     imagePath: {
         type: String,
         default: "/sample_images/pfp1.png"
