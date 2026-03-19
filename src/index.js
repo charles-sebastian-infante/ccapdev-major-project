@@ -188,7 +188,7 @@ app.post("/charts/:chartId/submit_review", [
     const userId = req.session.userId;
     const chartId = req.params.chartId;
     const reqData = matchedData(req);
-    const { file } = req.files;
+    const file = req.files?.file;
 
     if (!userId) {
         res.status(401).send("Error: You are not signed in.");
