@@ -468,6 +468,13 @@ app.get("/view_profile/:userId", async (req, res) => {
     res.render("view_profile", {user, currentUser});
 });
 
+app.post("/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie("connect.sid");
+        res.redirect("/");
+    })
+});
+
 app.listen(3000, () => {
     console.log("Server running at port 3000");
 });

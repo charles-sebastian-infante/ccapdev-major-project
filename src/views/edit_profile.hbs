@@ -78,8 +78,23 @@
             </section>
             </div>
 
-            <a href="/"><button class="logout"> Log Out </button></a>
+            <button class="logout" id="logout"> Log Out </button>
         </main>
         </div>
+
+        <script>
+            const logoutBtn = document.getElementById("logout");
+
+            logoutBtn.addEventListener("click", async (event) => {
+                const response = await fetch("/logout", { method: "POST" });
+
+                if (!response.ok) {
+                    alert("There was an error logging out.");
+                    return;
+                }
+
+                window.location.href = response.url;
+            });
+        </script>
     </body>
 </html>
