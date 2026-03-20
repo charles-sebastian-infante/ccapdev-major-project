@@ -296,7 +296,7 @@ app.post("/charts/:chartId/submit_review", [
 });
 
 // lets the user delete a review
-app.post("/charts/:chartId/delete_review", async (req, res) => {
+app.delete("/charts/:chartId/delete_review", async (req, res) => {
     const userId = req.session.userId;
     const chartId = req.params.chartId;
 

@@ -93,10 +93,10 @@
                     </div>
                 </div>
                 <div class="review_body">
-                    <textarea name="body" class="review_text" placeholder="Write your review here..." rows="6">
+                    <textarea name="body" class="review_text" id="review_text" placeholder="Write your review here..." rows="6">
                         {{~#if userReview.body}}{{userReview.body}}{{/if~}}
                     </textarea>
-                    <input name="file" type="file" accept="video/*, image/jpeg, image/png, image/webp">
+                    <input name="file" type="file" id="review_file" accept="video/*, image/jpeg, image/png, image/webp">
                 </div>
                 <div class="my_review_actions">
                     <button type="submit" class="delete_btn">Delete</button>
@@ -115,6 +115,8 @@
         const slider = document.getElementById("level_rating");
         const sliderValueLabel = document.getElementById("slider_value_label");
         const reviewsDiv = document.getElementById("reviews_div");
+        const reviewText = document.getElementById("review_text");
+        const reviewFile = document.getElementById("review_file");
 
         const currRoute = window.location.pathname;
         const chartId = currRoute.split("/")[2];
@@ -156,6 +158,15 @@
             const chartInfo = await response.json();
 
             chartRating = chartInfo.numericRating;
+        }
+
+        function emptyReviewForm() {
+            accButton.checked = false;
+            notAccButton.checked = false;
+            updateAccuracySliderDisplay();
+
+            reviewText.value = "";
+            reviewFile.value = null;
         }
 
         async function openReview(reviewId) {
@@ -215,7 +226,7 @@
             let response;
             if (buttonClasses.contains("delete_btn")) {
                 response = await fetch(currRoute + "/delete_review", {
-                    method: "POST"
+                    method: "DELETE"
                 });
             } else {
                 if (!reviewInfo.has("accuracy")) {
@@ -251,6 +262,7 @@
                 switch (action) {
                     case "delete":
                         alert("Review successfully deleted.");
+                        emptyReviewForm();
                         break;
                     case "edit":
                         alert("Review successfully edited.");
