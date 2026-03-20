@@ -4,11 +4,12 @@ const Int32 = mongoose.Schema.Types.Int32;
 const UserSchema = new mongoose.Schema({
     userType: {
         type: String,
-        enum: ['regular', 'charter']
+        enum: ['regular', 'charter'],
+        required: true
     },
-    username: String,
-    password: String,
-    email: String,
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+    email: { type: String, required: true },
     imagePath: {
         type: String,
         default: "/sample_images/pfp1.png"

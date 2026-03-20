@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 
 const ChartSchema = new mongoose.Schema({
-    songName: String,
-    songAuthor: String,
+    songName: { type: String, required: true },
+    songAuthor: { type: String, required: true },
     charterId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
-    numericRating: Number,
+    numericRating: { type: Number, required: true },
     difficultyLevel: {
         type: String,
-        enum: ['Expert', 'Master', 'Re:Master']
+        enum: ['Expert', 'Master', 'Re:Master'],
+        required: true
     },
-    imagePath: String
+    imagePath: { type: String, required: true }
 });
 
 const Chart = mongoose.model('Chart', ChartSchema);

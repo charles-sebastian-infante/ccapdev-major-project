@@ -4,23 +4,24 @@ const Int32 = mongoose.Schema.Types.Int32;
 const ReviewSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     chartId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Chart"
+        ref: "Chart",
+        required: true
     },
-    body: String,
-    rating: Number,
-    ratedAccurately: Boolean,
+    body: { type: String, required: true },
+    rating: { type: Number, required: true },
+    ratedAccurately: { type: Boolean, required: true },
     filePath: String,
     fileType: {
         type: String,
         enum: ["image", "video"]
     },
-    isEdited: Boolean,
-    likes: Int32,   // in the future, maybe change to list of users
-                    // that liked
+    isEdited: { type: Boolean, default: false },
+    likes: { type: Int32, default: 0 },  // in the future, maybe change to list of users that liked
     charterResponse: String
 });
 
