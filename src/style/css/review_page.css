@@ -106,6 +106,12 @@ input[type=number] {
     object-fit: contain;
 }
 
+.review_additional_info {
+	color: #777;
+	font-size: 14px;
+	font-style: italic;
+}
+
 .review_comment {
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -327,6 +333,12 @@ input[type=number] {
     font-size: clamp(12px, 1.4vw, 15px);
     font-weight: 500;
     color: #333;
+}
+
+#slider_value_label {
+	font-weight: bold;
+	font-size: 20px;
+	margin-left: 3px;
 }
 
 .slider_container {

@@ -63,6 +63,7 @@
                                 <span class="username"> pro_baiter </span>
                                 <span class="user_cc"> 14.8 </span>
                                 <img src="../style/assets/icons/reco.png" class="recommendation_icon">
+								<span class="review_additional_info">(edited) (image attached)</span>
                             </div>
                             <p class="review_comment"> free if you just lock in lol </p>
                         </div>
@@ -99,7 +100,7 @@
                         <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
                     </div>
 
-                    <label for="level_rating">Level should be...</label>
+                    <label for="level_rating">Level should be <span id="slider_value_label">13.5</span></label>
                     <div class="slider_container">
                         <span class="range_label"> 11.5 </span>
                         <input type="range" min="11.5" max="15.0" value="13.7" class="level_range" id="level_rating" step="0.1">
@@ -117,6 +118,23 @@
             </div>
             </div>
         </div>
+		
+		<script>
+			const sliderValueLabel = document.getElementById("slider_value_label");
+			const slider = document.getElementById("level_rating");
+			
+			function round(number, numDecimalPlaces) {
+				return parseFloat(number).toFixed(numDecimalPlaces);
+			}
+			
+			function updateSliderValueLabel() {
+				sliderValueLabel.innerHTML = round(slider.value, 1);
+			}
+			
+			slider.addEventListener("input", updateSliderValueLabel);
+			
+			updateSliderValueLabel();
+		</script>
 </body>
 
 </html>
