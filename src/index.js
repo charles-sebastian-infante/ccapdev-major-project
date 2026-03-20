@@ -36,16 +36,6 @@ app.use(
     })
 );
 
-// deletes a file with a path in the form "/uploads/(file name)"
-async function deleteUpload(filePath) {
-    const fullPath = path.join(__dirname, "public", filePath);
-    try {
-        await fs.unlink(fullPath);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 /* handling command line arguments (we can use them to manipulate
    the database, at least for now) */
 const { clearDb, insertSampleData, resetDatabase } = require("./sample_data_handler");
@@ -58,6 +48,16 @@ if (args.length === 3) { // if there's one additional argument
         insertSampleData();
     } else if (arg === "reset") {
         resetDatabase(); // clears database and inserts sample data
+    }
+}
+
+// deletes a file with a path in the form "/uploads/(file name)"
+async function deleteUpload(filePath) {
+    const fullPath = path.join(__dirname, "public", filePath);
+    try {
+        await fs.unlink(fullPath);
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -83,6 +83,11 @@ const checkIfRequestIsValid = (req, res, next) => {
     }
 };
 
+// ********************************************************************
+// ********************** Routes for Home Page ************************
+// ********************************************************************
+
+// main route for the home page
 app.get("/", async (req, res) => {
     const charts = await Chart.find({}).populate("charterId", "username");
     const currentUser = await User.findById(req.session.userId).lean();
@@ -90,7 +95,7 @@ app.get("/", async (req, res) => {
     res.render("index", {charts, currentUser});
 });
 
-// this is where search, filter, and sort by are handled
+// returns the HTML for the list of charts through fetch()
 app.get("/search_charts", async (req, res) => {
     const charts = await Chart.find({}).populate("charterId", "username");
 
@@ -100,6 +105,11 @@ app.get("/search_charts", async (req, res) => {
     res.render("partials/chart_list", {charts}); 
 });
 
+// ********************************************************************
+// ********************* Routes for Chart Page ************************
+// ********************************************************************
+
+// main route for each chart page
 app.get("/charts/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
     const userId = req.session.userId;
@@ -126,8 +136,18 @@ app.get("/charts/:chartId", async (req, res) => {
     res.render("chart", {chart, currentUser, userReview});
 });
 
-/* this is for getting chart info through a fetch request (not supposed to be directly
-   viewed by the user) */
+// returns the HTML for the list of reviews of a specific chart through fetch()
+app.get("/search_reviews/:chartId", async (req, res) => {
+    const chartId = req.params.chartId;
+    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
+    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
+
+    // filter/sort reviews here (in the future)
+
+    res.render("partials/review_list", {reviews, chart}); 
+});
+
+// returns chart info through fetch()
 app.get("/get_chart_info/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
 
@@ -146,8 +166,7 @@ app.get("/get_chart_info/:chartId", async (req, res) => {
     res.json(chart);
 });
 
-/* this is for getting review info through a fetch request (not supposed to be directly
-   viewed by the user) */
+// returns review info througb fetch()
 app.get("/get_review_info/:reviewId", async (req, res) => {
     const reviewId = req.params.reviewId;
 
@@ -168,18 +187,7 @@ app.get("/get_review_info/:reviewId", async (req, res) => {
     res.json(review);
 });
 
-// also filtering reviews in the future
-app.get("/search_reviews/:chartId", async (req, res) => {
-    const chartId = req.params.chartId;
-    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
-    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
-
-    // filter/sort reviews here
-
-    res.render("partials/review_list", {reviews, chart}); 
-});
-
-// submitting or editing a review
+// lets the user submit or edit a review
 app.post("/charts/:chartId/submit_review", [
     body("accuracy").notEmpty(),
     body("rating").notEmpty(),
@@ -287,6 +295,7 @@ app.post("/charts/:chartId/submit_review", [
     }
 });
 
+// lets the user delete a review
 app.post("/charts/:chartId/delete_review", async (req, res) => {
     const userId = req.session.userId;
     const chartId = req.params.chartId;
@@ -312,8 +321,12 @@ app.post("/charts/:chartId/delete_review", async (req, res) => {
     res.json({ action: "delete", success: true });
 });
 
+// ********************************************************************
+// ****************** Routes for Login/Signup Page ********************
+// ********************************************************************
+
 app.get("/login", (req, res) => {
-    if (req.session.userId) {
+    if (req.session.userId) { // if user is already signed in
         res.redirect("/edit_profile");
     } else {
         res.sendFile(path.join(__dirname, "pages", "login.html"));
@@ -321,7 +334,7 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
-    if (req.session.userId) {
+    if (req.session.userId) { // if user is already signed in
         res.redirect("/edit_profile");
     } else {
         res.sendFile(path.join(__dirname, "pages", "signup.html"));
@@ -342,8 +355,8 @@ app.post("/login", [
         res.status(422).send("Incorrect username/password");
         return;
     }
-    // Making the errors more generic because you don't want to be specific about
-    // whether the username or the password is wrong
+    /* making the errors more generic because you don't want to be specific about
+       whether the username or the password is wrong */
     
     let validPassword = false;
 
@@ -429,6 +442,10 @@ app.post("/signup", [
        (whichever page had the button which the user pressed to get to the signup page) */
     res.redirect("/edit_profile");
 });
+
+// ********************************************************************
+// ************************** Other Routes ****************************
+// ********************************************************************
 
 app.get("/edit_profile", isAuthenticated, async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();
