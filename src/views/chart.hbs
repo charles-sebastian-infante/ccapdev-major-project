@@ -121,15 +121,10 @@
         let chartRating = slider.value; // placeholder for until async function executes
 
         async function renderReviews() {
-            const body = {}; // user should be able to filter/search for comments in the future
+            const query = {}; // user should be able to filter/search for comments in the future
+            const params = new URLSearchParams(query);
 
-            const response = await fetch(currRoute, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            });
+            const response = await fetch(`/search_reviews/${chartId}?${params}`);
 
             const reviewsHtml = await response.text();
 

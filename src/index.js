@@ -91,11 +91,11 @@ app.get("/", async (req, res) => {
 });
 
 // this is where search, filter, and sort by are handled
-app.post("/", async (req, res) => {
+app.get("/search_charts", async (req, res) => {
     const charts = await Chart.find({}).populate("charterId", "username");
 
     // for now, just displays all the charts
-    // in the future, use req.body to handle search, filter, and sort by
+    // in the future, use req.query to handle search, filter, and sort by
 
     res.render("partials/chart_list", {charts}); 
 });
@@ -168,13 +168,13 @@ app.get("/get_review_info/:reviewId", async (req, res) => {
     res.json(review);
 });
 
-// also filtering comments in the future
-app.post("/charts/:chartId", async (req, res) => {
+// also filtering reviews in the future
+app.get("/search_reviews/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
     const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
     const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
-    // filter/sort comments here
+    // filter/sort reviews here
 
     res.render("partials/review_list", {reviews, chart}); 
 });

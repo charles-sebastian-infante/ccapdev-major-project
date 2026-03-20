@@ -46,15 +46,10 @@
             async function renderCharts() {
                 chartsDiv.innerHTML = "" // this line is just for testing (making sure it works)
 
-                const body = {}; // in the future, should get stuff from search, filter, etc.
+                const query = {}; // in the future, should get stuff from search, filter, etc.
+                const params = new URLSearchParams(query);
 
-                const response = await fetch("/", {
-                    method: "POST",
-                    headers: {
-						"Content-Type": "application/json"
-					},
-                    body: JSON.stringify(body)
-                });
+                const response = await fetch(`/search_charts?${params}`);
 
                 const chartsHtml = await response.text();
 
