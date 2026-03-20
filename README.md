@@ -7,6 +7,19 @@
 - **INFANTE, Charles**
 - **LEE, Hannah**
 
+## How to Setup and Run the Application Locally
+- Make sure you have Node.js and MongoDB installed
+- Open Command Prompt and go to the "src" folder of this project
+- Run the command `npm install`
+- Run the command `node index.js`
+- On a browser, go to localhost:3000
+
+## How to Manually Manipulate the Data in the Database
+- Currently, this can be done using command line arguments.
+- `node index.js clear-db` - Empties the database
+- `node index.js insert-sample-data` - Populates the database with sample data
+- `node index.js reset` - Empties the database, then inserts sample data
+
 ## Planned Features & Feature Descriptions
 ```
 - View establishments

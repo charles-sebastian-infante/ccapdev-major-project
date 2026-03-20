@@ -1,0 +1,74 @@
+[
+    {
+        "userType": "regular",
+        "username": "pieisspy",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$T9RfJOnOj2bU3ih2W/srUQ$gZfOaVkvkHoGxjjmZzrk9203ZZsIqJYGuOwTLXahRGo",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/pfp1.png",
+        "rating": 11394,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "malding_maimai",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$5tR1lndlO1DK9cSO2iiIBw$7D56Iwcap6zjjTiMjyhsCd7G0b2guQqn/BzeRgSCyNs",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/pfp1.png",
+        "rating": 14210,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "tarosushiramen",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$la779sB2OqiY/FnbM1c9dQ$eoGhQWawl7cv9mCnMhR8G0n1Ja7w9FrigOCH0bKaS5c",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/pfp1.png",
+        "rating": 15200,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "teslacia",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$cOabcMNZoyLKdgPy81o5zw$k9rDpYl68f2eBA90DWve6GASVmumnFaAvstIZu3d9Zg",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/pfp1.png",
+        "rating": 12950,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "pro_baiter",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$6RPieB8XnV60NPewwDXFvA$pd4O6kWjpf4r5hE3TkcJL0WUkcTFJj9h105eVG2IeEo",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/pfp1.png",
+        "rating": 16200,
+        "description": ""
+    },
+    {
+        "userType": "charter",
+        "username": "SEGA",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$AhEyBgA7WgNMPbEPy1N0+g$zNWo7Y0WAOvR44ZaPe3lk4ji3Ur1yfPYm7zLrlGCT60",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/derakkuma.jpg",
+        "rating": 0,
+        "description": ""
+    },
+    {
+        "userType": "charter",
+        "username": "すきやき奉行",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$CTcwzJ56yLbpfytX/hCGcw$b2ycaZEYnUOwuo4w5cZJuc86L3TFt6mfA0sUCjttbq8",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/derakkuma.jpg",
+        "rating": 0,
+        "description": ""
+    },
+    {
+        "userType": "charter",
+        "username": "小鳥遊さん",
+        "password": "$argon2id$v=19$m=19456,t=2,p=1$AyTTOwqdLmeRbs4J852+uA$CuX6SHTaqZi6RWlDD7g4gJcLrPvgYqGbKF/z7fpN3yQ",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/derakkuma.jpg",
+        "rating": 0,
+        "description": ""
+    }
+]

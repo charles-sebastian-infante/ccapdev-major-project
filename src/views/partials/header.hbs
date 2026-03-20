@@ -1,0 +1,24 @@
+<header>
+    <div class="header_left">
+        {{#if home}}
+        <a href="/">
+            <img class="icon" src="/assets/icons/music_icon.png">
+        </a>
+        {{else}}
+        <button onclick="window.location.href='/';" style="margin:10px;" class = "back">← Back</button>
+        {{/if}}
+        <div class="header_text">
+            <h1>Off Beat: Rhythm Rating Dashboard</h1>
+            <p>Rate and track your favorite rhythm game songs</p>
+        </div>
+    </div>
+    {{#if currentUser}} <!-- if user is signed in -->
+    <a href = "/view_profile/{{currentUser._id}}">
+        <img class="icon" src="{{currentUser.imagePath}}"> 
+    </a>
+    {{else}}
+    <a href = "/login">
+        <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
+    </a>
+    {{/if}}
+</header>

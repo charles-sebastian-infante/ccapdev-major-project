@@ -106,6 +106,12 @@ input[type=number] {
     object-fit: contain;
 }
 
+.review_additional_info {
+	color: #777;
+	font-size: 14px;
+	font-style: italic;
+}
+
 .review_comment {
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -186,6 +192,12 @@ input[type=number] {
 
 .like_button:hover{
     opacity: 1;
+}
+
+.like_button .icon {
+	width: 32px;
+	height: 32px;
+	padding: 0px;
 }
 
 .like_count {
@@ -323,6 +335,12 @@ input[type=number] {
     color: #333;
 }
 
+#slider_value_label {
+	font-weight: bold;
+	font-size: 20px;
+	margin-left: 3px;
+}
+
 .slider_container {
     display: flex;
     align-items: center;
@@ -425,3 +443,109 @@ input[type=number] {
     user-select: none;
 }
 
+.reply{
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: clamp(9px, 1.1vw, 12px);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.reply:hover{
+    box-shadow: 0 6px 15px #86CECB;
+}
+
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.review_dialog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    margin-left: 25px;
+    margin-right: 25px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.dialog_header{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    gap: 6px;
+    margin-top:5px;
+}
+
+.avatar_group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.dialog_like {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;    
+}
+
+.dialog_like .icon {
+  width: 32px;
+  height: 32px;
+}
+
+.exit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: clamp(6px, 1vw, 10px) clamp(12px, 2vw, 20px);
+  border-radius: clamp(6px, 1vw, 10px);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;    
+  font-weight: 500;
+  color: #333;
+    
+    border: 2px solid #919191;
+    
+
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: clamp(12px, 1.4vw, 15px);
+
+}
+
+.exit:hover{
+    box-shadow: 0 6px 15px lightpink
+}
+
+.dialog_actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.review_attachment img, .review_attachment video {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}

@@ -2,51 +2,38 @@
 <html>
     <head>
         <title> offbeat - profile </title>
-        <link rel="stylesheet" href="../style/css/global.css">
-        <link rel="stylesheet" href="../style/css/profile.css">
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/profile.css">
     </head>
 
     <body>
-        <header>
-            <div class="header_left">
-                    <a href="../index.html">
-                        <img class="icon" src="../style/assets/icons/music_icon.png">
-                    </a>
-                    <div class="header_text">
-                    <h1>Off Beat: Rhythm Rating Dashboard</h1>
-                    <p>Rate and track your favorite rhythm game songs</p>
-                    </div>
-                </div>
-                <a href = "profile.html">
-                    <img class="icon" src="../style/assets/placeholders/pfp1.png"> 
-                </a>
-        </header>
+        {{> header currentUser=currentUser }}
         <div class = "parent">
         <div class = "top">
-        <a href="../index.html" class = "back">
+        <a href="/" class = "back">
                 <input type="button" value="< Back">
         </a>
         <main>
         </div>
             <section class="profile_display">
-                <img src="../style/assets/placeholders/pfp1.png" alt="profile_picture" class="avatar">
+                <img src="{{currentUser.imagePath}}" alt="profile_picture" class="avatar">
             <div class = "user_info">
                 <h1> My Profile </h1>
                 <dl>
                     <dt>Username: </dt>
-                    <dd id="user_username"> pieisspy </dd>
+                    <dd id="user_username">{{currentUser.username}}</dd>
                 </dl>
                 <dl>
                     <dt>Email: </dt>
-                    <dd id="user_email"> pieisspy@gmail.com </dd>
+                    <dd id="user_email">{{currentUser.email}}</dd>
                 </dl>
                 <dl>
                     <dt>Rating: </dt>
-                    <dd id="user_rating"> 11394</dd>
+                    <dd id="user_rating">{{currentUser.rating}}</dd>
                 </dl>
                 <dl>
                     <dt>Description: </dt>
-                    <dd id="user_description">This is the default description! </dd>
+                    <dd id="user_description">{{currentUser.description}}</dd>
                 </dl>
             </div>      
             </section>
@@ -58,17 +45,18 @@
                     <label for="new_avatar"> Avatar </label>
                     <input type="file" id="new_avatar" accept="image/jpeg, image/png, image/webp"> 
                     <label for="new_username">Username</label>
-                    <input type="text" id="new_username">
+                    <input type="text" id="new_username" value="{{currentUser.username}}">
 
                     <label for="new_email"> Email </label>
-                    <input type="email" id="new_email">
+                    <input type="email" id="new_email" value="{{currentUser.email}}">
 
                     <label for="new_rating"> Rating </label>
-                    <input type="number" id="new_rating">
+                    <input type="number" id="new_rating" value="{{currentUser.rating}}">
 
                     <label for="new_description"> Description </label>
 
-                    <textarea placeholder="Your new description goes here" id="new_description"></textarea>
+                    <textarea placeholder="Your new description goes here" id="new_description"
+                            value="{{currentUser.description}}"></textarea>
                     <button type="submit"> Save Changes </button>
                 </form>
             </section>
@@ -90,8 +78,23 @@
             </section>
             </div>
 
-            <a href="../index.html"><button class="logout"> Log Out </button></a>
+            <button class="logout" id="logout"> Log Out </button>
         </main>
         </div>
+
+        <script>
+            const logoutBtn = document.getElementById("logout");
+
+            logoutBtn.addEventListener("click", async (event) => {
+                const response = await fetch("/logout", { method: "POST" });
+
+                if (!response.ok) {
+                    alert("There was an error logging out.");
+                    return;
+                }
+
+                window.location.href = response.url;
+            });
+        </script>
     </body>
 </html>

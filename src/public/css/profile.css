@@ -63,6 +63,7 @@ input[type=number] {
     margin-left: 10px;
     padding: 2px;
     align-items: flex-end;
+    width: 350px;
 }
 
 .user_info dt{
@@ -101,9 +102,16 @@ input:hover{
     transition: 0.2s;
 }
 
+.edit_profile_button {
+    padding: 10px;
+    border: 2px solid #919191;
+    border-radius: clamp(6px, 1vw, 10px);
+}
+
 .form_edit label{
     font-size: clamp(18px);
 }
+
 .back{
     top:-50px;
     left: 0;
@@ -185,6 +193,7 @@ input:hover{
     width: 556px;
     border-radius: 10px;
     font-size: 20px;
+    margin-bottom: 100px;
 }
 
 .logout:hover{

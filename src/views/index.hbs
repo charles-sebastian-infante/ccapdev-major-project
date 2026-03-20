@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href = "/css/global.css">
+        <title>Off Beat - maimaiDX chart reviewer </title>
+    </head>
+
+    <body>
+        <div class="parent">
+            {{> header currentUser=currentUser home="true" }}
+            <search>
+                <div class="search_bar">
+                    <input type="text" placeholder="Search song" id="search_text">
+                </div>
+            
+                <div class="select_holder">
+                    <select class="diff_sel" id="diff_sel"> 
+                        <option value="" disabled selected> Filter by difficulty</option>
+                        <option value="exp"> Expert </option>
+                        <option value="mas"> Master </option>
+                        <option value="remas"> Re:Master </option>
+                    </select> 
+                </div>
+
+                <div class="select_holder">
+                    <select class="sort_by" id="sort_by"> 
+                        <option value="" disabled selected> Sort by </option>
+                        <option value="exp"> Genre </option>
+                        <option value="mas"> Charter </option>
+                        <option value="remas"> Internal Level </option>
+                    </select> 
+                </div>
+            </search>
+            <div class="card_holder" id="charts_div">
+            {{> chart_list charts=charts }}
+            </div>
+        </div>
+
+        <script>
+            const searchText = document.getElementById("search_text");
+            const diffSelDropdown = document.getElementById("diff_sel");
+            const sortByDropdown = document.getElementById("sort_by");
+            const chartsDiv = document.getElementById("charts_div");
+
+            // renders charts based on search, filter, and sort by
+            async function renderCharts() {
+                chartsDiv.innerHTML = "" // this line is just for testing (making sure it works)
+
+                const query = {}; // in the future, should get stuff from search, filter, etc.
+                const params = new URLSearchParams(query);
+
+                const response = await fetch(`/search_charts?${params}`);
+
+                const chartsHtml = await response.text();
+
+                chartsDiv.innerHTML = chartsHtml;
+            }
+
+            searchText.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" && !event.repeat) {
+                    renderCharts();
+                }
+            });
+
+            diffSelDropdown.addEventListener("change", (event) => {
+                renderCharts();
+            });
+
+            sortByDropdown.addEventListener("change", (event) => {
+                renderCharts();
+            });
+        </script>
+    </body>
+
+</html>

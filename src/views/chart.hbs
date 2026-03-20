@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> off beat: rate charts </title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/review_page.css">
+</head>
+<body>
+     <div class="parent">
+            {{> header currentUser=currentUser }}
+            <div class="chart_card">
+                <div class="jacket_holder">
+                    <img src="{{chart.imagePath}}">
+                </div>
+                <div class="chart_info">
+                    <p class="title">{{chart.songName}}</p>
+                    <p>{{chart.songAuthor}}</p>
+                    <p>Charter: {{chart.charterId.username}}</p>
+                    <div> 
+                        <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{round chart.numericRating 1}}</span>
+                        <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{chart.difficultyLevel}}</span>
+                    </div>   
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews_holder">
+            <div class="prev_reviews">
+                <h2> Previous Reviews </h2>
+
+                <search class="search_bar">
+                    <input type="text" placeholder="Search comments...">
+                    <div class="select_holder">
+                        <select class="diff_sel"> 
+                            <option value="" disabled selected> Filter Comments</option>
+                            <option value="Accurate"> Accurate </option>
+                            <option value="Not Accurate"> Not Accurate </option>
+                        </select> 
+                    </div>
+                </search>
+            
+                <div class="review_wrapper" id="reviews_div">
+                {{> review_list reviews=chart.reviews }}
+                </div>
+
+                <dialog id="full_review">
+                    <div class="review_dialog">
+                        <div class="dialog_header">
+                            <div class="avatar_group">
+                                <img class="user_avatar" id="dialog_avatar">
+                                <span class="user_skill" id="dialog_skill"></span>
+                            </div>
+                            <span class="username" id="dialog_username"></span>
+                            <span class="user_cc" id="dialog_cc"></span>
+                            <img class="recommendation_icon" id="dialog_reco_icon">
+                        </div>
+                        <p id="dialog_comment"></p>
+                        <div class="review_attachment"></div>
+                        <div class="dialog_actions">
+                            <button class="like_button">
+                                <img src="/assets/icons/heart.png" class="icon">
+                                <span class="like_count" id="dialog_likes"></span>
+                            </button>
+                            <button onclick="closeReview();" class="exit">Exit Review</button>    
+                        </div>
+                    </div>
+                </dialog>
+            </div>
+
+            <div class="user_review {{#unless currentUser}}blur{{/unless}}">
+                <h2>{{#if currentUser}}My Review{{else}}Sign up/log in to review this chart!{{/if}}</h2>
+
+            <form class="review_form" id="review_form">
+                <div class="level_input_section">
+                    <div class="reco_actions">
+                        <input type="radio" id="acc" name="accuracy" value="accurate"
+                            {{#if userReview.ratedAccurately}}checked{{/if}}>
+                        <label class ="accurate" for="acc"> Rated Accurately </label>
+
+                        <input type ="radio" id="notacc" name="accuracy" value="not_accurate"
+                            {{#if (isFalse userReview.ratedAccurately)}}checked{{/if}}>
+                        <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
+                    </div>
+                    
+                    <label for="level_rating" id="slider_label">Level should be <span id="slider_value_label"></span></label>
+                    <div class="slider_container" id="slider_div">
+                        <span class="range_label"> 11.5 </span>
+                        <input name="rating" type="range" min="11.5" max="15.0"
+                            value="{{#if userReview.rating}}{{userReview.rating}}{{else}}{{chart.numericRating}}{{/if}}"
+                            class="level_range" id="level_rating" step="0.1">
+                        <span class="range_label">15.0</span>
+                    </div>
+                </div>
+                <div class="review_body">
+                    <textarea name="body" class="review_text" id="review_text" placeholder="Write your review here..." rows="6">
+                        {{~#if userReview.body}}{{userReview.body}}{{/if~}}
+                    </textarea>
+                    <input name="file" type="file" id="review_file" accept="video/*, image/jpeg, image/png, image/webp">
+                </div>
+                <div class="my_review_actions">
+                    <button type="submit" class="delete_btn">Delete</button>
+                    <button type="submit" class="submit_btn">Submit / Edit</button>
+                </div>
+            </form>
+            </div>
+        </div>
+
+    <script>
+        const reviewForm = document.getElementById("review_form");
+        const accButton = document.getElementById("acc");
+        const notAccButton = document.getElementById("notacc");
+        const sliderLabel = document.getElementById("slider_label");
+        const sliderDiv = document.getElementById("slider_div");
+        const slider = document.getElementById("level_rating");
+        const sliderValueLabel = document.getElementById("slider_value_label");
+        const reviewsDiv = document.getElementById("reviews_div");
+        const reviewText = document.getElementById("review_text");
+        const reviewFile = document.getElementById("review_file");
+
+        const currRoute = window.location.pathname;
+        const chartId = currRoute.split("/")[2];
+        let chartRating = slider.value; // placeholder for until async function executes
+
+        async function renderReviews() {
+            const query = {}; // user should be able to filter/search for comments in the future
+            const params = new URLSearchParams(query);
+
+            const response = await fetch(`/search_reviews/${chartId}?${params}`);
+
+            const reviewsHtml = await response.text();
+
+            reviewsDiv.innerHTML = reviewsHtml;
+        }
+
+        function round(number, numDecimalPlaces) {
+            return parseFloat(number).toFixed(numDecimalPlaces);
+        }
+
+        function updateSliderValueLabel() {
+            sliderValueLabel.innerHTML = round(slider.value, 1);
+        }
+
+        function updateAccuracySliderDisplay() {
+            if (notAccButton.checked) {
+                updateSliderValueLabel();
+                sliderLabel.style.display = "block";
+                sliderDiv.style.display = "flex";
+            } else {
+                slider.value = chartRating;
+                sliderLabel.style.display = "none";
+                sliderDiv.style.display = "none";
+            }
+        }
+
+        async function getChartRating() {
+            const response = await fetch("/get_chart_info/" + chartId);
+            const chartInfo = await response.json();
+
+            chartRating = chartInfo.numericRating;
+        }
+
+        function emptyReviewForm() {
+            accButton.checked = false;
+            notAccButton.checked = false;
+            updateAccuracySliderDisplay();
+
+            reviewText.value = "";
+            reviewFile.value = null;
+        }
+
+        async function openReview(reviewId) {
+            const response = await fetch("/get_review_info/" + reviewId);
+            const reviewInfo = await response.json();
+
+            document.getElementById("dialog_username").textContent = reviewInfo.userId.username; 
+            document.getElementById("dialog_avatar").src = reviewInfo.userId.imagePath; 
+            document.getElementById("dialog_skill").textContent = reviewInfo.userId.rating; 
+            document.getElementById("dialog_cc").textContent = reviewInfo.formattedRating; 
+            document.getElementById("dialog_comment").textContent = reviewInfo.body; 
+            document.getElementById("dialog_likes").textContent = reviewInfo.formattedLikes;
+
+            let recoIcon;
+            if (reviewInfo.ratedAccurately) {
+                recoIcon = "/assets/icons/reco.png";
+            } else {
+                recoIcon = "/assets/icons/not_reco.png";
+            }
+            document.getElementById("dialog_reco_icon").src = recoIcon;
+
+            const attachmentContainer = document.querySelector('.review_attachment');
+
+            if (reviewInfo.filePath) {
+                if (reviewInfo.fileType === "video") {
+                    attachmentContainer.innerHTML = `<video src="${reviewInfo.filePath}" controls> </video>`;
+                } else {
+                    attachmentContainer.innerHTML = `<img src="${reviewInfo.filePath}" alt="Review attachment">`;
+                }
+                attachmentContainer.style.display = 'block';
+            } else {
+                attachmentContainer.style.display = 'none';
+            }
+            
+            document.getElementById("full_review").showModal();
+        }
+
+        function closeReview() {
+            document.getElementById("full_review").close();
+        }
+
+        getChartRating();
+        updateAccuracySliderDisplay();
+        updateSliderValueLabel();
+
+        accButton.addEventListener("change", updateAccuracySliderDisplay);
+        notAccButton.addEventListener("change", updateAccuracySliderDisplay);
+        slider.addEventListener("input", updateSliderValueLabel);
+
+		reviewForm.addEventListener("submit", async (event) => {
+			event.preventDefault();
+
+            const clickedButton = event.submitter;
+            const buttonClasses = clickedButton.classList;
+            const reviewInfo = new FormData(reviewForm);
+
+            let response;
+            if (buttonClasses.contains("delete_btn")) {
+                response = await fetch(currRoute + "/delete_review", {
+                    method: "DELETE"
+                });
+            } else {
+                if (!reviewInfo.has("accuracy")) {
+                    alert("Please select 'Rated Accurately' or 'Not Rated Accurately'.");
+                    return;
+                }
+
+                if (reviewInfo.get("body") === "") {
+                    alert("Please enter a form body.");
+                    return;
+                }
+
+                response = await fetch(currRoute + "/submit_review", {
+                    method: "POST",
+                    body: reviewInfo
+                });
+            }
+
+            if (!response.ok) {
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                }
+                return;
+            }
+
+            const responseObj = await response.json();
+            const { action, success } = responseObj;
+
+            if (success) {
+                await renderReviews(); // re-render the reviews to display the change
+
+                switch (action) {
+                    case "delete":
+                        alert("Review successfully deleted.");
+                        emptyReviewForm();
+                        break;
+                    case "edit":
+                        alert("Review successfully edited.");
+                        break;
+                    case "submit":
+                        alert("Review successfully submitted.");
+                        break;
+                }
+            }
+		});
+	</script>
+</body>
+
+</html>
