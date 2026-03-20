@@ -83,7 +83,7 @@
                         <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
                     </div>
                     
-                    <label for="level_rating" id="slider_label">Level should be...</label>
+                    <label for="level_rating" id="slider_label">Level should be <span id="slider_value_label"></span></label>
                     <div class="slider_container" id="slider_div">
                         <span class="range_label"> 11.5 </span>
                         <input name="rating" type="range" min="11.5" max="15.0"
@@ -113,12 +113,13 @@
         const sliderLabel = document.getElementById("slider_label");
         const sliderDiv = document.getElementById("slider_div");
         const slider = document.getElementById("level_rating");
+        const sliderValueLabel = document.getElementById("slider_value_label");
         const reviewsDiv = document.getElementById("reviews_div");
 
         const currRoute = window.location.pathname;
         const chartId = currRoute.split("/")[2];
         let chartRating = slider.value; // placeholder for until async function executes
-        
+
         async function renderReviews() {
             const body = {}; // user should be able to filter/search for comments in the future
 
@@ -135,9 +136,18 @@
             reviewsDiv.innerHTML = reviewsHtml;
         }
 
+        function round(number, numDecimalPlaces) {
+            return parseFloat(number).toFixed(numDecimalPlaces);
+        }
+
+        function updateSliderValueLabel() {
+            sliderValueLabel.innerHTML = round(slider.value, 1);
+        }
+
         function updateAccuracySliderDisplay() {
             if (notAccButton.checked) {
-                sliderLabel.style.display = "flex";
+                updateSliderValueLabel();
+                sliderLabel.style.display = "block";
                 sliderDiv.style.display = "flex";
             } else {
                 slider.value = chartRating;
@@ -196,9 +206,11 @@
 
         getChartRating();
         updateAccuracySliderDisplay();
+        updateSliderValueLabel();
 
         accButton.addEventListener("change", updateAccuracySliderDisplay);
         notAccButton.addEventListener("change", updateAccuracySliderDisplay);
+        slider.addEventListener("input", updateSliderValueLabel);
 
 		reviewForm.addEventListener("submit", async (event) => {
 			event.preventDefault();
