@@ -38,5 +38,27 @@ module.exports = {
             }
         }
     },
-    isFalse: expression => (expression === false)
+    isFalse: expression => (expression === false),
+    displayAdditionalReviewInfo: (isEdited, filePath, fileType) => {
+        let editedInfo = "";
+        let fileInfo = "";
+
+        if (isEdited) {
+            editedInfo = "(edited)";
+        }
+
+        if (filePath) {
+            fileInfo = `(${fileType} attached)`;
+        }
+
+        if (editedInfo && fileInfo) {
+            return editedInfo + " " + fileInfo;
+        }
+
+        if (editedInfo) {
+            return editedInfo;
+        }
+
+        return fileInfo;
+    }
 }
