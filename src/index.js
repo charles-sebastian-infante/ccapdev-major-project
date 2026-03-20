@@ -470,4 +470,4 @@ app.get("/view_profile/:userId", async (req, res) => {
 
 app.listen(3000, () => {
     console.log("Server running at port 3000");
-})
+});
