@@ -172,7 +172,7 @@ app.get("/charts/:chartId", async (req, res) => {
         return;
     }
 
-    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
+    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean({ virtuals: true });
     chart.reviews = reviews;
 
     // null if the user is not signed in or the user doesn't have a comment
@@ -184,7 +184,7 @@ app.get("/charts/:chartId", async (req, res) => {
 // returns the HTML for the list of reviews of a specific chart through fetch()
 app.get("/search_reviews/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
-    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean();
+    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean({ virtuals: true });
     const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
     // filter/sort reviews here (in the future)

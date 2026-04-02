@@ -18,6 +18,7 @@
     "express-validator": "^7.3.1",
     "hbs": "^4.2.0",
     "mongoose": "^9.2.2",
+    "mongoose-lean-virtuals": "^2.1.0",
     "path": "^0.12.7"
   }
 }

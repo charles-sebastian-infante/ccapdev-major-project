@@ -11,8 +11,11 @@
                 "body": "nice chart, banger",
                 "rating": 12.4,
                 "ratedAccurately": true,
-                "likes": 15,
-                "user": "pieisspy"
+                "user": "pieisspy",
+                "usersThatLiked": [
+                    "teslacia",
+                    "tarosushiramen"
+                ]
             }
         ]
     },
@@ -37,15 +40,19 @@
                 "body": "chart is quite difficult for a 13.7, multiple trills & jack patterns make it hard",
                 "rating": 13.9,
                 "ratedAccurately": false,
-                "likes": 59,
-                "user": "malding_maimai"
+                "user": "malding_maimai",
+                "usersThatLiked": []
             },
             {
                 "body": "pretty easy maIding just has skill issue",
                 "rating": 13.6,
                 "ratedAccurately": false,
-                "likes": 100,
-                "user": "tarosushiramen"
+                "user": "tarosushiramen",
+                "usersThatLiked": [
+                    "teslacia",
+                    "pieisspy",
+                    "pro_baiter"
+                ]
             }
         ]
     },
@@ -61,8 +68,11 @@
                 "body": "fun except the end lol, that superlong trill is insane",
                 "rating": 13.4,
                 "ratedAccurately": true,
-                "likes": 1300,
-                "user": "teslacia"
+                "user": "teslacia",
+                "usersThatLiked": [
+                    "pieisspy",
+                    "tarosushiramen"
+                ]
             }
         ]
     },
@@ -78,9 +88,11 @@
                 "body": "free if you just lock in lol",
                 "rating": 14.8,
                 "ratedAccurately": true,
-                "likes": 3,
                 "charterResponse": "true",
-                "user": "pro_baiter"
+                "user": "pro_baiter",
+                "usersThatLiked": [
+                    "tarosushiramen"
+                ]
             }
         ]
     }

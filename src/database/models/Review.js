@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Int32 = mongoose.Schema.Types.Int32;
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
 const ReviewSchema = new mongoose.Schema({
     userId: {
@@ -21,9 +21,22 @@ const ReviewSchema = new mongoose.Schema({
         enum: ["image", "video"]
     },
     isEdited: { type: Boolean, default: false },
-    likes: { type: Int32, default: 0 },  // in the future, maybe change to list of users that liked
+    createdAt: { type: Date, default: Date.now },
+    editedAt: { type: Date, default: Date.now },
+    likedBy: [{ // array of users that liked
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
     charterResponse: String
 });
+
+// number of likes is a virtual
+ReviewSchema.virtual("likes").get(function() {
+    return this.likedBy.length;
+});
+
+// for number of likes to be included even when doing a lean query
+ReviewSchema.plugin(mongooseLeanVirtuals);
 
 const Review = mongoose.model('Review', ReviewSchema);
 

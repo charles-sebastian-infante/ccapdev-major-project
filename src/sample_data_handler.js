@@ -43,6 +43,13 @@ async function insertSampleData() {
                 review.userId = userIds[review.user];
                 delete review.user;
 
+                const likedBy = [];
+                for (const user of review.usersThatLiked) {
+                    likedBy.push(userIds[user]);
+                }
+                review.likedBy = likedBy;
+                delete review.usersThatLiked;
+
                 review.chartId = chartDoc.id;
 
                 reviewsToAdd.push(review);
