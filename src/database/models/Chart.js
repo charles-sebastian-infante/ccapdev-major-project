@@ -14,7 +14,21 @@ const ChartSchema = new mongoose.Schema({
         enum: ['Expert', 'Master', 'Re:Master'],
         required: true
     },
-    imagePath: { type: String, required: true }
+    imagePath: { type: String, required: true },
+    lowercaseSongName: String // for sorting
+});
+
+ChartSchema.pre("save", async function() {
+    if (this.isModified(songName)) {
+        this.lowercaseSongName = this.songName.toLowerCase();
+    }
+});
+
+// for when sample data is inserted
+ChartSchema.pre("insertMany", async function(docs) {
+    for (const doc of docs) {
+        doc.lowercaseSongName = doc.songName.toLowerCase();
+    }
 });
 
 const Chart = mongoose.model('Chart', ChartSchema);

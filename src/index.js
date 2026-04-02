@@ -97,10 +97,55 @@ app.get("/", async (req, res) => {
 
 // returns the HTML for the list of charts through fetch()
 app.get("/search_charts", async (req, res) => {
-    const charts = await Chart.find({}).populate("charterId", "username");
+    const { search, difficulty, sort } = req.query;
 
-    // for now, just displays all the charts
-    // in the future, use req.query to handle search, filter, and sort by
+    // aggregation pipeline
+    const pipeline = [
+        {
+            $lookup: {
+                from: "users",
+                localField: "charterId",
+                foreignField: "_id",
+                as: "charterId"
+            }
+        },
+        {
+            $unwind: {
+                path: "$charterId"
+            }
+        }
+    ];
+
+    if (search) {
+        pipeline.push({
+            $match: {
+                songName: {
+                    $regex: search, // search can match middle of title
+                    $options: "i" // case-insensitive
+                }
+            }
+        });
+    }
+
+    if (difficulty) {
+        pipeline.push({
+            $match: {
+                difficultyLevel: difficulty
+            }
+        });
+    }
+
+    let sortObject;
+    if (!sort || sort === "songtitle") {  // defaults to sorting by song title
+        sortObject = { lowercaseSongName: 1 }  // 1 means ascending
+    } else if (sort === "charter") {
+        sortObject = { "charterId.lowercaseUsername": 1 }
+    } else if (sort === "rating") {
+        sortObject = { numericRating: 1 };
+    }
+    pipeline.push({ $sort: sortObject });
+
+    const charts = await Chart.aggregate(pipeline);
 
     res.render("partials/chart_list", {charts}); 
 });

@@ -16,7 +16,21 @@ const UserSchema = new mongoose.Schema({
         // probably should have a different default pfp later
     },
     rating: Int32,
-    description: String
+    description: String,
+    lowercaseUsername: String // for sorting
+});
+
+UserSchema.pre("save", async function() {
+    if (this.isModified(songName)) {
+        this.lowercaseUsername = this.username.toLowerCase();
+    }
+});
+
+// for when sample data is inserted
+UserSchema.pre("insertMany", async function(docs) {
+    for (const doc of docs) {
+        doc.lowercaseUsername = doc.username.toLowerCase();
+    }
 });
 
 const User = mongoose.model('User', UserSchema);

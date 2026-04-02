@@ -16,18 +16,19 @@
                 <div class="select_holder">
                     <select class="diff_sel" id="diff_sel"> 
                         <option value="" disabled selected> Filter by difficulty</option>
-                        <option value="exp"> Expert </option>
-                        <option value="mas"> Master </option>
-                        <option value="remas"> Re:Master </option>
+                        <option value="Expert"> Expert </option>
+                        <option value="Master"> Master </option>
+                        <option value="Re:Master"> Re:Master </option>
+                        <option value=""> All Difficulties </option>
                     </select> 
                 </div>
 
                 <div class="select_holder">
                     <select class="sort_by" id="sort_by"> 
                         <option value="" disabled selected> Sort by </option>
-                        <option value="exp"> Genre </option>
-                        <option value="mas"> Charter </option>
-                        <option value="remas"> Internal Level </option>
+                        <option value="charter"> Charter </option>
+                        <option value="songtitle"> Song Title </option>
+                        <option value="rating"> Rating </option>
                     </select> 
                 </div>
             </search>
@@ -46,7 +47,14 @@
             async function renderCharts() {
                 chartsDiv.innerHTML = "" // this line is just for testing (making sure it works)
 
-                const query = {}; // in the future, should get stuff from search, filter, etc.
+                const query = {
+                    search: searchText.value,
+                    difficulty: diffSelDropdown.value,
+                    sort: sortByDropdown.value
+                }; // in the future, should get stuff from search, filter, etc.
+
+                console.log(query);
+
                 const params = new URLSearchParams(query);
 
                 const response = await fetch(`/search_charts?${params}`);
