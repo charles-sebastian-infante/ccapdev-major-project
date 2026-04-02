@@ -10,9 +10,9 @@
             {{> header currentUser=currentUser home="true" }}
             <search>
                 <div class="search_bar">
-                    <input type="text" placeholder="Search song" id="search_text">
+                    <input type="text" placeholder="Search song..." id="search_text">
                 </div>
-            
+                <button class="search_button" id="search_button"><img src="/assets/icons/search.png"></button>
                 <div class="select_holder">
                     <select class="diff_sel" id="diff_sel"> 
                         <option value="" disabled selected> Filter by difficulty</option>
@@ -39,6 +39,7 @@
 
         <script>
             const searchText = document.getElementById("search_text");
+            const searchButton = document.getElementById("search_button");
             const diffSelDropdown = document.getElementById("diff_sel");
             const sortByDropdown = document.getElementById("sort_by");
             const chartsDiv = document.getElementById("charts_div");
@@ -66,13 +67,9 @@
                 }
             });
 
-            diffSelDropdown.addEventListener("change", (event) => {
-                renderCharts();
-            });
-
-            sortByDropdown.addEventListener("change", (event) => {
-                renderCharts();
-            });
+            searchButton.addEventListener("click", renderCharts);
+            diffSelDropdown.addEventListener("change", renderCharts);
+            sortByDropdown.addEventListener("change", renderCharts);
         </script>
     </body>
 

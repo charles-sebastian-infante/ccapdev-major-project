@@ -29,8 +29,11 @@
             <div class="prev_reviews">
                 <h2> Previous Reviews </h2>
 
-                <search class="search_bar">
-                    <input type="text" placeholder="Search comments..." id="search_text">
+                <search>
+                    <div class="search_bar">
+                        <input type="text" placeholder="Search comments..." id="search_text">
+                    </div>
+                    <button class="search_button" id="search_button"><img src="/assets/icons/search.png"></button>
                     <div class="select_holder">
                         <select class="acc_sel" id="acc_sel"> 
                             <option value="" disabled selected> Filter Comments </option>
@@ -130,6 +133,7 @@
         const searchText = document.getElementById("search_text");
         const accSelDropdown = document.getElementById("acc_sel");
         const sortByDropdown = document.getElementById("sort_by");
+        const searchButton = document.getElementById("search_button");
 
         const currRoute = window.location.pathname;
         const chartId = currRoute.split("/")[2];
@@ -247,18 +251,14 @@
         slider.addEventListener("input", updateSliderValueLabel);
 
         searchText.addEventListener("keydown", (event) => {
-                if (event.key === "Enter" && !event.repeat) {
-                    renderReviews();
-                }
-            });
-
-        accSelDropdown.addEventListener("change", (event) => {
-            renderReviews();
+            if (event.key === "Enter" && !event.repeat) {
+                renderReviews();
+            }
         });
 
-        sortByDropdown.addEventListener("change", (event) => {
-            renderReviews();
-        });
+        searchButton.addEventListener("click", renderReviews);
+        accSelDropdown.addEventListener("change", renderReviews);
+        sortByDropdown.addEventListener("change", renderReviews);
 
 		reviewForm.addEventListener("submit", async (event) => {
 			event.preventDefault();
