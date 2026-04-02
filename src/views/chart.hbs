@@ -30,12 +30,12 @@
                 <h2> Previous Reviews </h2>
 
                 <search class="search_bar">
-                    <input type="text" placeholder="Search comments...">
+                    <input type="text" placeholder="Search comments..." id="search_text">
                     <div class="select_holder">
-                        <select class="diff_sel"> 
-                            <option value="" disabled selected> Filter Comments</option>
-                            <option value="Accurate"> Accurate </option>
-                            <option value="Not Accurate"> Not Accurate </option>
+                        <select class="acc_sel" id="acc_sel"> 
+                            <option value="" disabled selected> Filter Comments </option>
+                            <option value="accurate"> Accurate </option>
+                            <option value="not_accurate"> Not Accurate </option>
                         </select> 
                     </div>
                 </search>
@@ -117,13 +117,19 @@
         const reviewsDiv = document.getElementById("reviews_div");
         const reviewText = document.getElementById("review_text");
         const reviewFile = document.getElementById("review_file");
+        const searchText = document.getElementById("search_text");
+        const accSelDropdown = document.getElementById("acc_sel");
 
         const currRoute = window.location.pathname;
         const chartId = currRoute.split("/")[2];
         let chartRating = slider.value; // placeholder for until async function executes
 
         async function renderReviews() {
-            const query = {}; // user should be able to filter/search for comments in the future
+            const query = {
+                search: searchText.value,
+                difficulty: accSelDropdown.value
+            };
+
             const params = new URLSearchParams(query);
 
             const response = await fetch(`/search_reviews/${chartId}?${params}`);

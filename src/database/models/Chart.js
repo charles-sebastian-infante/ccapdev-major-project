@@ -19,7 +19,7 @@ const ChartSchema = new mongoose.Schema({
 });
 
 ChartSchema.pre("save", async function() {
-    if (this.isModified(songName)) {
+    if (this.isModified("songName")) {
         this.lowercaseSongName = this.songName.toLowerCase();
     }
 });

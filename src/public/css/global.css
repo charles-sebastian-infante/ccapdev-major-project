@@ -95,7 +95,7 @@ search{
     margin: 0;
 }
 
-.diff_sel{
+.diff_sel, .acc_sel {
     width: 160px;
     height: 30px;
     border-radius: 10px;

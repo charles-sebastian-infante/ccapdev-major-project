@@ -45,15 +45,11 @@
 
             // renders charts based on search, filter, and sort by
             async function renderCharts() {
-                chartsDiv.innerHTML = "" // this line is just for testing (making sure it works)
-
                 const query = {
                     search: searchText.value,
                     difficulty: diffSelDropdown.value,
                     sort: sortByDropdown.value
-                }; // in the future, should get stuff from search, filter, etc.
-
-                console.log(query);
+                };
 
                 const params = new URLSearchParams(query);
 

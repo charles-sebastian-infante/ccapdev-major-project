@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", async function() {
-    if (this.isModified(songName)) {
+    if (this.isModified("username")) {
         this.lowercaseUsername = this.username.toLowerCase();
     }
 });

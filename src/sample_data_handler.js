@@ -21,57 +21,35 @@ async function insertSampleData() {
         const userSampleData = require("./database/sample_data/sample_users.json");
         const sampleUsers = await User.insertMany(userSampleData);
 
-        const userIds = {
-            "pieisspy": sampleUsers[0].id,
-            "malding_maimai": sampleUsers[1].id,
-            "tarosushiramen": sampleUsers[2].id,
-            "teslacia": sampleUsers[3].id,
-            "pro_baiter": sampleUsers[4].id,
-            "SEGA": sampleUsers[5].id,
-            "すきやき奉行": sampleUsers[6].id,
-            "小鳥遊さん": sampleUsers[7].id
-        };
+        const userIds = {};
+        for (const user of sampleUsers) {
+            userIds[user.username] = user.id;
+        }
 
+        // this JSON file also includes each chart's reviews
         const chartSampleData = require("./database/sample_data/sample_charts.json");
+        const reviewsToAdd = [];
 
-        // binding each chart to the charter that posted it
-        chartSampleData[0].charterId = userIds["SEGA"];
-        chartSampleData[1].charterId = userIds["SEGA"];
-        chartSampleData[2].charterId = userIds["SEGA"];
-        chartSampleData[3].charterId = userIds["すきやき奉行"];
-        chartSampleData[4].charterId = userIds["小鳥遊さん"];
+        for (const chart of chartSampleData) {
+            const reviews = chart.reviews;
+            delete chart.reviews;
 
-        const sampleCharts = await Chart.insertMany(chartSampleData);
+            chart.charterId = userIds[chart.charterName];
+            delete chart.charterName;
 
-        const chartIds = {
-            "sample_exp": sampleCharts[0].id,
-            "sample_mas": sampleCharts[1].id,
-            "sample_remas": sampleCharts[2].id,
-            "emperror_exp": sampleCharts[3].id,
-            "emperror_mas": sampleCharts[4].id
-        };
+            const chartDoc = await Chart.create(chart);
 
-        const reviewSampleData = require("./database/sample_data/sample_reviews.json");
+            for (const review of reviews) {
+                review.userId = userIds[review.user];
+                delete review.user;
 
-        // binding each review to the user that posted it and the chart it is posted on
+                review.chartId = chartDoc.id;
 
-        // "nice chart, banger"
-        reviewSampleData[0].userId = userIds["pieisspy"];
-        reviewSampleData[0].chartId = chartIds["sample_exp"];
-        // "chart is quite difficult for a 13.7 ..."
-        reviewSampleData[1].userId = userIds["malding_maimai"];
-        reviewSampleData[1].chartId = chartIds["sample_remas"];
-        // "pretty easy malding just has skill issue"
-        reviewSampleData[2].userId = userIds["tarosushiramen"];
-        reviewSampleData[2].chartId = chartIds["sample_remas"];
-        // "fun except the end lol, that superlong trill was insane"
-        reviewSampleData[3].userId = userIds["teslacia"];
-        reviewSampleData[3].chartId = chartIds["emperror_exp"];
-        // "free if you just lock in lol"
-        reviewSampleData[4].userId = userIds["pro_baiter"];
-        reviewSampleData[4].chartId = chartIds["emperror_mas"];
+                reviewsToAdd.push(review);
+            }
+        }
 
-        await Review.insertMany(reviewSampleData);
+        await Review.insertMany(reviewsToAdd);
 
         console.log("Sample data has been added");
     } catch (error) {
