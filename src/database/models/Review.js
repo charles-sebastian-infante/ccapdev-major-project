@@ -22,7 +22,7 @@ const ReviewSchema = new mongoose.Schema({
     },
     isEdited: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
-    editedAt: { type: Date, default: Date.now },
+    editedAt: Date,
     likedBy: [{ // array of users that liked
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

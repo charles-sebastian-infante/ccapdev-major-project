@@ -57,6 +57,8 @@
                         </div>
                         <p id="dialog_comment"></p>
                         <div class="review_attachment"></div>
+                        <p class="review_additional_info" id="dialog_created_at"></p>
+                        <p class="review_additional_info" id="dialog_edited_at"></p>
                         <div class="dialog_actions">
                             <button class="like_button">
                                 <img src="/assets/icons/heart.png" class="icon">
@@ -175,6 +177,10 @@
             reviewFile.value = null;
         }
 
+        function formatDate(date) {
+            return `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
+        }
+
         async function openReview(reviewId) {
             const response = await fetch("/get_review_info/" + reviewId);
             const reviewInfo = await response.json();
@@ -185,6 +191,14 @@
             document.getElementById("dialog_cc").textContent = reviewInfo.formattedRating; 
             document.getElementById("dialog_comment").textContent = reviewInfo.body; 
             document.getElementById("dialog_likes").textContent = reviewInfo.formattedLikes;
+            document.getElementById("dialog_created_at").textContent = `Created at: ${formatDate(reviewInfo.createdAt)}`;
+            if (reviewInfo.isEdited) {
+                document.getElementById("dialog_edited_at").textContent = `Edited at: ${formatDate(reviewInfo.editedAt)}`;
+                document.getElementById("dialog_edited_at").classList.remove("hidden_elem");
+            } else {
+                document.getElementById("dialog_edited_at").textContent = "";
+                document.getElementById("dialog_edited_at").classList.add("hidden_elem");
+            }
 
             let recoIcon;
             if (reviewInfo.ratedAccurately) {

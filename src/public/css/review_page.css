@@ -508,6 +508,10 @@ dialog {
   height: 32px;
 }
 
+#dialog_edited_at {
+    margin-top: -10px;
+}
+
 .exit {
   display: flex;
   align-items: center;

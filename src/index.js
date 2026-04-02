@@ -220,7 +220,7 @@ app.get("/get_review_info/:reviewId", async (req, res) => {
         return;
     }
 
-    const review = await Review.findById(reviewId).populate("userId", "username imagePath rating").lean();
+    const review = await Review.findById(reviewId).populate("userId", "username imagePath rating").lean({ virtuals: true });
 
     if (!review) {
         res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
@@ -325,6 +325,7 @@ app.post("/charts/:chartId/submit_review", [
         comment.rating = rating;
         comment.ratedAccurately = ratedAccurately;
         comment.isEdited = true;
+        comment.editedAt = new Date();
 
         if (file) {
             if (comment.filePath) { // deleting the old file if there was one
