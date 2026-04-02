@@ -198,6 +198,16 @@ app.get("/charts/:chartId", async (req, res) => {
         }
     ];
 
+    if (userId) {
+        pipeline.push({
+            $addFields: {
+                likedByUser:  {
+                    $in: [new mongoose.Types.ObjectId(userId), "$likedBy"]
+                }
+            }
+        });
+    }
+
     const reviews = await Review.aggregate(pipeline);
     chart.reviews = reviews;
 
@@ -210,6 +220,7 @@ app.get("/charts/:chartId", async (req, res) => {
 // returns the HTML for the list of reviews of a specific chart through fetch()
 app.get("/search_reviews/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
+    const userId = req.session.userId;
     const { search, accuracy, sort } = req.query;
 
     // aggregation pipeline
@@ -236,6 +247,16 @@ app.get("/search_reviews/:chartId", async (req, res) => {
             $unwind: { path: "$userId" }
         }
     ];
+
+    if (userId) {
+        pipeline.push({
+            $addFields: {
+                likedByUser:  {
+                    $in: [new mongoose.Types.ObjectId(userId), "$likedBy"]
+                }
+            }
+        });
+    }
 
     if (search) {
         pipeline.push({
@@ -443,6 +464,33 @@ app.delete("/charts/:chartId/delete_review", async (req, res) => {
     await comment.deleteOne();
 
     res.json({ action: "delete", success: true });
+});
+
+// liking or unliking a review
+app.post("/like_review/:reviewId", async (req, res) => {
+    const userId = req.session.userId;
+    const reviewId = req.params.reviewId;
+
+    if (!userId) {
+        res.status(401).send("Please log in or sign up to like reviews.");
+        return;
+    }
+
+    const review = await Review.findById(reviewId);
+    
+    const index = review.likedBy.indexOf(userId);
+
+    let action;
+    if (index === -1) { // not liked yet
+        review.likedBy.push(userId);
+        action = "liked"
+    } else {
+        review.likedBy.splice(index, 1);
+        action = "unliked";
+    }
+
+    review.save();
+    res.json({ action: action, success: "true" });
 });
 
 // ********************************************************************

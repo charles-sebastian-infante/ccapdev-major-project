@@ -16,11 +16,13 @@
         <p class="review_comment">{{body}}</p>
     </div>
     <div class="review_actions">
-        <button class="see_full" onclick="openReview('{{_id}}');">
+        <button class="see_full" onclick="openReview('{{_id}}', this);">
             <span> See full review </span>
         </button>
-        <button class="like_button">
-            <img src="/assets/icons/heart.png" class="icon">
+        <button class="like_button" onclick="likeReview('{{_id}}', this);">
+            <img src="/assets/icons/
+            {{~#if likedByUser}}filled_heart.png{{else}}heart.png{{/if~}}
+            " class="icon">
             <span class="like_count">{{displayLikeCount likes}}</span>
         </button>
     </div>

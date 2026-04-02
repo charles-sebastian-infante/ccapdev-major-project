@@ -132,7 +132,7 @@ search{
 .sort_by{
     width: 120px;
     height: 30px;
-    border-radius: 10px;;
+    border-radius: 10px;
     font-size: clamp(12px, 1.4vw, 15px);
     border: 2px solid #919191;
     border-left: 1px solid #919191;

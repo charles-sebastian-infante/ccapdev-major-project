@@ -36,10 +36,10 @@
                     <button class="search_button" id="search_button"><img src="/assets/icons/search.png"></button>
                     <div class="select_holder">
                         <select class="acc_sel" id="acc_sel"> 
-                            <option value="" disabled selected> Filter Comments </option>
+                            <option value="" disabled selected> Filter reviews </option>
                             <option value="accurate"> Accurate </option>
                             <option value="not_accurate"> Not Accurate </option>
-                            <option value=""> All Comments </option>
+                            <option value=""> All Reviews </option>
                         </select> 
                     </div>
                     <div class="select_holder">
@@ -71,8 +71,8 @@
                         <p class="review_additional_info" id="dialog_created_at"></p>
                         <p class="review_additional_info" id="dialog_edited_at"></p>
                         <div class="dialog_actions">
-                            <button class="like_button">
-                                <img src="/assets/icons/heart.png" class="icon">
+                            <button class="like_button" id="dialog_like_button">
+                                <img src="/assets/icons/heart.png" class="icon" id="dialog_like_icon">
                                 <span class="like_count" id="dialog_likes"></span>
                             </button>
                             <button onclick="closeReview();" class="exit">Exit Review</button>    
@@ -134,6 +134,12 @@
         const accSelDropdown = document.getElementById("acc_sel");
         const sortByDropdown = document.getElementById("sort_by");
         const searchButton = document.getElementById("search_button");
+        const dialogLikeButton = document.getElementById("dialog_like_button");
+
+        /* when you press "See full review", the like button of the corresponding review is saved here
+           so that it can be updated once the user closes the full review */
+        let currentReviewLikeButton;
+        let currentReviewId;
 
         const currRoute = window.location.pathname;
         const chartId = currRoute.split("/")[2];
@@ -195,7 +201,51 @@
             return `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
         }
 
-        async function openReview(reviewId) {
+        async function likeReview(reviewId, button) {
+            // button is the button that was pressed to call this function
+            const heartIcon = button.querySelector(".icon");
+            const likeCount = button.querySelector(".like_count");
+
+            const response = await fetch(`/like_review/${reviewId}`, { method: "POST" });
+
+            if (!response.ok) {
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                }
+                return;
+            }
+
+            const { action, success } = await response.json();
+
+            if (success) {
+                const oldLikeCount = Number(likeCount.textContent);
+                if (action === "liked") {
+                    heartIcon.src = "/assets/icons/filled_heart.png";
+                    if (oldLikeCount !== NaN) { // doesn't update if it's like "1.1k" anymore
+                        likeCount.textContent = oldLikeCount + 1;
+                    }
+                } else if (action === "unliked") {
+                    heartIcon.src = "/assets/icons/heart.png";
+                    if (oldLikeCount !== NaN) {
+                        likeCount.textContent = oldLikeCount - 1;
+                    }
+                }
+            }
+        }
+
+        async function openReview(reviewId, button) {
+            // button is the button that was pressed to call this function
+            currentReviewLikeButton = button.parentElement.querySelector(".like_button");
+            currentReviewId = reviewId;
+
+            // carrying over if the review was liked or not, along with the like count
+            const heartIconSrc = currentReviewLikeButton.querySelector(".icon").src;
+            const likeCount = currentReviewLikeButton.querySelector(".like_count").textContent;
+
+            document.getElementById("dialog_like_icon").src = heartIconSrc;
+            document.getElementById("dialog_likes").textContent = likeCount;
+
             const response = await fetch("/get_review_info/" + reviewId);
             const reviewInfo = await response.json();
 
@@ -203,8 +253,7 @@
             document.getElementById("dialog_avatar").src = reviewInfo.userId.imagePath; 
             document.getElementById("dialog_skill").textContent = reviewInfo.userId.rating; 
             document.getElementById("dialog_cc").textContent = reviewInfo.formattedRating; 
-            document.getElementById("dialog_comment").textContent = reviewInfo.body; 
-            document.getElementById("dialog_likes").textContent = reviewInfo.formattedLikes;
+            document.getElementById("dialog_comment").textContent = reviewInfo.body;
             document.getElementById("dialog_created_at").textContent = `Created at: ${formatDate(reviewInfo.createdAt)}`;
             if (reviewInfo.isEdited) {
                 document.getElementById("dialog_edited_at").textContent = `Edited at: ${formatDate(reviewInfo.editedAt)}`;
@@ -240,6 +289,13 @@
 
         function closeReview() {
             document.getElementById("full_review").close();
+
+            // carrying over if the review was liked or not, along with the like count
+            const heartIconSrc = document.getElementById("dialog_like_icon").src;
+            const likeCount = document.getElementById("dialog_likes").textContent;
+
+            currentReviewLikeButton.querySelector(".icon").src = heartIconSrc;
+            currentReviewLikeButton.querySelector(".like_count").textContent = likeCount;
         }
 
         getChartRating();
@@ -259,6 +315,10 @@
         searchButton.addEventListener("click", renderReviews);
         accSelDropdown.addEventListener("change", renderReviews);
         sortByDropdown.addEventListener("change", renderReviews);
+
+        dialogLikeButton.addEventListener("click", (event) => {
+            likeReview(currentReviewId, dialogLikeButton);
+        });
 
 		reviewForm.addEventListener("submit", async (event) => {
 			event.preventDefault();
