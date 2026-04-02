@@ -110,9 +110,7 @@ app.get("/search_charts", async (req, res) => {
             }
         },
         {
-            $unwind: {
-                path: "$charterId"
-            }
+            $unwind: { path: "$charterId" }
         }
     ];
 
@@ -172,7 +170,35 @@ app.get("/charts/:chartId", async (req, res) => {
         return;
     }
 
-    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean({ virtuals: true });
+    // aggregation pipeline, used for sorting by most likes by default
+    const pipeline = [
+        {
+            $match: {
+                chartId: new mongoose.Types.ObjectId(chartId)
+            }
+        },
+        {
+            $addFields: {
+                likes: { $size: "$likedBy" }
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "userId"
+            }
+        },
+        {
+            $unwind: { path: "$userId" }
+        },
+        {
+            $sort: { likes: -1 }
+        }
+    ];
+
+    const reviews = await Review.aggregate(pipeline);
     chart.reviews = reviews;
 
     // null if the user is not signed in or the user doesn't have a comment
@@ -184,10 +210,62 @@ app.get("/charts/:chartId", async (req, res) => {
 // returns the HTML for the list of reviews of a specific chart through fetch()
 app.get("/search_reviews/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
-    const reviews = await Review.find({ chartId: chartId }).populate("userId", "username imagePath rating").lean({ virtuals: true });
-    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
+    const { search, accuracy, sort } = req.query;
 
-    // filter/sort reviews here (in the future)
+    // aggregation pipeline
+    const pipeline = [
+        {
+            $match: {  // only getting reviews for the current chart
+                chartId: new mongoose.Types.ObjectId(chartId)
+            }
+        },
+        {
+            $addFields: {  // calculating number of likes
+                likes: { $size: "$likedBy" }
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "userId"
+            }
+        },
+        {
+            $unwind: { path: "$userId" }
+        }
+    ];
+
+    if (search) {
+        pipeline.push({
+            $match: {
+                body: {
+                    $regex: search, // search can match middle of comment
+                    $options: "i" // case-insensitive
+                }
+            }
+        });
+    }
+
+    if (accuracy) {
+        pipeline.push({
+            $match: {
+                ratedAccurately: (accuracy === "accurate")
+            }
+        });
+    }
+
+    let sortObject;
+    if (!sort || sort === "most_likes") {  // defaults to sorting by most likes
+        sortObject = { likes: -1 }  // -1 means descending
+    } else if (sort === "newest") {
+        sortObject = { createdAt: -1 }
+    }
+    pipeline.push({ $sort: sortObject });
+
+    const reviews = await Review.aggregate(pipeline);
+    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
     res.render("partials/review_list", {reviews, chart}); 
 });
