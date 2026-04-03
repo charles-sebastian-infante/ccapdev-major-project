@@ -90,7 +90,7 @@
             <div class="prev_review_instance hidden" id="replying_to_review_div">
             </div>
 
-            <form class="review_form" id="review_form">
+            <form class="review_form" id="review_form" data-user-type="{{currentUser.userType}}">
                 <div class="level_input_section {{#if (isCharter currentUser.userType)}}hidden{{/if}}">
                     <div class="reco_actions">
                         <input type="radio" id="acc" name="accuracy" value="accurate"
@@ -324,31 +324,12 @@
 
             replyingToReviewDiv.innerHTML = reviewCopy.innerHTML;
             replyingToReviewDiv.querySelector(".reply").remove();
+            replyingToReviewDiv.dataset.reviewId = reviewId;
             replyingToReviewDiv.classList.remove("hidden");
             reviewFormDiv.classList.remove("hidden");
         }
 
-        getChartRating();
-        updateAccuracySliderDisplay();
-        updateSliderValueLabel();
-
-        accButton.addEventListener("change", updateAccuracySliderDisplay);
-        notAccButton.addEventListener("change", updateAccuracySliderDisplay);
-        slider.addEventListener("input", updateSliderValueLabel);
-
-        searchText.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" && !event.repeat) {
-                renderReviews();
-            }
-        });
-
-        searchButton.addEventListener("click", renderReviews);
-        accSelDropdown.addEventListener("change", renderReviews);
-        sortByDropdown.addEventListener("change", renderReviews);
-
-		reviewForm.addEventListener("submit", async (event) => {
-			event.preventDefault();
-
+        async function submitReviewForm(event) {
             const clickedButton = event.submitter;
             const buttonClasses = clickedButton.classList;
             const reviewInfo = new FormData(reviewForm);
@@ -365,7 +346,7 @@
                 }
 
                 if (reviewInfo.get("body") === "") {
-                    alert("Please enter a form body.");
+                    alert("Please enter a review body.");
                     return;
                 }
 
@@ -402,10 +383,95 @@
                         break;
                 }
             }
+        }
+
+        async function submitReplyForm(event) {
+            const clickedButton = event.submitter;
+            const buttonClasses = clickedButton.classList;
+            const reviewId = replyingToReviewDiv.dataset.reviewId;
+
+            let response;
+            if (buttonClasses.contains("delete_btn")) {
+                response = await fetch(`/delete_reply/${reviewId}`, {
+                    method: "DELETE"
+                });
+            } else {
+                const body = reviewText.value;
+
+                if (body === "") {
+                    alert("Please enter a reply body.");
+                    return;
+                }
+
+                response = await fetch(`/submit_reply/${reviewId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ body })
+                });
+            }
+
+            if (!response.ok) {
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                }
+                return;
+            }
+
+            const responseObj = await response.json();
+            const { action, success } = responseObj;
+
+            if (success) {
+                await renderReviews(); // re-render the reviews to display the change
+
+                switch (action) {
+                    case "delete":
+                        alert("Reply successfully deleted.");
+                        emptyReviewForm();
+                        break;
+                    case "edit":
+                        alert("Reply successfully edited.");
+                        break;
+                    case "submit":
+                        alert("Reply successfully submitted.");
+                        break;
+                }
+            }
+        }
+
+        getChartRating();
+        updateAccuracySliderDisplay();
+        updateSliderValueLabel();
+
+        accButton.addEventListener("change", updateAccuracySliderDisplay);
+        notAccButton.addEventListener("change", updateAccuracySliderDisplay);
+        slider.addEventListener("input", updateSliderValueLabel);
+
+        searchText.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" && !event.repeat) {
+                renderReviews();
+            }
+        });
+
+        searchButton.addEventListener("click", renderReviews);
+        accSelDropdown.addEventListener("change", renderReviews);
+        sortByDropdown.addEventListener("change", renderReviews);
+
+		reviewForm.addEventListener("submit", async (event) => {
+			event.preventDefault();
+
+            const userType = reviewForm.dataset.userType;
+
+            if (userType === "regular") {
+                await submitReviewForm(event);
+            } else if (userType === "charter") {
+                await submitReplyForm(event);
+            }
 		});
 
-        // liking a review is handled here
-        // this ensures that all like buttons on the page are synced
+        // handles liking reviews when a like button is pressed
         document.addEventListener("click", async (event) => {
             // the button that the user clicked on (if the user clicked a button)
             const button = event.target.closest("button");

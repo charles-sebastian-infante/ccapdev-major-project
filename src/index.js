@@ -352,7 +352,7 @@ app.post("/charts/:chartId/submit_review", [
     body("rating").notEmpty(),
     body("body").notEmpty(),
     body("file").optional()
-], async (req, res) => {
+], checkIfRequestIsValid, async (req, res) => {
     const userId = req.session.userId;
     const chartId = req.params.chartId;
     const reqData = matchedData(req);
@@ -492,6 +492,11 @@ app.post("/like_review/:reviewId", async (req, res) => {
     }
 
     const review = await Review.findById(reviewId);
+
+    if (!review) {
+        res.status(404).send("Error: Review does not exist.");
+        return;
+    }
     
     const index = review.likedBy.indexOf(userId);
 
@@ -506,6 +511,70 @@ app.post("/like_review/:reviewId", async (req, res) => {
 
     review.save();
     res.json({ action: action, success: "true" });
+});
+
+// for charter to reply to a review
+app.post("/submit_reply/:reviewId", [
+    body("body").notEmpty()
+], checkIfRequestIsValid, async (req, res) => {
+    const userId = req.session.userId;
+    const reviewId = req.params.reviewId;
+    const review = await Review.findById(reviewId);
+    const body = matchedData(req).body;
+    
+    if (!review) {
+        res.status(404).send("Error: Review does not exist.");
+        return;
+    }
+
+    const chart = await Chart.findById(review.chartId);
+
+    // for if the user sends a request manually (not by pressing a button on the site)
+    if (userId !== chart.charterId.toString()) {
+        res.status(401).send("Error: You are not the charter of this chart.");
+        return;
+    }
+    
+    let action;
+    if (!review.charterResponse) {
+        action = "submit";
+    } else {
+        action = "edit";
+    }
+
+    review.charterResponse = body;
+    await review.save();
+
+    res.json({ action: action, success: "true" });
+});
+
+// for charter to delete a reply
+app.delete("/delete_reply/:reviewId", async (req, res) => {
+    const userId = req.session.userId;
+    const reviewId = req.params.reviewId;
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+        res.status(404).send("Error: Review does not exist.");
+        return;
+    }
+
+    if (!review.charterResponse) {
+        res.status(422).send("Error: You do not have a reply to delete.");
+        return;
+    }
+
+    const chart = await Chart.findById(review.chartId);
+
+    if (userId !== chart.charterId.toString()) {
+        res.status(401).send("Error: You are not the charter of this chart.");
+        return;
+    }
+
+    review.charterResponse = undefined;
+    await review.save();
+
+    res.json({ action: "delete", success: true });
 });
 
 // ********************************************************************
