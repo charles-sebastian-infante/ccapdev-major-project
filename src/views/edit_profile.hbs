@@ -62,11 +62,11 @@
                 <h2> Security Settings </h2>
                 <form id="change_password_form">
                     <label for="current_pw"> Current password: </label>
-                    <input type="password" id="current_pw" required>
+                    <input name="current_pw" type="password" id="current_pw" required>
                     <label for="new_pw"> New password: </label>
-                    <input type="password" id="new_pw" required>
+                    <input name="new_pw" type="password" id="new_pw" required>
                     <label for="confirm_pw"> Confirm password: </label>
-                    <input type="password" id="confirm_pw" required>
+                    <input name="confirm_pw" type="password" id="confirm_pw" required>
                     <button type="submit"> Save Password </button>
                 </form>
             </section>
@@ -119,6 +119,47 @@
                 }
 
                 location.reload(); // refresh page to show changes
+            });
+
+            changePasswordForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const passwordData = new FormData(changePasswordForm);
+                const currentPw = passwordData.get("current_pw");
+                const newPw = passwordData.get("new_pw");
+                const confirmPw = passwordData.get("confirm_pw");
+
+                if (newPw !== confirmPw) {
+                    alert("Error: New password and confirm password do not match.");
+                    return;
+                }
+                if (currentPw === newPw) {
+                    alert("Error: Current password and new password are the same.");
+                    return;
+                }
+
+                const response = await fetch("/change_password", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ currentPw, newPw })
+                })
+
+                if (!response.ok) {
+                    const message = await response.text();
+                    if (message) {
+                        alert(message);
+                    }
+                    return;
+                }
+
+                const responseObj = await response.json();
+                const { success } = responseObj;
+
+                if (success) {
+                    alert("Password successfully changed.");
+                }
             });
         </script>
     </body>

@@ -767,7 +767,7 @@ app.post("/edit_profile", [
     body("image").optional(),
     body("username").notEmpty(),
     body("email").notEmpty(),
-    body("rating").notEmpty(),
+    body("rating").optional(),
     body("description").optional()
 ], checkIfRequestIsValid, async (req, res) => {
     const userId = req.session.userId;
@@ -855,6 +855,54 @@ app.post("/edit_profile", [
         return;
     }
 
+    await user.save();
+
+    res.json({ success: true });
+});
+
+app.post("/change_password", [
+    body("currentPw").notEmpty(),
+    body("newPw").notEmpty()
+], checkIfRequestIsValid, async (req, res) => {
+    const userId = req.session.userId;
+    const { currentPw, newPw } = matchedData(req);
+
+    if (!userId) {
+        res.status(401).send("Error: You are not signed in.");
+        return;
+    }
+
+    const user = await User.findById(userId);
+
+    let validPassword;
+    try {
+        validPassword = await argon2id.verify(user.password, currentPw);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Server-side password error. Please notify the devs!");
+        return;
+    }
+    if (!validPassword) {
+        res.status(422).send("Error: Current password is incorrect.");
+        return;
+    }
+
+    if (currentPw === newPw) {
+        res.status(400).send("Error: Your new password is the same as your old one.");
+        return;
+    }
+
+    let hashedPassword;
+    try {
+        hashedPassword = await argon2id.hash(newPw);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Server-side password error. Please notify the devs!");
+        return;
+    }
+
+    user.password = hashedPassword;
     await user.save();
 
     res.json({ success: true });
