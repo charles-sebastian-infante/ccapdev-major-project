@@ -767,7 +767,7 @@ app.get("/view_profile/:userId", async (req, res) => {
 
     const userId = req.params.userId;
     const user = await User.findById(userId).lean();
-    const reviews = await Review.find({ userId: userId }).lean();
+    const reviews = await Review.find({ userId: userId }).lean({ virtuals: true });
     user.reviews = reviews;
 
     if (req.session.userId === userId) {

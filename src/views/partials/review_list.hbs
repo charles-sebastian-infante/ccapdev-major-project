@@ -1,12 +1,14 @@
 {{#each reviews}}
 <div class="prev_review_instance">
     <div class="user_info">
-        <img src="{{userId.imagePath}}" class="user_avatar">
+        <a href="/view_profile/{{userId._id}}">
+            <img src="{{userId.imagePath}}" class="user_avatar">
+        </a>
         <span class="user_skill">{{userId.rating}}</span>
     </div>
     <div class="review_content">
         <div class="review_header">
-            <span class="username">{{userId.username}}</span>
+            <a class="username" href="/view_profile/{{userId._id}}">{{userId.username}}</a>
             <span class="user_cc">{{round rating 1}}</span>
             <img src="/assets/icons/
             {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
@@ -33,8 +35,10 @@
     {{#if charterResponse}}
 <div class="charter_response">
     <div class="charter_response_header">
-        <img src="{{../chart.charterId.imagePath}}" class="charter_avatar">
-        <span class="charter_name"><i>Charter Response: {{../chart.charterId.username}}</i></span>
+        <a href="/view_profile/{{../chart.charterId._id}}">
+            <img src="{{../chart.charterId.imagePath}}" class="charter_avatar">
+        </a>
+        <a class="charter_name" href="/view_profile/{{../chart.charterId._id}}"><i>Charter Response: {{../chart.charterId.username}}</i></a>
         <span class="review_additional_info">{{formatDate responseCreatedAt}} {{displayAdditionalResponseInfo responseEditedAt}}</span>
     </div>
     <p class="charter_response_text">{{charterResponse}}</p>

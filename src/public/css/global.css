@@ -237,3 +237,7 @@ a{
 .hidden_elem {
     display: none;
 }
+
+a:has(img) {
+    margin-bottom: -7px;
+}

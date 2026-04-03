@@ -10,17 +10,11 @@
     <body>
         {{> header currentUser=currentUser }}
 
-        <div class = "parent">
-        <div class = "top">
-        <a href="/" class = "back">
-                <input type="button" value="< Back">
-        </a>
-        <main>
-        </div>
+        <main class = "parent view_profile_parent">
             <section class="profile_display">
                 <img src="{{user.imagePath}}" alt="profile_picture" class="avatar">
             <div class = "user_info">
-                <h1> User Profile </h1>
+                <h1>{{#if (isCharter user.userType)}}Charter Profile{{else}}User Profile{{/if}}</h1>
                 <dl>
                     <dt>Username: </dt>
                     <dd id="user_username">{{user.username}}</dd>
@@ -29,13 +23,15 @@
                     <dt>Email: </dt>
                     <dd id="user_email">{{user.email}}</dd>
                 </dl>
+                {{#unless (isCharter user.userType)}}
                 <dl>
                     <dt>Rating: </dt>
                     <dd id="user_rating">{{user.rating}}</dd>
                 </dl>
+                {{/unless}}
                 <dl>
                     <dt>Description: </dt>
-                    <dd id="user_description">{{user.description}}</dd>
+                    <dd id="user_description">{{#if user.description}}{{user.description}}{{else}}(none){{/if}}</dd>
                 </dl>
             </div>      
             </section>
@@ -55,27 +51,25 @@
                         <div class="review_header">
                             <span class="username">{{../user.username}}</span>
                             <span class="user_cc">{{rating}}</span>
-                            <a href="/view_profile">
-                                <img src="/assets/icons/
-                                {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
-                                " class="recommendation_icon">
-                            </a>
+                            <img src="/assets/icons/
+                            {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
+                            " class="recommendation_icon">
+                            <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</span>
                         </div>
                         <p class="review_comment">{{body}}</p>
                     </div>
                     <div class="review_actions">
                         <button class="see_full">
-                            <a href="/charts/{{chartId}}">See full review</a>
+                            <a href="/charts/{{chartId}}">Go to chart page</a>
                         </button>
-                        <button class="like_button">
-                            <img src="/assets/icons/heart.png" class="icon">
+                        <span class="like_button">
+                            <img src="/assets/icons/gray_heart.png" class="icon">
                             <span class="like_count">{{displayLikeCount likes}}</span>
-                        </button>
+                        </span>
                     </div>
                 </div>
             {{/each}}
             </div>
         </main>
-        </div>
     </body>
 </html>

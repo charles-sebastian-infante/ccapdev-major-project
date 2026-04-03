@@ -59,10 +59,12 @@
                     <div class="review_dialog">
                         <div class="dialog_header">
                             <div class="avatar_group">
-                                <img class="user_avatar" id="dialog_avatar">
+                                <a class="dialog_links_to_profile">
+                                    <img class="user_avatar" id="dialog_avatar">
+                                </a>
                                 <span class="user_skill" id="dialog_skill"></span>
                             </div>
-                            <span class="username" id="dialog_username"></span>
+                            <a class="username dialog_links_to_profile" id="dialog_username"></a>
                             <span class="user_cc" id="dialog_cc"></span>
                             <img class="recommendation_icon" id="dialog_reco_icon">
                         </div>
@@ -276,7 +278,20 @@
             dialogLikeButton.dataset.reviewId = reviewId;
 
             const response = await fetch("/get_review_info/" + reviewId);
+
+            if (!response.ok) {
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                }
+                return;
+            }
+
             const reviewInfo = await response.json();
+
+            document.querySelectorAll(".dialog_links_to_profile").forEach((elem) => {
+                elem.href = `/view_profile/${reviewInfo.userId._id}`;
+            });
 
             document.getElementById("dialog_username").textContent = reviewInfo.userId.username; 
             document.getElementById("dialog_avatar").src = reviewInfo.userId.imagePath; 

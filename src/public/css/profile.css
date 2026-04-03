@@ -18,6 +18,10 @@ input[type=number] {
     gap: 10px;
 }
 
+.view_profile_parent {
+    margin-top: 50px;
+}
+
 .top{
     display: flex;
     gap: 80px;

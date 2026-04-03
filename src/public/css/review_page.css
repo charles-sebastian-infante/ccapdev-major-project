@@ -171,17 +171,20 @@ input[type=number] {
     gap: 5px;
     background: transparent;
     border: none;
-    cursor: pointer;
     padding: 4px 8px;
     border-radius: 5px;
     transition: background-color 0.2s;
 }
 
-.like_button:hover {
+button.like_button {
+    cursor: pointer;
+}
+
+button.like_button:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-.like_button:hover{
+button.like_button:hover{
     opacity: 1;
 }
 
