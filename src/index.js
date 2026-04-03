@@ -400,7 +400,7 @@ app.post("/charts/:chartId/submit_review", [
         }
 
         if (!isValid) {
-            res.status(400).send("Error: Invalid file.");
+            res.status(400).send("Error: Invalid file type. Please upload an image or video.");
             return;
         }
 
@@ -753,7 +753,7 @@ app.post("/signup", [
 });
 
 // ********************************************************************
-// ************************** Other Routes ****************************
+// ****************** Routes for Edit Profile Page ********************
 // ********************************************************************
 
 app.get("/edit_profile", isAuthenticated, async (req, res) => {
@@ -761,6 +761,108 @@ app.get("/edit_profile", isAuthenticated, async (req, res) => {
 
     res.render("edit_profile", {currentUser});
 });
+
+// modifies user data
+app.post("/edit_profile", [
+    body("image").optional(),
+    body("username").notEmpty(),
+    body("email").notEmpty(),
+    body("rating").notEmpty(),
+    body("description").optional()
+], checkIfRequestIsValid, async (req, res) => {
+    const userId = req.session.userId;
+    const reqData = matchedData(req);
+    const file = req.files?.image;
+
+    if (!userId) {
+        res.status(401).send("Error: You are not signed in.");
+        return;
+    }
+
+    let fileType, filePath;
+    if (file) {
+        let fileExtension;
+        let isValid = true;
+        
+        try {
+            fileType = file.mimetype.split("/")[0];
+            fileExtension = file.name.split(".").at(-1);
+
+            if (fileType !== "image") {
+                isValid = false;
+            }
+        } catch (error) {
+            console.log(error);
+            isValid = false;
+        }
+
+        if (!isValid) {
+            res.status(400).send("Error: Invalid file type. Please upload an image.");
+            return;
+        }
+
+        const newFileName = crypto.randomUUID() + "." + fileExtension;
+        filePath = path.join("/uploads", newFileName);
+
+        file.mv(path.join(__dirname, "public", filePath), (error) => {
+            if (error) {
+                console.log(error);
+                res.status(500).send("There was an error uploading your file to the server.");
+                return;
+            }
+        });
+    }
+
+    const user = await User.findById(userId);
+    let { username, email, rating, description } = reqData;
+    rating = Number(rating);
+    let isChange = false;
+
+    if (user.username !== username) {
+        const existingUser = await User.findOne({ username: username });
+
+        if (existingUser) {
+            res.status(422).send("Error: That username is taken. Please choose another username.");
+            return;
+        }
+
+        user.username = username;
+        isChange = true;
+    }
+    if (user.email !== email) {
+        user.email = email;
+        isChange = true;
+    }
+    if (user.rating !== rating) {
+        user.rating = rating;
+        isChange = true;
+    }
+    if (user.description !== description) {
+        user.description = description;
+        isChange = true;
+    }
+    if (filePath) {
+        if (user.hasCustomImage) { // deleting the old profile pic (unless it's the default one)
+            deleteUpload(user.imagePath);
+        }
+        user.imagePath = filePath;
+        user.hasCustomImage = true;
+        isChange = true;
+    }
+
+    if (!isChange) {
+        res.status(400).send("Error: You tried to edit your profile without changing any part of your profile.");
+        return;
+    }
+
+    await user.save();
+
+    res.json({ success: true });
+});
+
+// ********************************************************************
+// ************************** Other Routes ****************************
+// ********************************************************************
 
 app.get("/view_profile/:userId", async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();

@@ -6,15 +6,9 @@
         <link rel="stylesheet" href="/css/profile.css">
     </head>
 
-    <body>
+    <body data-user-id="{{currentUser._id}}">
         {{> header currentUser=currentUser }}
-        <div class = "parent">
-        <div class = "top">
-        <a href="/" class = "back">
-                <input type="button" value="< Back">
-        </a>
-        <main>
-        </div>
+        <main class = "parent">
             <section class="profile_display">
                 <img src="{{currentUser.imagePath}}" alt="profile_picture" class="avatar">
             <div class = "user_info">
@@ -41,32 +35,32 @@
             <div class = "form_edit">
             <section class="edit_profile">
                 <h2> Edit Profile </h2>
-                <form>
+                <form id="edit_profile_form">
                     <label for="new_avatar"> Avatar </label>
-                    <input type="file" id="new_avatar" accept="image/jpeg, image/png, image/webp"> 
+                    <input name="image" type="file" id="new_avatar" accept="image/jpeg, image/png, image/webp"> 
+                    
                     <label for="new_username">Username</label>
-                    <input type="text" id="new_username" value="{{currentUser.username}}">
+                    <input name="username" type="text" id="new_username" value="{{currentUser.username}}" required>
 
                     <label for="new_email"> Email </label>
-                    <input type="email" id="new_email" value="{{currentUser.email}}">
+                    <input name="email" type="email" id="new_email" value="{{currentUser.email}}" required>
 
                     <label for="new_rating"> Rating </label>
-                    <input type="number" id="new_rating" value="{{currentUser.rating}}">
+                    <input name="rating" type="number" id="new_rating" value="{{currentUser.rating}}" min="0" max="20000" required>
 
                     <label for="new_description"> Description </label>
+                    <textarea name="description" placeholder="Your new description goes here" id="new_description">
+                        {{~#if currentUser.description}}{{currentUser.description}}{{else}}(none){{/if}}</textarea>
 
-                    <textarea placeholder="Your new description goes here" id="new_description"
-                            value="{{currentUser.description}}"></textarea>
                     <button type="submit"> Save Changes </button>
                 </form>
             </section>
             </div>
 
-
             <div class="security_form">
             <section class="security_settings">
                 <h2> Security Settings </h2>
-                <form>
+                <form id="change_password_form">
                     <label for="current_pw"> Current password: </label>
                     <input type="password" id="current_pw" required>
                     <label for="new_pw"> New password: </label>
@@ -80,10 +74,13 @@
 
             <button class="logout" id="logout"> Log Out </button>
         </main>
-        </div>
 
         <script>
             const logoutBtn = document.getElementById("logout");
+            const editProfileForm = document.getElementById("edit_profile_form");
+            const changePasswordForm = document.getElementById("change_password_form");
+            
+            const userId = document.body.dataset.userId;
 
             logoutBtn.addEventListener("click", async (event) => {
                 const response = await fetch("/logout", { method: "POST" });
@@ -94,6 +91,34 @@
                 }
 
                 window.location.href = response.url;
+            });
+
+            editProfileForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const userData = new FormData(editProfileForm);
+                
+                const response = await fetch("/edit_profile", {
+                    method: "POST",
+                    body: userData
+                });
+
+                if (!response.ok) {
+                    const message = await response.text();
+                    if (message) {
+                        alert(message);
+                    }
+                    return;
+                }
+
+                const responseObj = await response.json();
+                const { success } = responseObj;
+
+                if (success) {
+                    alert("Profile successfully edited.");
+                }
+
+                location.reload(); // refresh page to show changes
             });
         </script>
     </body>

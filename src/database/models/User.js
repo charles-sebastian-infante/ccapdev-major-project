@@ -13,11 +13,11 @@ const UserSchema = new mongoose.Schema({
     imagePath: {
         type: String,
         default: "/sample_images/pfp1.png"
-        // probably should have a different default pfp later
     },
     rating: Int32,
     description: String,
-    lowercaseUsername: String // for sorting
+    lowercaseUsername: String, // for sorting
+    hasCustomImage: { type: Boolean, default: false }
 });
 
 UserSchema.pre("save", async function() {
