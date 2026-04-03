@@ -133,7 +133,7 @@ app.get("/search_charts", async (req, res) => {
         pipeline.push({
             $match: {
                 songName: {
-                    $regex: search, // search can match middle of title
+                    $regex: RegExp.escape(search), // search can match middle of title
                     $options: "i" // case-insensitive
                 }
             }
@@ -236,6 +236,7 @@ app.get("/charts/:chartId", async (req, res) => {
 app.get("/search_reviews/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
     const userId = req.session.userId;
+    const currentUser = await User.findById(userId).lean();
     const { search, accuracy, sort } = req.query;
 
     // aggregation pipeline
@@ -277,7 +278,7 @@ app.get("/search_reviews/:chartId", async (req, res) => {
         pipeline.push({
             $match: {
                 body: {
-                    $regex: search, // search can match middle of comment
+                    $regex: RegExp.escape(search), // search can match middle of comment
                     $options: "i" // case-insensitive
                 }
             }
@@ -303,7 +304,7 @@ app.get("/search_reviews/:chartId", async (req, res) => {
     const reviews = await Review.aggregate(pipeline);
     const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
-    res.render("partials/review_list", {reviews, chart}); 
+    res.render("partials/review_list", {reviews, chart, currentUser}); 
 });
 
 // returns chart info through fetch()
