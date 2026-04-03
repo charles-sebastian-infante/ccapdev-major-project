@@ -27,7 +27,7 @@
 
         <div class="reviews_holder">
             <div class="prev_reviews">
-                <h2> Previous Reviews </h2>
+                <h2>{{#if (isCharter currentUser.userType)}}Reviews of Your Chart{{else}}Previous Reviews{{/if}}</h2>
 
                 <search>
                     <div class="search_bar">
@@ -52,7 +52,6 @@
                 </search>
             
                 <div class="review_wrapper" id="reviews_div">
-                {{> review_list reviews=chart.reviews }}
                 </div>
 
                 <dialog id="full_review">
@@ -81,10 +80,13 @@
                 </dialog>
             </div>
 
-            <div class="user_review {{#unless currentUser}}blur{{/unless}}">
-                <h2>{{#if currentUser}}My Review{{else}}Sign up/log in to review this chart!{{/if}}</h2>
+            <div class="user_review {{#unless currentUser}}blur{{/unless}} {{#if (isCharter currentUser.userType)}}hidden{{/if}}">
+                <h2>{{#if currentUser}}
+                        {{#if (isCharter currentUser.userType)}}My Reply{{else}}My Review{{/if}}
+                    {{else}}Sign up/log in to review this chart!{{/if}}</h2>
 
             <form class="review_form" id="review_form">
+                {{#unless (isCharter currentUser.userType)}}
                 <div class="level_input_section">
                     <div class="reco_actions">
                         <input type="radio" id="acc" name="accuracy" value="accurate"
@@ -105,11 +107,14 @@
                         <span class="range_label">15.0</span>
                     </div>
                 </div>
+                {{/unless}}
                 <div class="review_body">
                     <textarea name="body" class="review_text" id="review_text" placeholder="Write your review here..." rows="6">
                         {{~#if userReview.body}}{{userReview.body}}{{/if~}}
                     </textarea>
+                    {{#unless (isCharter currentUser.userType)}}
                     <input name="file" type="file" id="review_file" accept="video/*, image/jpeg, image/png, image/webp">
+                    {{/unless}}
                 </div>
                 <div class="my_review_actions">
                     <button type="submit" class="delete_btn">Delete</button>
@@ -298,6 +303,7 @@
             currentReviewLikeButton.querySelector(".like_count").textContent = likeCount;
         }
 
+        renderReviews();
         getChartRating();
         updateAccuracySliderDisplay();
         updateSliderValueLabel();

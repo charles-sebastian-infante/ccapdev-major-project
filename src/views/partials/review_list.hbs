@@ -11,7 +11,10 @@
             <img src="/assets/icons/
             {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
             " class="recommendation_icon">
-            <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</p>
+            <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</span>
+            {{#if (isCharter ../currentUser.userType)}}
+            <button class = "reply">Reply</button>
+            {{/if}}
         </div>
         <p class="review_comment">{{body}}</p>
     </div>
