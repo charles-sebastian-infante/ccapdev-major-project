@@ -18,6 +18,7 @@ input[type=number] {
     gap: 10px;
 }
 
+.edit_profile_parent,
 .view_profile_parent {
     margin-top: 50px;
 }
