@@ -582,6 +582,25 @@ app.delete("/delete_reply/:reviewId", async (req, res) => {
     res.json({ action: "delete", success: true });
 });
 
+/* just returns the associated charter response for a certain review
+   or "" if there is no response */ 
+app.get("/get_charter_response/:reviewId", async (req, res) => {
+    const reviewId = req.params.reviewId;
+    const review = await Review.findById(reviewId).lean();
+
+    if (!review) {
+        res.status(404).send("Error: Review does not exist.");
+        return;
+    }
+
+    const charterResponse = review.charterResponse;
+    if (charterResponse) {
+        res.send(charterResponse);
+    } else {
+        res.send(""); // no response
+    }
+});
+
 // ********************************************************************
 // ****************** Routes for Login/Signup Page ********************
 // ********************************************************************

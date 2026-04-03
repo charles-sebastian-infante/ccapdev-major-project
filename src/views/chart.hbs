@@ -320,9 +320,25 @@
             document.getElementById("full_review").close();
         }
 
-        function openReplyForm(reviewId, button) {
+        async function openReplyForm(reviewId, button) {
             const correspondingReview = button.parentElement.parentElement.parentElement;
             const reviewCopy = correspondingReview.cloneNode(true); // deep copy
+
+            const response = await fetch(`/get_charter_response/${reviewId}`);
+            if (response.ok) {
+                const charterResponse = await response.text();
+                if (charterResponse) {
+                    reviewText.value = charterResponse;
+                } else {
+                    reviewText.value = "";
+                }
+            } else {
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                }
+                return;
+            }
 
             replyingToReviewDiv.innerHTML = reviewCopy.innerHTML;
             replyingToReviewDiv.querySelector(".reply").remove();
