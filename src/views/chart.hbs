@@ -219,7 +219,7 @@
             const reviewId = button.dataset.reviewId; // data-review-id property
             const heartIcon = button.querySelector(".icon");
             const likeCount = button.querySelector(".like_count");
-            
+
             const response = await fetch(`/like_review/${reviewId}`, { method: "POST" });
 
             if (!response.ok) {
@@ -316,13 +316,6 @@
 
         function closeReview() {
             document.getElementById("full_review").close();
-
-            // carrying over if the review was liked or not, along with the like count
-            const heartIconSrc = document.getElementById("dialog_like_icon").src;
-            const likeCount = document.getElementById("dialog_likes").textContent;
-
-            currentReviewLikeButton.querySelector(".icon").src = heartIconSrc;
-            currentReviewLikeButton.querySelector(".like_count").textContent = likeCount;
         }
 
         function openReplyForm(reviewId, button) {
