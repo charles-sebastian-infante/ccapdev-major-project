@@ -436,11 +436,20 @@ app.post("/charts/:chartId/submit_review", [
 
         res.json({ action: "submit", success: true });
     } else { // editing the review
-        comment.body = body;
-        comment.rating = rating;
-        comment.ratedAccurately = ratedAccurately;
-        comment.isEdited = true;
-        comment.editedAt = new Date();
+        let isChange = false;
+
+        if (comment.body !== body) {
+            comment.body = body;
+            isChange = true;
+        }
+        if (comment.rating !== rating) {
+            comment.rating = rating;
+            isChange = true;
+        }
+        if (comment.ratedAccurately !== ratedAccurately) {
+            comment.ratedAccurately = ratedAccurately;
+            isChange = true;
+        }
 
         if (file) {
             if (comment.filePath) { // deleting the old file if there was one
@@ -448,7 +457,16 @@ app.post("/charts/:chartId/submit_review", [
             }
             comment.filePath = filePath;
             comment.fileType = fileType;
+            isChange = true;
         }
+
+        if (!isChange) {
+            res.status(400).send("Error: You cannot edit your review without making any changes.");
+            return;
+        }
+
+        comment.isEdited = true;
+        comment.editedAt = new Date();
 
         await comment.save();
 
@@ -541,6 +559,17 @@ app.post("/submit_reply/:reviewId", [
         action = "submit";
         review.responseCreatedAt = new Date();
     } else {
+        let isChange = false;
+
+        if (review.charterResponse !== body) {
+            isChange = true;
+        }
+
+        if (!isChange) {
+            res.status(400).send("Error: You cannot edit your reply without making any changes.");
+            return;
+        }
+
         action = "edit";
         review.responseEditedAt = new Date();
     }
