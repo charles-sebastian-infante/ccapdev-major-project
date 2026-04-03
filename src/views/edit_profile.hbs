@@ -21,13 +21,15 @@
                     <dt>Email: </dt>
                     <dd id="user_email">{{currentUser.email}}</dd>
                 </dl>
+                {{#unless (isCharter currentUser.userType)}}
                 <dl>
                     <dt>Rating: </dt>
                     <dd id="user_rating">{{currentUser.rating}}</dd>
                 </dl>
+                {{/unless}}
                 <dl>
                     <dt>Description: </dt>
-                    <dd id="user_description">{{currentUser.description}}</dd>
+                    <dd id="user_description">{{~#if currentUser.description}}{{currentUser.description}}{{else}}(none){{/if}}</dd>
                 </dl>
             </div>      
             </section>
@@ -45,12 +47,14 @@
                     <label for="new_email"> Email </label>
                     <input name="email" type="email" id="new_email" value="{{currentUser.email}}" required>
 
+                    {{#unless (isCharter currentUser.userType)}}
                     <label for="new_rating"> Rating </label>
                     <input name="rating" type="number" id="new_rating" value="{{currentUser.rating}}" min="0" max="20000" required>
+                    {{/unless}}
 
                     <label for="new_description"> Description </label>
                     <textarea name="description" placeholder="Your new description goes here" id="new_description">
-                        {{~#if currentUser.description}}{{currentUser.description}}{{else}}(none){{/if}}</textarea>
+                        {{~currentUser.description}}</textarea>
 
                     <button type="submit"> Save Changes </button>
                 </form>

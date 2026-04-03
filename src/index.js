@@ -829,18 +829,24 @@ app.post("/edit_profile", [
         user.username = username;
         isChange = true;
     }
+    
     if (user.email !== email) {
         user.email = email;
         isChange = true;
     }
-    if (user.rating !== rating) {
-        user.rating = rating;
-        isChange = true;
+    
+    if (rating) { // rating does not apply to charters
+        if (user.rating !== rating) {
+            user.rating = rating;
+            isChange = true;
+        }
     }
+    
     if (user.description !== description) {
         user.description = description;
         isChange = true;
     }
+
     if (filePath) {
         if (user.hasCustomImage) { // deleting the old profile pic (unless it's the default one)
             deleteUpload(user.imagePath);
