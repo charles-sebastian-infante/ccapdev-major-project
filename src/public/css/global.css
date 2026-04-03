@@ -10,14 +10,17 @@ body{
     background-color: #F5F5F5;
 }
 
-header{
+header {
     display:flex;   
     background-image: linear-gradient(to left, #FFFF, #86CECB);
     height: 110px;
     border-bottom: 2px solid black;
     align-items: center;
     justify-content: space-between;
-    
+}
+
+header.charter_view { 
+    background-image: linear-gradient(to left, #FFFF, #ceb5e3);
 }
 
 .header_left{
@@ -47,6 +50,10 @@ header{
     margin:10px;
     font-weight: Bold;
     padding: 10px;
+}
+
+.back.charter_view {
+    background-color: #ceb5e3;
 }
 
 .parent{

@@ -89,8 +89,14 @@ const checkIfRequestIsValid = (req, res, next) => {
 
 // main route for the home page
 app.get("/", async (req, res) => {
-    const charts = await Chart.find({}).populate("charterId", "username");
     const currentUser = await User.findById(req.session.userId).lean();
+
+    let charts;
+    if (currentUser?.userType === "charter") {
+        charts = await Chart.find({ charterId: currentUser._id }).populate("charterId", "username");
+    } else {
+        charts = await Chart.find({}).populate("charterId", "username");
+    }
 
     res.render("index", {charts, currentUser});
 });
@@ -98,6 +104,7 @@ app.get("/", async (req, res) => {
 // returns the HTML for the list of charts through fetch()
 app.get("/search_charts", async (req, res) => {
     const { search, difficulty, sort } = req.query;
+    const currentUser = await User.findById(req.session.userId).lean();
 
     // aggregation pipeline
     const pipeline = [
@@ -113,6 +120,14 @@ app.get("/search_charts", async (req, res) => {
             $unwind: { path: "$charterId" }
         }
     ];
+
+    if (currentUser?.userType === "charter") {
+        pipeline.unshift({ // adds to start of array
+            $match: {
+                charterId: currentUser._id
+            }
+        })
+    }
 
     if (search) {
         pipeline.push({

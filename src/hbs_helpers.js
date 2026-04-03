@@ -64,5 +64,6 @@ module.exports = {
     formatDate: (date) => {
         date = date.toISOString();
         return `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
-    }
+    },
+    isCharter: (userType) => (userType === "charter")
 }
