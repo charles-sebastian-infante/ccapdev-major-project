@@ -213,7 +213,8 @@ input[type=number] {
 }
 
 .delete_btn,
-.submit_btn {
+.submit_btn,
+.close_btn {
     padding: 10px 20px;
     border: 2px solid #333;
     border-radius: 5px;
@@ -310,7 +311,8 @@ input[type=number] {
     box-shadow: 0 6px 15px #86CECB;
 }
 
-.delete_btn:hover{
+.close_btn:hover,
+.delete_btn:hover {
     box-shadow: 0 6px 15px lightpink
 }
 
@@ -548,6 +550,7 @@ dialog {
 .user_review.hidden,
 .prev_review_instance.hidden,
 input.hidden,
-.level_input_section.hidden {
+.level_input_section.hidden,
+.close_btn.hidden {
     display: none;
 }

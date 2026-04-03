@@ -119,6 +119,8 @@
                     {{#if (isCharter currentUser.userType)}}class="hidden"{{/if}}>
                 </div>
                 <div class="my_review_actions">
+                    <button type="button" class="close_btn {{#unless (isCharter currentUser.userType)}}hidden{{/unless}}"
+                        onclick="closeReplyForm();">Close Reply</button>
                     <button type="submit" class="delete_btn">Delete</button>
                     <button type="submit" class="submit_btn">Submit / Edit</button>
                 </div>
@@ -327,6 +329,11 @@
             replyingToReviewDiv.dataset.reviewId = reviewId;
             replyingToReviewDiv.classList.remove("hidden");
             reviewFormDiv.classList.remove("hidden");
+        }
+
+        function closeReplyForm() {
+            replyingToReviewDiv.classList.add("hidden");
+            reviewFormDiv.classList.add("hidden");
         }
 
         async function submitReviewForm(event) {
