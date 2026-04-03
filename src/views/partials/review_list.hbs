@@ -13,7 +13,7 @@
             " class="recommendation_icon">
             <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</span>
             {{#if (isCharter ../currentUser.userType)}}
-            <button class = "reply">Reply</button>
+            <button class="reply" onclick="openReplyForm('{{_id}}', this);">Reply</button>
             {{/if}}
         </div>
         <p class="review_comment">{{body}}</p>
@@ -22,7 +22,7 @@
         <button class="see_full" onclick="openReview('{{_id}}', this);">
             <span> See full review </span>
         </button>
-        <button class="like_button" onclick="likeReview('{{_id}}', this);">
+        <button class="like_button" data-review-id="{{_id}}">
             <img src="/assets/icons/
             {{~#if likedByUser}}filled_heart.png{{else}}heart.png{{/if~}}
             " class="icon">

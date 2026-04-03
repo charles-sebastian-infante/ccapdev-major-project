@@ -52,6 +52,7 @@
                 </search>
             
                 <div class="review_wrapper" id="reviews_div">
+                {{> review_list reviews=chart.reviews }}
                 </div>
 
                 <dialog id="full_review">
@@ -80,14 +81,17 @@
                 </dialog>
             </div>
 
-            <div class="user_review {{#unless currentUser}}blur{{/unless}} {{#if (isCharter currentUser.userType)}}hidden{{/if}}">
+            <div class="user_review {{#unless currentUser}}blur{{/unless}} {{#if (isCharter currentUser.userType)}}hidden{{/if}}"
+            id="review_form_div">
                 <h2>{{#if currentUser}}
                         {{#if (isCharter currentUser.userType)}}My Reply{{else}}My Review{{/if}}
                     {{else}}Sign up/log in to review this chart!{{/if}}</h2>
+            
+            <div class="prev_review_instance hidden" id="replying_to_review_div">
+            </div>
 
             <form class="review_form" id="review_form">
-                {{#unless (isCharter currentUser.userType)}}
-                <div class="level_input_section">
+                <div class="level_input_section {{#if (isCharter currentUser.userType)}}hidden{{/if}}">
                     <div class="reco_actions">
                         <input type="radio" id="acc" name="accuracy" value="accurate"
                             {{#if userReview.ratedAccurately}}checked{{/if}}>
@@ -107,14 +111,12 @@
                         <span class="range_label">15.0</span>
                     </div>
                 </div>
-                {{/unless}}
                 <div class="review_body">
                     <textarea name="body" class="review_text" id="review_text" placeholder="Write your review here..." rows="6">
                         {{~#if userReview.body}}{{userReview.body}}{{/if~}}
                     </textarea>
-                    {{#unless (isCharter currentUser.userType)}}
-                    <input name="file" type="file" id="review_file" accept="video/*, image/jpeg, image/png, image/webp">
-                    {{/unless}}
+                    <input name="file" type="file" id="review_file" accept="video/*, image/jpeg, image/png, image/webp"
+                    {{#if (isCharter currentUser.userType)}}class="hidden"{{/if}}>
                 </div>
                 <div class="my_review_actions">
                     <button type="submit" class="delete_btn">Delete</button>
@@ -126,6 +128,7 @@
 
     <script>
         const reviewForm = document.getElementById("review_form");
+        const reviewFormDiv = document.getElementById("review_form_div");
         const accButton = document.getElementById("acc");
         const notAccButton = document.getElementById("notacc");
         const sliderLabel = document.getElementById("slider_label");
@@ -140,6 +143,10 @@
         const sortByDropdown = document.getElementById("sort_by");
         const searchButton = document.getElementById("search_button");
         const dialogLikeButton = document.getElementById("dialog_like_button");
+        const replyingToReviewDiv = document.getElementById("replying_to_review_div");
+
+        const EMPTY_HEART = "/assets/icons/heart.png";
+        const FILLED_HEART = "/assets/icons/filled_heart.png"
 
         /* when you press "See full review", the like button of the corresponding review is saved here
            so that it can be updated once the user closes the full review */
@@ -206,11 +213,13 @@
             return `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
         }
 
-        async function likeReview(reviewId, button) {
-            // button is the button that was pressed to call this function
+        async function likeReview(button) {
+            // button is the like button that was pressed
+
+            const reviewId = button.dataset.reviewId; // data-review-id property
             const heartIcon = button.querySelector(".icon");
             const likeCount = button.querySelector(".like_count");
-
+            
             const response = await fetch(`/like_review/${reviewId}`, { method: "POST" });
 
             if (!response.ok) {
@@ -223,20 +232,32 @@
 
             const { action, success } = await response.json();
 
-            if (success) {
-                const oldLikeCount = Number(likeCount.textContent);
-                if (action === "liked") {
-                    heartIcon.src = "/assets/icons/filled_heart.png";
+            if (!success) { // currently does not do anything because success is always true
+                return;
+            }
+
+            const oldLikeCount = Number(likeCount.textContent);
+            if (action === "liked") {
+                if (heartIcon.src.includes(EMPTY_HEART)) { // includes() because "localhost:___" is included in src
+                    heartIcon.src = FILLED_HEART;
                     if (oldLikeCount !== NaN) { // doesn't update if it's like "1.1k" anymore
                         likeCount.textContent = oldLikeCount + 1;
                     }
-                } else if (action === "unliked") {
-                    heartIcon.src = "/assets/icons/heart.png";
+                }
+            } else if (action === "unliked") {
+                if (heartIcon.src.includes(FILLED_HEART)) {
+                    heartIcon.src = EMPTY_HEART;
                     if (oldLikeCount !== NaN) {
                         likeCount.textContent = oldLikeCount - 1;
                     }
                 }
             }
+
+            // syncing up all the buttons
+            document.querySelectorAll(`.like_button[data-review-id="${reviewId}"]`).forEach((elem) => {
+                elem.querySelector(".icon").src = heartIcon.src;
+                elem.querySelector(".like_count").textContent = likeCount.textContent;
+            });
         }
 
         async function openReview(reviewId, button) {
@@ -250,6 +271,7 @@
 
             document.getElementById("dialog_like_icon").src = heartIconSrc;
             document.getElementById("dialog_likes").textContent = likeCount;
+            dialogLikeButton.dataset.reviewId = reviewId;
 
             const response = await fetch("/get_review_info/" + reviewId);
             const reviewInfo = await response.json();
@@ -303,7 +325,16 @@
             currentReviewLikeButton.querySelector(".like_count").textContent = likeCount;
         }
 
-        renderReviews();
+        function openReplyForm(reviewId, button) {
+            const correspondingReview = button.parentElement.parentElement.parentElement;
+            const reviewCopy = correspondingReview.cloneNode(true); // deep copy
+
+            replyingToReviewDiv.innerHTML = reviewCopy.innerHTML;
+            replyingToReviewDiv.querySelector(".reply").remove();
+            replyingToReviewDiv.classList.remove("hidden");
+            reviewFormDiv.classList.remove("hidden");
+        }
+
         getChartRating();
         updateAccuracySliderDisplay();
         updateSliderValueLabel();
@@ -321,10 +352,6 @@
         searchButton.addEventListener("click", renderReviews);
         accSelDropdown.addEventListener("change", renderReviews);
         sortByDropdown.addEventListener("change", renderReviews);
-
-        dialogLikeButton.addEventListener("click", (event) => {
-            likeReview(currentReviewId, dialogLikeButton);
-        });
 
 		reviewForm.addEventListener("submit", async (event) => {
 			event.preventDefault();
@@ -383,6 +410,21 @@
                 }
             }
 		});
+
+        // liking a review is handled here
+        // this ensures that all like buttons on the page are synced
+        document.addEventListener("click", async (event) => {
+            // the button that the user clicked on (if the user clicked a button)
+            const button = event.target.closest("button");
+            
+            if (!button) {
+                return;
+            }
+
+            if (button.classList.contains("like_button")) {
+                await likeReview(button);
+            }
+        });
 	</script>
 </body>
 

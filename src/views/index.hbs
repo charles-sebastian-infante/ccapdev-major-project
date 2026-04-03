@@ -35,6 +35,7 @@
                 </div>
             </search>
             <div class="card_holder" id="charts_div">
+            {{> chart_list charts=charts }}
             </div>
         </div>
 
@@ -61,8 +62,6 @@
 
                 chartsDiv.innerHTML = chartsHtml;
             }
-
-            renderCharts();
 
             searchText.addEventListener("keydown", (event) => {
                 if (event.key === "Enter" && !event.repeat) {

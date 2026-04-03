@@ -545,6 +545,9 @@ dialog {
   margin: 0 auto;
 }
 
-.user_review.hidden {
+.user_review.hidden,
+.prev_review_instance.hidden,
+input.hidden,
+.level_input_section.hidden {
     display: none;
 }
