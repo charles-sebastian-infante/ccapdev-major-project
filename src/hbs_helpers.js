@@ -1,5 +1,10 @@
 // note: dl stands for difficulty level
 
+function formatDate(date) {
+    date = date.toISOString();
+    return `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
+}
+
 module.exports = {
     dlToShortName: dl => {
         switch (dl) {
@@ -61,9 +66,12 @@ module.exports = {
 
         return fileInfo;
     },
-    formatDate: (date) => {
-        date = date.toISOString();
-        return `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
+    displayAdditionalResponseInfo: (responseEditedAt) => {
+        if (!responseEditedAt) {
+            return "";
+        }
+        return `(edited ${formatDate(responseEditedAt)})`;
     },
+    formatDate: formatDate,
     isCharter: (userType) => (userType === "charter")
 }

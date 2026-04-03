@@ -35,6 +35,7 @@
     <div class="charter_response_header">
         <img src="{{../chart.charterId.imagePath}}" class="charter_avatar">
         <span class="charter_name"><i>Charter Response: {{../chart.charterId.username}}</i></span>
+        <span class="review_additional_info">{{formatDate responseCreatedAt}} {{displayAdditionalResponseInfo responseEditedAt}}</span>
     </div>
     <p class="charter_response_text">{{charterResponse}}</p>
 </div>

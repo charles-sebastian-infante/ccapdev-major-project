@@ -539,8 +539,10 @@ app.post("/submit_reply/:reviewId", [
     let action;
     if (!review.charterResponse) {
         action = "submit";
+        review.responseCreatedAt = new Date();
     } else {
         action = "edit";
+        review.responseEditedAt = new Date();
     }
 
     review.charterResponse = body;
@@ -573,6 +575,8 @@ app.delete("/delete_reply/:reviewId", async (req, res) => {
     }
 
     review.charterResponse = undefined;
+    review.responseCreatedAt = undefined;
+    review.responseEditedAt = undefined;
     await review.save();
 
     res.json({ action: "delete", success: true });

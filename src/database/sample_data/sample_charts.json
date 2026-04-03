@@ -92,8 +92,9 @@
                 "body": "free if you just lock in lol",
                 "rating": 14.8,
                 "ratedAccurately": true,
-                "charterResponse": "true",
                 "createdAt": "2026-03-14T00:00:00Z",
+                "charterResponse": "true",
+                "responseCreatedAt": "2026-03-17T00:00:00Z",
                 "user": "pro_baiter",
                 "usersThatLiked": [
                     "tarosushiramen"

@@ -27,7 +27,9 @@ const ReviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
-    charterResponse: String
+    charterResponse: String,
+    responseCreatedAt: Date,
+    responseEditedAt: Date
 });
 
 // number of likes is a virtual
