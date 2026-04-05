@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Off Beat - Login</title>
+        <link rel="stylesheet" href="/css/signup.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    </head>
+
+    <body>
+    <div class="parent">
+        <div class="form">
+            <a href="/" class = "back">
+                <input type="submit" value="< Home">
+            </a>
+            <h1>Log In</h1>
+            
+            <form id="login_form">
+                <p> Username </p>
+                <input name="username" type="text" placeholder="Input username" required>
+                <p> Password </p>
+                <input name="password" type="password" placeholder="Password" required>
+                <br><br>
+                <label for="remember"> Remember Me </label>
+                <input name="rememberMe" id="remember" type="checkbox" class="remember_me"><br><br>
+                <input type="submit" value="Log In" class="log_button">
+                <p>Don't have an account yet? <a href="\signup"> Sign Up Here! </a></p>
+            </form>
+
+        </div>
+        </div>
+
+        <script>
+            const loginForm = document.getElementById("login_form");
+
+            loginForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const loginInfo = new FormData(loginForm);
+
+                const response = await fetch("/login", {
+                    method: "POST",
+                    body: loginInfo
+                });
+
+                if (!response.ok) {
+                    const message = await response.text();
+                    if (message) {
+                        alert(message);
+                    }
+                    return;
+                }
+
+                window.location.href = response.url;
+            });
+        </script>
+    </body>
+
+</html>

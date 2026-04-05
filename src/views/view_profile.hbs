@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Off Beat - View Profile</title>
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/profile.css">
+        <link rel="stylesheet" href="/css/review_page.css">
+    </head>
+
+    <body>
+        {{> header currentUser=currentUser }}
+
+        <main class = "parent view_profile_parent">
+            <section class="profile_display">
+                <img src="{{user.imagePath}}" alt="profile_picture" class="avatar">
+            <div class = "user_info">
+                <h1>{{#if (isCharter user.userType)}}Charter Profile{{else}}User Profile{{/if}}</h1>
+                <dl>
+                    <dt>Username: </dt>
+                    <dd id="user_username">{{user.username}}</dd>
+                </dl>
+                <dl>
+                    <dt>Email: </dt>
+                    <dd id="user_email">{{user.email}}</dd>
+                </dl>
+                {{#unless (isCharter user.userType)}}
+                <dl>
+                    <dt>Rating: </dt>
+                    <dd id="user_rating">{{user.rating}}</dd>
+                </dl>
+                {{/unless}}
+                <dl>
+                    <dt>Description: </dt>
+                    <dd id="user_description">{{#if user.description}}{{user.description}}{{else}}(none){{/if}}</dd>
+                </dl>
+            </div>      
+            </section>
+
+            {{#if user.isCurrentUser}}
+            <a href="/edit_profile"><button class="edit_profile_button">Click here to edit your profile</button></a>
+            {{/if}}
+
+            <div class="review_wrapper">
+            {{#each user.reviews}}
+                <div class="prev_review_instance">
+                    <div class="user_info">
+                        <img src="{{../user.imagePath}}" class="user_avatar">
+                        <span class="user_skill">{{../user.rating}}</span>
+                    </div>
+                    <div class="review_content">
+                        <div class="review_header">
+                            <span class="username">{{../user.username}}</span>
+                            <span class="user_cc">{{rating}}</span>
+                            <img src="/assets/icons/
+                            {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
+                            " class="recommendation_icon">
+                            <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</span>
+                        </div>
+                        <p class="review_comment">{{body}}</p>
+                    </div>
+                    <div class="review_actions">
+                        <button class="see_full">
+                            <a href="/charts/{{chartId}}">Go to chart page</a>
+                        </button>
+                        <span class="like_button">
+                            <img src="/assets/icons/gray_heart.png" class="icon">
+                            <span class="like_count">{{displayLikeCount likes}}</span>
+                        </span>
+                    </div>
+                </div>
+            {{/each}}
+            </div>
+        </main>
+    </body>
+</html>

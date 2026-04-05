@@ -1,0 +1,49 @@
+{{#each reviews}}
+<div class="prev_review_instance">
+    <div class="user_info">
+        <a href="/view_profile/{{userId._id}}">
+            <img src="{{userId.imagePath}}" class="user_avatar">
+        </a>
+        <span class="user_skill">{{userId.rating}}</span>
+    </div>
+    <div class="review_content">
+        <div class="review_header">
+            <a class="username" href="/view_profile/{{userId._id}}">{{userId.username}}</a>
+            <span class="user_cc">{{round rating 1}}</span>
+            <img src="/assets/icons/
+            {{~#if ratedAccurately}}reco.png{{else}}not_reco.png{{/if~}}                                
+            " class="recommendation_icon">
+            <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</span>
+            {{#if (isCharter ../currentUser.userType)}}
+            <button class="reply" onclick="openReplyForm('{{_id}}', this);">Reply</button>
+            {{/if}}
+        </div>
+        <p class="review_comment">{{body}}</p>
+    </div>
+    <div class="review_actions">
+        <button class="see_full" onclick="openReview('{{_id}}', this);">
+            <span> See full review </span>
+        </button>
+        <button class="like_button" data-review-id="{{_id}}">
+            <img src="/assets/icons/
+            {{~#if likedByUser}}filled_heart.png{{else}}heart.png{{/if~}}
+            " class="icon">
+            <span class="like_count">{{displayLikeCount likes}}</span>
+        </button>
+    </div>
+</div>
+    {{#if charterResponse}}
+<div class="charter_response">
+    <div class="charter_response_header">
+        <a href="/view_profile/{{../chart.charterId._id}}">
+            <img src="{{../chart.charterId.imagePath}}" class="charter_avatar">
+        </a>
+        <a class="charter_name" href="/view_profile/{{../chart.charterId._id}}"><i>Charter Response: {{../chart.charterId.username}}</i></a>
+        <span class="review_additional_info">{{formatDate responseCreatedAt}} {{displayAdditionalResponseInfo responseEditedAt}}</span>
+    </div>
+    <p class="charter_response_text">{{charterResponse}}</p>
+</div>
+    {{/if}}
+{{else}}
+<p class="review_comment">No reviews yet...</p>
+{{/each}}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Off Beat - Sign Up</title>
+        <link rel="stylesheet" href="/css/signup.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    </head>
+
+    <body>
+    <div class="parent">
+        <div class="form">
+            <a href="/" class = "back">
+                <input type="submit" value="< Home">
+            </a>
+            <h1>Sign Up</h1>
+            
+            <form id="login_form">
+                <p> Username </p>
+                <input name="username" type="text" placeholder="Input username" required>
+                <p> Email </p>
+                <input name="email" type="email" placeholder="Input email" required>
+                <p> Password </p>
+                <input name="password" type="password" placeholder="Password" required>
+                <p> Verify Password </p>
+                <input name="verify_password" type="password" placeholder="Verify Password" required>
+                <p> Rating </p>
+                <input name="rating" type="number" placeholder="Input maimai rating here" min="0" max="20000" required>
+                <p> Description (optional) </p>
+                <textarea name="description" placeholder="This is the default bio!"></textarea>
+                <br><br>
+                <label for="remember"> Remember Me </label>
+                <input name="rememberMe" id="remember" type="checkbox" class="remember_me"><br><br>
+                <input type="submit" value="Sign Up" class="log_button">
+                <p>Already have an account? <a href="\login"> Log In Here! </a></p>
+            </form>
+
+        </div>
+        </div>
+
+        <script>
+            const loginForm = document.getElementById("login_form");
+
+            loginForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const loginInfo = new FormData(loginForm);
+
+                if (loginInfo.get("password") !== loginInfo.get("verify_password")) {
+                    alert("The passwords you entered do not match. Please try again.");
+                    return;
+                }
+
+                const response = await fetch("/signup", {
+                    method: "POST",
+                    body: loginInfo
+                });
+
+                if (!response.ok) {
+                    const message = await response.text();
+                    if (message) {
+                        alert(message);
+                    }
+                    return;
+                }
+
+                window.location.href = response.url;
+            });
+        </script>
+    </body>
+
+</html>

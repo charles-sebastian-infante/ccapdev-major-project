@@ -1,0 +1,105 @@
+[
+    {
+        "songName": "PPPP",
+        "songAuthor": "Hatsune Miku & Kasane Teto",
+        "numericRating": 12.4,
+        "difficultyLevel": "Expert",
+        "imagePath": "/sample_images/pppp.png",
+        "charterName": "SEGA",
+        "reviews": [
+            {
+                "body": "nice chart, banger",
+                "rating": 12.4,
+                "ratedAccurately": true,
+                "createdAt": "2026-03-14T00:00:00Z",
+                "user": "pieisspy",
+                "usersThatLiked": [
+                    "teslacia",
+                    "tarosushiramen"
+                ]
+            }
+        ]
+    },
+    {
+        "songName": "PPPP",
+        "songAuthor": "Hatsune Miku & Kasane Teto",
+        "numericRating": 13.0,
+        "difficultyLevel": "Master",
+        "imagePath": "/sample_images/pppp.png",
+        "charterName": "SEGA",
+        "reviews": []
+    },
+    {
+        "songName": "PPPP",
+        "songAuthor": "Hatsune Miku & Kasane Teto",
+        "numericRating": 13.7,
+        "difficultyLevel": "Re:Master",
+        "imagePath": "/sample_images/pppp.png",
+        "charterName": "SEGA",
+        "reviews": [
+            {
+                "body": "chart is quite difficult for a 13.7, multiple trills & jack patterns make it hard",
+                "rating": 13.9,
+                "ratedAccurately": false,
+                "createdAt": "2026-03-15T00:00:00Z",
+                "user": "malding_maimai",
+                "usersThatLiked": []
+            },
+            {
+                "body": "pretty easy malding just has skill issue",
+                "rating": 13.6,
+                "ratedAccurately": false,
+                "createdAt": "2026-03-16T00:00:00Z",
+                "user": "tarosushiramen",
+                "usersThatLiked": [
+                    "teslacia",
+                    "pieisspy",
+                    "pro_baiter"
+                ]
+            }
+        ]
+    },
+    {
+        "songName": "the EmpErroR",
+        "songAuthor": "sasakure.UK",
+        "numericRating": 13.4,
+        "difficultyLevel": "Expert",
+        "imagePath": "/sample_images/emperror.png",
+        "charterName": "すきやき奉行",
+        "reviews": [
+            {
+                "body": "fun except the end lol, that superlong trill is insane",
+                "rating": 13.4,
+                "ratedAccurately": true,
+                "createdAt": "2026-03-17T00:00:00Z",
+                "user": "teslacia",
+                "usersThatLiked": [
+                    "pieisspy",
+                    "tarosushiramen"
+                ]
+            }
+        ]
+    },
+    {
+        "songName": "the EmpErroR",
+        "songAuthor": "sasakure.UK",
+        "numericRating": 14.8,
+        "difficultyLevel": "Master",
+        "imagePath": "/sample_images/emperror.png",
+        "charterName": "小鳥遊さん",
+        "reviews": [
+            {
+                "body": "free if you just lock in lol",
+                "rating": 14.8,
+                "ratedAccurately": true,
+                "createdAt": "2026-03-14T00:00:00Z",
+                "charterResponse": "true",
+                "responseCreatedAt": "2026-03-17T00:00:00Z",
+                "user": "pro_baiter",
+                "usersThatLiked": [
+                    "tarosushiramen"
+                ]
+            }
+        ]
+    }
+]

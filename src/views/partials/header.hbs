@@ -1,0 +1,37 @@
+<header {{#if (isCharter currentUser.userType)}}class="charter_view"{{/if}}>
+    <div class="header_left">
+        {{#if home}}
+        <a href="/">
+            <img class="icon" src="/assets/icons/music_icon.png">
+        </a>
+        {{else}}
+        <button onclick="window.location.href='/';" style="margin:10px;" class = "back
+            {{#if (isCharter currentUser.userType)}}charter_view{{/if}}">← Home</button>
+        {{/if}}
+        <div class="header_text">
+            <h1>Off Beat: Rhythm Rating Dashboard</h1>
+            {{#if (isCharter currentUser.userType)}}
+            <p>View how users rate your charts!</p>
+            {{else}}
+            <p>Rate and track your favorite rhythm game songs</p>
+            {{/if}}
+        </div>
+    </div>
+    <div class = "header_right">
+        {{#if currentUser}} <!-- if user is signed in -->
+        <a href = "/view_profile/{{currentUser._id}}">
+            <img class="icon" src="{{currentUser.imagePath}}"> 
+        </a>
+        <a href = "/about">
+            <img class="icon" id="about" src="/assets/icons/information.png"> 
+        </a>
+        {{else}}
+        <a href = "/login">
+            <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
+        </a>
+        <a href = "/about">
+            <img class="icon" id="about" src="/assets/icons/information.png"> 
+        </a>
+    {{/if}}
+    </div>
+</header>
