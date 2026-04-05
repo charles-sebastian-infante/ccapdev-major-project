@@ -29,6 +29,13 @@ header.charter_view {
     align-items: center;
     padding-left: 15px;
 }
+
+.header_right{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
 .header_text{
     display: flex;
     flex-direction: column;
@@ -99,7 +106,12 @@ search{
     width: 50px;
     height: 50px;
     flex-shrink: 0;
-    padding:20px; 
+    padding:10px; 
+}
+
+#about{
+    width: 42px;
+    height: 42px;
 }
 
 .search_bar {
@@ -240,4 +252,14 @@ a{
 
 a:has(img) {
     margin-bottom: -7px;
+}
+.levels_youtube{
+    display:flex;
+    align-items: center;
+}
+
+.chart_youtube{
+    width: 40px;
+    height: 40px;
+    padding-left: 8px;
 }
