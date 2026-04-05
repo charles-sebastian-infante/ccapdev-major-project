@@ -650,6 +650,10 @@ app.get("/signup", (req, res) => {
     }
 });
 
+app.get("/about", (req, res) => {
+    res.render("about");
+});
+
 app.post("/login", [
     body("username").notEmpty(),
     body("password").notEmpty(),
