@@ -17,13 +17,21 @@
             {{/if}}
         </div>
     </div>
-    {{#if currentUser}} <!-- if user is signed in -->
-    <a href = "/view_profile/{{currentUser._id}}">
-        <img class="icon" src="{{currentUser.imagePath}}"> 
-    </a>
-    {{else}}
-    <a href = "/login">
-        <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
-    </a>
+    <div class = "header_right">
+        {{#if currentUser}} <!-- if user is signed in -->
+        <a href = "/view_profile/{{currentUser._id}}">
+            <img class="icon" src="{{currentUser.imagePath}}"> 
+        </a>
+        <a href = "/about">
+            <img class="icon" id="about" src="/assets/icons/information.png"> 
+        </a>
+        {{else}}
+        <a href = "/login">
+            <img class="icon" src="/assets/icons/pfp_placeholder.png"> 
+        </a>
+        <a href = "/about">
+            <img class="icon" id="about" src="/assets/icons/information.png"> 
+        </a>
     {{/if}}
+    </div>
 </header>
