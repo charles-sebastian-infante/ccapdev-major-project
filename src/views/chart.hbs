@@ -17,9 +17,12 @@
                     <p class="title">{{chart.songName}}</p>
                     <p>{{chart.songAuthor}}</p>
                     <p>Charter: {{chart.charterId.username}}</p>
-                    <div> 
+                    <div class = "levels_youtube"> 
                         <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{round chart.numericRating 1}}</span>
                         <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{chart.difficultyLevel}}</span>
+                        <a href = "https://www.youtube.com/results?search_query=maimai+{{chart.songName}}+{{chart.difficultyLevel}}" target="_blank">
+                            <img src="/assets/icons/youtube.png" class = "chart_youtube">
+                        </a>
                     </div>   
                 </div>
             </div>
