@@ -103,7 +103,7 @@ input[type=number] {
 	font-style: italic;
 }
 
-.review_comment {
+.review_comment > * {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -144,18 +144,6 @@ input[type=number] {
 .level_range {
     color: #666;
     font-size: 14px;
-}
-
-.review_text {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #333;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    resize: vertical;
-    min-height: 120px;
-    box-sizing: border-box;
 }
 
 .review_actions {
@@ -298,6 +286,7 @@ button.like_button:hover{
     font-family: inherit;
     resize: none;
     box-sizing: border-box;
+    display: none;
 }
 
 .review_body input[type="file"] {
@@ -331,17 +320,24 @@ button.like_button:hover{
     color: #333;
 }
 
+#slider_label {
+    display: none;
+    font-weight: 500;
+    color: #333;
+}
+
 #slider_value_label {
 	font-weight: bold;
 	font-size: 20px;
 	margin-left: 3px;
+    display: inline-block;
 }
 
 .slider_container {
-    display: flex;
     align-items: center;
     gap: 10px;
     width: 100%;
+    display: none;
 }
 
 .range_label {

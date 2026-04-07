@@ -261,6 +261,17 @@ app.get("/get_reviews/:chartId", async (req, res) => {
     const limit = 5; 
     const skip = (page - 1) * limit;
 
+    if (!mongoose.isValidObjectId(chartId)) {
+        res.status(404).send("<h1>404 Not Found - Invalid URL</h1>");
+        return;
+    }
+
+    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
+    if (!chart) {
+        res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
+        return;
+    }
+
     // aggregation pipeline
     const pipeline = [
         {
@@ -335,7 +346,6 @@ app.get("/get_reviews/:chartId", async (req, res) => {
     }
 
     const reviews = await Review.aggregate(pipeline);
-    const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
 
     res.render("partials/review_list", {reviews, chart, currentUser}); 
 });
@@ -445,6 +455,11 @@ app.post("/charts/:chartId/submit_review", [
 
     if (!userId) {
         res.status(401).send("Error: You are not signed in.");
+        return;
+    }
+
+    if (!mongoose.isValidObjectId(chartId)) {
+        res.status(404).send("Error: Invalid URL");
         return;
     }
 
@@ -568,6 +583,11 @@ app.delete("/charts/:chartId/delete_review", async (req, res) => {
         return;
     }
 
+    if (!mongoose.isValidObjectId(chartId)) {
+        res.status(404).send("Error: Invalid URL");
+        return;
+    }
+
     const comment = await Review.findOne({ chartId: chartId, userId: userId });
 
     if (!comment) {
@@ -591,6 +611,11 @@ app.post("/like_review/:reviewId", async (req, res) => {
 
     if (!userId) {
         res.status(401).send("Please log in or sign up to like reviews.");
+        return;
+    }
+
+    if (!mongoose.isValidObjectId(reviewId)) {
+        res.status(404).send("Error: Invalid URL");
         return;
     }
 
@@ -622,6 +647,12 @@ app.post("/submit_reply/:reviewId", [
 ], checkIfRequestIsValid, async (req, res) => {
     const userId = req.session.userId;
     const reviewId = req.params.reviewId;
+
+    if (!mongoose.isValidObjectId(reviewId)) {
+        res.status(404).send("Error: Invalid URL");
+        return;
+    }
+
     const review = await Review.findById(reviewId);
     const body = matchedData(req).body;
     
@@ -668,6 +699,12 @@ app.post("/submit_reply/:reviewId", [
 app.delete("/delete_reply/:reviewId", async (req, res) => {
     const userId = req.session.userId;
     const reviewId = req.params.reviewId;
+
+    if (!mongoose.isValidObjectId(reviewId)) {
+        res.status(404).send("Error: Invalid URL");
+        return;
+    }
+
     const review = await Review.findById(reviewId);
 
     if (!review) {
@@ -699,6 +736,12 @@ app.delete("/delete_reply/:reviewId", async (req, res) => {
    or "" if there is no response */ 
 app.get("/get_charter_response/:reviewId", async (req, res) => {
     const reviewId = req.params.reviewId;
+
+    if (!mongoose.isValidObjectId(reviewId)) {
+        res.status(404).send("Error: Invalid URL");
+        return;
+    }
+
     const review = await Review.findById(reviewId).lean();
 
     if (!review) {
@@ -739,6 +782,11 @@ app.post("/login", [
     body("password").notEmpty(),
     body("rememberMe").optional()
 ], checkIfRequestIsValid, async (req, res) => {
+    if (req.session.userId) {
+        res.status(401).send("Error: You are already signed in.");
+        return;
+    }
+
     const loginInfo = matchedData(req);
     console.log(loginInfo);
 
@@ -784,12 +832,17 @@ app.post("/login", [
 
 app.post("/signup", [
     body("username").notEmpty(),
-    body("email").notEmpty(),
+    body("email").notEmpty().matches(/^.+@.+\..+$/),
     body("password").notEmpty(),
-    body("rating").notEmpty(),
+    body("rating").notEmpty().isInt({ min: 0, max: 20000 }),
     body("description"),
     body("rememberMe").optional()
 ], checkIfRequestIsValid, async (req, res) => {
+    if (req.session.userId) {
+        res.status(401).send("Error: You are already signed in.");
+        return;
+    }
+
     const loginInfo = matchedData(req);
     console.log(loginInfo);
 
@@ -850,8 +903,8 @@ app.get("/edit_profile", isAuthenticated, async (req, res) => {
 app.post("/edit_profile", [
     body("image").optional(),
     body("username").notEmpty(),
-    body("email").notEmpty(),
-    body("rating").optional(),
+    body("email").notEmpty().matches(/^.+@.+\..+$/),
+    body("rating").optional().isInt({ min: 0, max: 20000 }),
     body("description").optional()
 ], checkIfRequestIsValid, async (req, res) => {
     const userId = req.session.userId;
@@ -919,7 +972,7 @@ app.post("/edit_profile", [
         isChange = true;
     }
     
-    if (rating) { // rating does not apply to charters
+    if (rating === 0 || rating) { // rating does not apply to charters
         if (user.rating !== rating) {
             user.rating = rating;
             isChange = true;
@@ -1006,6 +1059,11 @@ app.get("/view_profile/:userId", async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();
 
     const userId = req.params.userId;
+    if (!mongoose.isValidObjectId(userId)) {
+        res.status(404).send("Error: Invalid URL");
+        return;
+    }
+
     const user = await User.findById(userId).lean();
     const reviews = await Review.find({ userId: userId }).lean({ virtuals: true });
     user.reviews = reviews;
@@ -1028,6 +1086,11 @@ app.get("/about", async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();
 
     res.render("about", { currentUser });
+});
+
+/* REMOVE THIS BEFORE SUBMITTING */
+app.get("/test", (req, res) => {
+    res.sendFile(path.join(__dirname, "test.html"));
 });
 
 const PORT = process.env.PORT || 3000;

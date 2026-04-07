@@ -5,58 +5,58 @@
     <title>Off Beat - {{chart.songName}}</title>
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/review_page.css">
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 </head>
+
 <body>
-     <div class="parent">
-            {{> header currentUser=currentUser }}
-            <div class="chart_card">
-                <div class="jacket_holder">
-                    <img src="{{chart.imagePath}}">
-                </div>
-                <div class="chart_info">
-                    <p class="title">{{chart.songName}}</p>
-                    <p>{{chart.songAuthor}}</p>
-                    <p>Charter: {{chart.charterId.username}}</p>
-                    <div class = "levels_youtube"> 
-                        <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{round chart.numericRating 1}}</span>
-                        <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{chart.difficultyLevel}}</span>
-                        <a href = "https://www.youtube.com/results?search_query=maimai+{{chart.songName}}+{{chart.difficultyLevel}}" target="_blank">
-                            <img src="/assets/icons/youtube.png" class = "chart_youtube">
-                        </a>
-                    </div>   
+    <div class="parent">
+        {{> header currentUser=currentUser }}
+        <div class="chart_card">
+            <div class="jacket_holder">
+                <img src="{{chart.imagePath}}">
+            </div>
+            <div class="chart_info">
+                <p class="title">{{chart.songName}}</p>
+                <p>{{chart.songAuthor}}</p>
+                <p>Charter: {{chart.charterId.username}}</p>
+                <div class="levels_youtube">
+                    <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{round chart.numericRating
+                        1}}</span>
+                    <span class="level_diff {{dlToShortName chart.difficultyLevel}}">{{chart.difficultyLevel}}</span>
+                    <a href="https://www.youtube.com/results?search_query=maimai+{{chart.songName}}+{{chart.difficultyLevel}}"
+                        target="_blank">
+                        <img src="/assets/icons/youtube.png" class="chart_youtube">
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="reviews_holder">
-            <div class="prev_reviews">
-                <h2>{{#if (isCharter currentUser.userType)}}Reviews of Your Chart{{else}}Previous Reviews{{/if}}</h2>
+    <div class="reviews_holder">
+        <div class="prev_reviews">
+            <h2>{{#if (isCharter currentUser.userType)}}Reviews of Your Chart{{else}}Previous Reviews{{/if}}</h2>
 
-                <search>
-                    <div class="search_bar">
-                        <input type="text" placeholder="Search comments..." id="search_text">
-                    </div>
-                    <button class="search_button" id="search_button"><img src="/assets/icons/search.png"></button>
-                    <div class="select_holder">
-                        <select class="acc_sel" id="acc_sel"> 
-                            <option value="" disabled selected> Filter reviews </option>
-                            <option value="accurate"> Accurate </option>
-                            <option value="not_accurate"> Not Accurate </option>
-                            <option value=""> All Reviews </option>
-                        </select> 
-                    </div>
-                    <div class="select_holder">
-                        <select class="sort_by" id="sort_by"> 
-                            <option value="" disabled selected> Sort by </option>
-                            <option value="most_likes"> Most Likes </option>
-                            <option value="newest"> Newest </option>
-                        </select> 
-                    </div>
-                </search>
-            
-                <div class="review_wrapper" id="reviews_div">
-                {{> review_list reviews=chart.reviews }}
+            <search>
+                <div class="search_bar">
+                    <input type="text" placeholder="Search comments..." id="search_text">
                 </div>
+                <button class="search_button" id="search_button"><img src="/assets/icons/search.png"></button>
+                <div class="select_holder">
+                    <select class="acc_sel" id="acc_sel">
+                        <option value="" disabled selected> Filter reviews </option>
+                        <option value="accurate"> Accurate </option>
+                        <option value="not_accurate"> Not Accurate </option>
+                        <option value=""> All Reviews </option>
+                    </select>
+                </div>
+                <div class="select_holder">
+                    <select class="sort_by" id="sort_by">
+                        <option value="" disabled selected> Sort by </option>
+                        <option value="most_likes"> Most Likes </option>
+                        <option value="newest"> Newest </option>
+                    </select>
+                </div>
+            </search>
 
                 <nav class="pagination">
                     <button class="page-btn" id="previous" onclick="changePage(currentPage-1)"disabled>
@@ -96,32 +96,48 @@
                             </button>
                             <button onclick="closeReview();" class="exit">Exit Review</button>    
                         </div>
+                        <a class="username dialog_links_to_profile" id="dialog_username"></a>
+                        <span class="user_cc" id="dialog_cc"></span>
+                        <img class="recommendation_icon" id="dialog_reco_icon">
                     </div>
-                </dialog>
-            </div>
+                    <div id="dialog_comment"></div>
+                    <div class="review_attachment"></div>
+                    <p class="review_additional_info" id="dialog_created_at"></p>
+                    <p class="review_additional_info" id="dialog_edited_at"></p>
+                    <div class="dialog_actions">
+                        <button class="like_button" id="dialog_like_button">
+                            <img src="/assets/icons/heart.png" class="icon" id="dialog_like_icon">
+                            <span class="like_count" id="dialog_likes"></span>
+                        </button>
+                        <button onclick="closeReview();" class="exit">Exit Review</button>
+                    </div>
+                </div>
+            </dialog>
+        </div>
 
-            <div class="user_review {{#unless currentUser}}blur{{/unless}} {{#if (isCharter currentUser.userType)}}hidden{{/if}}"
+        <div class="user_review {{#unless currentUser}}blur{{/unless}} {{#if (isCharter currentUser.userType)}}hidden{{/if}}"
             id="review_form_div">
-                <h2>{{#if currentUser}}
-                        {{#if (isCharter currentUser.userType)}}My Reply{{else}}My Review{{/if}}
-                    {{else}}Sign up/log in to review this chart!{{/if}}</h2>
-            
+            <h2>{{#if currentUser}}
+                {{#if (isCharter currentUser.userType)}}My Reply{{else}}My Review{{/if}}
+                {{else}}Sign up/log in to review this chart!{{/if}}</h2>
+
             <div class="prev_review_instance hidden" id="replying_to_review_div">
             </div>
 
             <form class="review_form" id="review_form" data-user-type="{{currentUser.userType}}">
                 <div class="level_input_section {{#if (isCharter currentUser.userType)}}hidden{{/if}}">
                     <div class="reco_actions">
-                        <input type="radio" id="acc" name="accuracy" value="accurate"
-                            {{#if userReview.ratedAccurately}}checked{{/if}}>
-                        <label class ="accurate" for="acc"> Rated Accurately </label>
+                        <input type="radio" id="acc" name="accuracy" value="accurate" {{#if
+                            userReview.ratedAccurately}}checked{{/if}}>
+                        <label class="accurate" for="acc"> Rated Accurately </label>
 
-                        <input type ="radio" id="notacc" name="accuracy" value="not_accurate"
-                            {{#if (isFalse userReview.ratedAccurately)}}checked{{/if}}>
-                        <label for="notacc" class ="not_accurate"> Not Rated Accurately </label>
+                        <input type="radio" id="notacc" name="accuracy" value="not_accurate" {{#if (isFalse
+                            userReview.ratedAccurately)}}checked{{/if}}>
+                        <label for="notacc" class="not_accurate"> Not Rated Accurately </label>
                     </div>
-                    
-                    <label for="level_rating" id="slider_label">Level should be <span id="slider_value_label"></span></label>
+
+                    <label for="level_rating" id="slider_label">Level should be <span
+                            id="slider_value_label"></span></label>
                     <div class="slider_container" id="slider_div">
                         <span class="range_label"> 11.5 </span>
                         <input name="rating" type="range" min="11.5" max="15.0"
@@ -131,23 +147,29 @@
                     </div>
                 </div>
                 <div class="review_body">
-                    <textarea name="body" class="review_text" id="review_text" placeholder="Write your review here..." rows="6">
+                    <textarea name="body" class="review_text" id="review_text" placeholder="Write your review here..."
+                        rows="6">
                         {{~#if userReview.body}}{{userReview.body}}{{/if~}}
                     </textarea>
                     <input name="file" type="file" id="review_file" accept="video/*, image/jpeg, image/png, image/webp"
-                    {{#if (isCharter currentUser.userType)}}class="hidden"{{/if}}>
+                        {{#if (isCharter currentUser.userType)}}class="hidden" {{/if}}>
                 </div>
                 <div class="my_review_actions">
-                    <button type="button" class="close_btn {{#unless (isCharter currentUser.userType)}}hidden{{/unless}}"
+                    <button type="button"
+                        class="close_btn {{#unless (isCharter currentUser.userType)}}hidden{{/unless}}"
                         onclick="closeReplyForm();">Close Reply</button>
                     <button type="submit" class="delete_btn">Delete</button>
                     <button type="submit" class="submit_btn">Submit / Edit</button>
                 </div>
             </form>
-            </div>
         </div>
+    </div>
 
-    <script>    
+
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <script>
         const reviewForm = document.getElementById("review_form");
         const reviewFormDiv = document.getElementById("review_form_div");
         const accButton = document.getElementById("acc");
@@ -157,7 +179,10 @@
         const slider = document.getElementById("level_rating");
         const sliderValueLabel = document.getElementById("slider_value_label");
         const reviewsDiv = document.getElementById("reviews_div");
-        const reviewText = document.getElementById("review_text");
+        const reviewText = new EasyMDE({
+            element: document.getElementById("review_text"),
+            spellChecker: false,
+        });
         const reviewFile = document.getElementById("review_file");
         const searchText = document.getElementById("search_text");
         const accSelDropdown = document.getElementById("acc_sel");
@@ -210,7 +235,7 @@
             notAccButton.checked = false;
             updateAccuracySliderDisplay();
 
-            reviewText.value = "";
+            reviewText.value("");
             reviewFile.value = null;
         }
 
@@ -294,11 +319,13 @@
                 elem.href = `/view_profile/${reviewInfo.userId._id}`;
             });
 
-            document.getElementById("dialog_username").textContent = reviewInfo.userId.username; 
-            document.getElementById("dialog_avatar").src = reviewInfo.userId.imagePath; 
-            document.getElementById("dialog_skill").textContent = reviewInfo.userId.rating; 
-            document.getElementById("dialog_cc").textContent = reviewInfo.formattedRating; 
-            document.getElementById("dialog_comment").textContent = reviewInfo.body;
+            document.getElementById("dialog_username").textContent = reviewInfo.userId.username;
+            document.getElementById("dialog_avatar").src = reviewInfo.userId.imagePath;
+            document.getElementById("dialog_skill").textContent = reviewInfo.userId.rating;
+            document.getElementById("dialog_cc").textContent = reviewInfo.formattedRating;
+
+            document.getElementById("dialog_comment").innerHTML = DOMPurify.sanitize(marked.parse(reviewInfo.body, { mangle: false, headerIds: false }));
+
             document.getElementById("dialog_created_at").textContent = `Created at: ${formatDate(reviewInfo.createdAt)}`;
             if (reviewInfo.isEdited) {
                 document.getElementById("dialog_edited_at").textContent = `Edited at: ${formatDate(reviewInfo.editedAt)}`;
@@ -328,7 +355,7 @@
             } else {
                 attachmentContainer.style.display = 'none';
             }
-            
+
             document.getElementById("full_review").showModal();
         }
 
@@ -350,9 +377,9 @@
             if (response.ok) {
                 const charterResponse = await response.text();
                 if (charterResponse) {
-                    reviewText.value = charterResponse;
+                    reviewText.value(charterResponse);
                 } else {
-                    reviewText.value = "";
+                    reviewText.value("");
                 }
             } else {
                 const message = await response.text();
@@ -510,8 +537,8 @@
         accSelDropdown.addEventListener("change", resetAndRenderReviews);
         sortByDropdown.addEventListener("change", resetAndRenderReviews);
 
-		reviewForm.addEventListener("submit", async (event) => {
-			event.preventDefault();
+        reviewForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
 
             const userType = reviewForm.dataset.userType;
 
@@ -520,13 +547,13 @@
             } else if (userType === "charter") {
                 await submitReplyForm(event);
             }
-		});
+        });
 
         // handles liking reviews when a like button is pressed
         document.addEventListener("click", async (event) => {
             // the button that the user clicked on (if the user clicked a button)
             const button = event.target.closest("button");
-            
+
             if (!button) {
                 return;
             }
