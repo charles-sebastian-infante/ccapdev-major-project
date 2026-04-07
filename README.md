@@ -1,4 +1,4 @@
-# Restaurant / Store / Service Review Web Application
+# Off Beat: A maimaiDX Chart Review Application
 
 ## Team Members
 
