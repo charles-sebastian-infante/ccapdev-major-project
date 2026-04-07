@@ -18,7 +18,7 @@
             <button class="reply" onclick="openReplyForm('{{_id}}', this);">Reply</button>
             {{/if}}
         </div>
-        <p class="review_comment">{{body}}</p>
+        <div class="review_comment">{{{renderMarkdown body}}}</div>
     </div>
     <div class="review_actions">
         <button class="see_full" onclick="openReview('{{_id}}', this);">
