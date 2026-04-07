@@ -12,11 +12,13 @@
   "type": "commonjs",
   "dependencies": {
     "@node-rs/argon2": "^2.0.2",
+    "dompurify": "^3.3.3",
     "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
     "express-session": "^1.19.0",
     "express-validator": "^7.3.1",
     "hbs": "^4.2.0",
+    "marked": "^18.0.0",
     "mongoose": "^9.2.2",
     "mongoose-lean-virtuals": "^2.1.0",
     "path": "^0.12.7"
