@@ -582,3 +582,7 @@ input.hidden,
     box-shadow: 0 6px 15px lightpink;
     transition: 0.2s;
 }
+
+.hidden_review {
+    display: none;
+}

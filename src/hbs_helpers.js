@@ -35,6 +35,7 @@ module.exports = {
                 return "";
         }
     },
+    gt: (a,b) => {return (a > b)},
     round: (number, numDecimalPlaces) => number.toFixed(numDecimalPlaces),
     displayLikeCount: number => {
         if (number <= 999) {

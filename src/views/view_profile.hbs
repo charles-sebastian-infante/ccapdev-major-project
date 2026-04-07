@@ -42,7 +42,7 @@
 
             <div class="review_wrapper">
             {{#each user.reviews}}
-                <div class="prev_review_instance">
+                <div class="prev_review_instance {{#if (gt @index 4)}} hidden_review {{/if}}">
                     <div class="user_info">
                         <img src="{{../user.imagePath}}" class="user_avatar">
                         <span class="user_skill">{{../user.rating}}</span>
@@ -69,7 +69,26 @@
                     </div>
                 </div>
             {{/each}}
+
+            {{#if (gt user.reviews.length 5)}}
+                <button class="see_full" id="see_more" onclick="showAllReviews()"> See more </button>
+            {{/if}}
             </div>
+
+            <script>
+                function showAllReviews(){
+                    const hiddenReviews = document.querySelectorAll('.hidden_review');
+
+                    hiddenReviews.forEach(review =>{
+                        review.classList.remove('hidden_review');
+                    });
+
+                    const btn = document.getElementById('see_more');
+                    if (btn){
+                        btn.remove();
+                    }
+                }
+            </script>
         </main>
     </body>
 </html>
