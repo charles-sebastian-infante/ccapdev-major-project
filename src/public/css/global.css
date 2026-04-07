@@ -162,14 +162,14 @@ search{
     padding: 0 10px;
 }
 
-.chart_card{
+.chart_card {
     display: flex;
     background-color: #FFFF;
     border-radius: 10px;
     margin-left: 20px;
     margin-right: 20px;
     padding: 3px;
-    height: 140px;
+    height: 180px;
     align-items: center;
 }
 
@@ -262,6 +262,35 @@ a:has(img) {
     width: 40px;
     height: 40px;
     padding-left: 8px;
+}
+
+.chart_card p.users_think {
+	margin-top: 5px;
+	font-style: italic;
+	font-size: 0.9em;
+}
+
+.chart_info .ratings {
+	display: flex;
+	align-items: center;
+	height: 20px;
+	margin-left: 10px;
+}
+
+.chart_info .ratings p {
+	margin-left: 0px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	margin-right: 5px;
+	font-style: italic;
+	font-size: 0.9em;
+}
+
+.chart_info .ratings img {
+	width: 15px;
+	height: 15px;
+	display: inline;
+	margin-right: 5px;
 }
 
 .hidden_pagdiv {

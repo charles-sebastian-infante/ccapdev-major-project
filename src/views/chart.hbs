@@ -28,6 +28,17 @@
                         <img src="/assets/icons/youtube.png" class="chart_youtube">
                     </a>
                 </div>
+                <div>
+                    <p class="users_think"> Average User Rating: <b>{{displayRating chart.averageRating 1}}</b> </p>
+                    <div class="ratings">
+                        <p><b>{{displayPercent chart.accuratePercent}}</b> Rated Accurately</p>
+                        <img src="/assets/icons/reco.png">
+                    </div>
+                    <div class="ratings">
+                        <p><b>{{displayPercent chart.notAccuratePercent}}</b> Not Rated Accurately</p>
+                        <img src="/assets/icons/not_reco.png">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

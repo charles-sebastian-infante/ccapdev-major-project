@@ -8,9 +8,14 @@
             <p class="title">{{songName}}</p>
             <p>{{songAuthor}}</p>
             <p>Charter: {{charterId.username}}</p>
-            <div> 
+            <div>
                 <span class="level_diff {{dlToShortName difficultyLevel}}">{{round numericRating 1}}</span>
                 <span class="level_diff {{dlToShortName difficultyLevel}}">{{difficultyLevel}}</span>
+            </div>
+            <p class="users_think"> Users think this is a: {{displayRating averageRating 1}} </p>
+            <div class="ratings">
+                <p>{{displayPercent accuratePercent}}</p> <img src="/assets/icons/reco.png">
+                <p>{{displayPercent notAccuratePercent}}</p> <img src="/assets/icons/not_reco.png">
             </div>
         </div>
     </div>

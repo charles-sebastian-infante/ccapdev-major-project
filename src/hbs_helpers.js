@@ -81,4 +81,10 @@ module.exports = {
     isCharter: (userType) => (userType === "charter"),
     renderMarkdown: (markdownString) => DOMPurify.sanitize(marked.parse(markdownString, { mangle: false, headerIds: false })),
     // Safely rendering markdown using marked to turn it into HTML and DOMPurify to sanitize dangerous tags
+    displayPercent: (value) => {
+    return (value !== null && value !== undefined) ? `${value}%` : "N/A";
+    },
+    displayRating: (value, decimals) => {
+        return (value !== null && value !== undefined) ? parseFloat(value).toFixed(decimals) : "N/A (No reviews yet!)";
+    }
 }
