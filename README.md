@@ -17,7 +17,7 @@
 ## How to Manually Manipulate the Data in the Database
 - Currently, this can be done using command line arguments.
 - `node index.js clear-db` - Empties the database
-- `node index.js insert-sample-data` - Populates the database with sample data
+- `node index.js insert-sample-data` - Populates an empty database with sample data (note: if the database is not empty beforehand, this may cause an error)
 - `node index.js reset` - Empties the database, then inserts sample data
 
 ## Features
