@@ -199,6 +199,8 @@ app.get("/charts/:chartId", async (req, res) => {
         return;
     }
 
+    /*
+
     // aggregation pipeline, used for sorting by most likes by default
     const pipeline = [
         {
@@ -239,6 +241,7 @@ app.get("/charts/:chartId", async (req, res) => {
 
     const reviews = await Review.aggregate(pipeline);
     chart.reviews = reviews;
+    */
 
     // null if the user is not signed in or the user doesn't have a comment
     const userReview = await Review.findOne({ chartId: chartId, userId: userId }).lean();
@@ -247,11 +250,16 @@ app.get("/charts/:chartId", async (req, res) => {
 });
 
 // returns the HTML for the list of reviews of a specific chart through fetch()
-app.get("/search_reviews/:chartId", async (req, res) => {
+// only renders a portion of the reviews based on the specified page
+app.get("/get_reviews/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
     const userId = req.session.userId;
     const currentUser = await User.findById(userId).lean();
+
     const { search, accuracy, sort } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5; 
+    const skip = (page - 1) * limit;
 
     // aggregation pipeline
     const pipeline = [
@@ -259,34 +267,8 @@ app.get("/search_reviews/:chartId", async (req, res) => {
             $match: {  // only getting reviews for the current chart
                 chartId: new mongoose.Types.ObjectId(chartId)
             }
-        },
-        {
-            $addFields: {  // calculating number of likes
-                likes: { $size: "$likedBy" }
-            }
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "userId",
-                foreignField: "_id",
-                as: "userId"
-            }
-        },
-        {
-            $unwind: { path: "$userId" }
         }
     ];
-
-    if (userId) {
-        pipeline.push({
-            $addFields: {
-                likedByUser:  {
-                    $in: [new mongoose.Types.ObjectId(userId), "$likedBy"]
-                }
-            }
-        });
-    }
 
     if (search) {
         pipeline.push({
@@ -309,11 +291,48 @@ app.get("/search_reviews/:chartId", async (req, res) => {
 
     let sortObject;
     if (!sort || sort === "most_likes") {  // defaults to sorting by most likes
-        sortObject = { likes: -1 }  // -1 means descending
+        sortObject = { likes: -1, _id: -1 }  // -1 means descending
     } else if (sort === "newest") {
-        sortObject = { createdAt: -1 }
+        sortObject = { createdAt: -1, _id: -1 }
     }
-    pipeline.push({ $sort: sortObject });
+
+    pipeline.push(...[
+        {
+            $addFields: {  // calculating number of likes
+                likes: { $size: "$likedBy" }
+            }
+        },
+        {
+            $sort: sortObject
+        },
+        {
+            $skip: skip
+        },
+        {
+            $limit: limit
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "userId"
+            }
+        },
+        {
+            $unwind: { path: "$userId" }
+        }
+    ]);
+
+    if (userId) {
+        pipeline.push({
+            $addFields: {
+                likedByUser:  {
+                    $in: [new mongoose.Types.ObjectId(userId), "$likedBy"]
+                }
+            }
+        });
+    }
 
     const reviews = await Review.aggregate(pipeline);
     const chart = await Chart.findById(chartId).populate("charterId", "username imagePath").lean();
@@ -321,50 +340,53 @@ app.get("/search_reviews/:chartId", async (req, res) => {
     res.render("partials/review_list", {reviews, chart, currentUser}); 
 });
 
-// returns review count for a specific chart through fetch()
+// returns review count for a specific chart through fetch() given specific query
 app.get("/get_review_count/:chartId", async (req, res) => {
     const { chartId } = req.params;
     console.log("Checking count for Chart ID:", chartId);
+
+    const { search, accuracy } = req.query;
 
     if (!mongoose.isValidObjectId(chartId)) {
         return res.status(400).json({ error: "Invalid ID format" });
     }
 
     try {
-        const count = await Review.countDocuments({ chartId: chartId });
+        const pipeline = [
+            {
+                $match: {  // only getting reviews for the current chart
+                    chartId: new mongoose.Types.ObjectId(chartId)
+                }
+            }
+        ];
+
+        if (search) {
+            pipeline.push({
+                $match: {
+                    body: {
+                        $regex: RegExp.escape(search), // search can match middle of comment
+                        $options: "i" // case-insensitive
+                    }
+                }
+            });
+        }
+
+        if (accuracy) {
+            pipeline.push({
+                $match: {
+                    ratedAccurately: (accuracy === "accurate")
+                }
+            });
+        }
+
+        const reviews = await Review.aggregate(pipeline);
+        const count = reviews.length;
+        
         console.log("Found count:", count);
         res.json({ totalReviews: count });
     } catch (err) {
         console.error("Database Error:", err);
         res.status(500).json({ error: "Internal server error" });
-    }
-});
-
-// render a partial review list
-app.get("/get_reviews/:chartId", async (req, res) => {
-    const { chartId } = req.params;
-    const page = parseInt(req.query.page) || 1;
-    const limit = 5; 
-    const skip = (page - 1) * limit;
-
-    try {
-        const currentUser = await User.findById(req.session.userId).lean();
-
-        const reviews = await Review.find({ chartId: new mongoose.Types.ObjectId(chartId) })
-            .sort({ createdAt: -1, _id: 1 }) 
-            .skip(skip)
-            .limit(limit)
-            .populate("userId")
-            .lean();
-    
-        res.render("partials/review_list", { 
-            reviews, 
-            currentUser,
-            layout: false 
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("<p>Error loading reviews...</p>");
     }
 });
 

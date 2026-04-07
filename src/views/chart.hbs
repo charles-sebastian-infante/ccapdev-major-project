@@ -178,22 +178,6 @@
         const chartId = currRoute.split("/")[2];
         let chartRating = slider.value; // placeholder for until async function executes
 
-        async function renderReviews() {
-            const query = {
-                search: searchText.value,
-                accuracy: accSelDropdown.value,
-                sort: sortByDropdown.value
-            };
-
-            const params = new URLSearchParams(query);
-
-            const response = await fetch(`/search_reviews/${chartId}?${params}`);
-
-            const reviewsHtml = await response.text();
-
-            reviewsDiv.innerHTML = reviewsHtml;
-        }
-
         function round(number, numDecimalPlaces) {
             return parseFloat(number).toFixed(numDecimalPlaces);
         }
@@ -429,7 +413,7 @@
             const { action, success } = responseObj;
 
             if (success) {
-                await renderReviews(); // re-render the reviews to display the change
+                await resetAndRenderReviews(); // re-render the reviews to display the change
 
                 switch (action) {
                     case "delete":
@@ -485,7 +469,7 @@
             const { action, success } = responseObj;
 
             if (success) {
-                await renderReviews(); // re-render the reviews to display the change
+                await resetAndRenderReviews(); // re-render the reviews to display the change
 
                 switch (action) {
                     case "delete":
@@ -502,6 +486,12 @@
             }
         }
 
+        async function resetAndRenderReviews() {
+            resetPages();
+            changePage(1);
+            renderPageNumbers();
+        }
+
         getChartRating();
         updateAccuracySliderDisplay();
         updateSliderValueLabel();
@@ -512,13 +502,13 @@
 
         searchText.addEventListener("keydown", (event) => {
             if (event.key === "Enter" && !event.repeat) {
-                renderReviews();
+                resetAndRenderReviews();
             }
         });
 
-        searchButton.addEventListener("click", renderReviews);
-        accSelDropdown.addEventListener("change", renderReviews);
-        sortByDropdown.addEventListener("change", renderReviews);
+        searchButton.addEventListener("click", resetAndRenderReviews);
+        accSelDropdown.addEventListener("change", resetAndRenderReviews);
+        sortByDropdown.addEventListener("change", resetAndRenderReviews);
 
 		reviewForm.addEventListener("submit", async (event) => {
 			event.preventDefault();
@@ -552,33 +542,51 @@
         let totalPages = 0;
         
         // initialize pagination
-        async function initializePages() {
+        async function resetPages() {
+            currentPage = 1;
+            totalPages = 0;
+
+            const query = {
+                search: searchText.value,
+                accuracy: accSelDropdown.value
+            };
+
+            const params = new URLSearchParams(query);
+
             try {
-                const response = await fetch(`/get_review_count/${currChartId}`);
+                const response = await fetch(`/get_review_count/${currChartId}?${params}`);
                 const data = await response.json();
 
                 totalPages = Math.ceil(data.totalReviews / reviewsPerPage);
 
+                const pagDiv = document.querySelector('.pagination');
                 if (totalPages <= 1) {
-                    const pagDiv = document.querySelector('.pagination');
-                    if (pagDiv) pagDiv.style.display = 'none';
+                    if (pagDiv) pagDiv.classList.add("hidden_pagdiv");
                 } else {
+                    if (pagDiv) pagDiv.classList.remove("hidden_pagdiv");
                     renderPageNumbers();
                     document.getElementById('previous').disabled = (currentPage === 1);
                     document.getElementById('next').disabled = (currentPage === totalPages);
                 }
 
                 await fetchPageContent(1, false); 
-
             } catch (err) {
                 console.error("Pagination initialization failed:", err);
             }
         }
-
         
         async function fetchPageContent(page, shouldScroll = true) {
+            const query = {
+                search: searchText.value,
+                accuracy: accSelDropdown.value,
+                sort: sortByDropdown.value,
+                page: page
+            };
+
+            const params = new URLSearchParams(query);
+
             try {
-                const response = await fetch(`/get_reviews/${currChartId}?page=${page}`);
+                const response = await fetch(`/get_reviews/${currChartId}?${params}`);
                 const htmlSnippet = await response.text();
 
                 const reviewsDiv = document.getElementById('reviews_div');
@@ -605,7 +613,7 @@
             await fetchPageContent(currentPage, true);
         }
 
-        function renderPageNumbers(){
+        function renderPageNumbers() {
             const list = document.getElementById('page-numbers');
             list.innerHTML = '';
 
@@ -644,7 +652,7 @@
             return btn;
         }
 
-        initializePages();
+        resetPages();
     </script>
 </body>
 
