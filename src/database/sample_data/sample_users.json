@@ -4,7 +4,6 @@
         "username": "pieisspy",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$T9RfJOnOj2bU3ih2W/srUQ$gZfOaVkvkHoGxjjmZzrk9203ZZsIqJYGuOwTLXahRGo",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 11394,
         "description": ""
     },
@@ -13,7 +12,6 @@
         "username": "malding_maimai",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$5tR1lndlO1DK9cSO2iiIBw$7D56Iwcap6zjjTiMjyhsCd7G0b2guQqn/BzeRgSCyNs",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 14210,
         "description": ""
     },
@@ -22,7 +20,6 @@
         "username": "tarosushiramen",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$la779sB2OqiY/FnbM1c9dQ$eoGhQWawl7cv9mCnMhR8G0n1Ja7w9FrigOCH0bKaS5c",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 15200,
         "description": ""
     },
@@ -40,7 +37,6 @@
         "username": "pro_baiter",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$6RPieB8XnV60NPewwDXFvA$pd4O6kWjpf4r5hE3TkcJL0WUkcTFJj9h105eVG2IeEo",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 16200,
         "description": ""
     },
