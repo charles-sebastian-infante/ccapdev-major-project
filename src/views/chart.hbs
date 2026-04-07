@@ -439,7 +439,7 @@
             const { action, success } = responseObj;
 
             if (success) {
-                await resetAndRenderReviews(); // re-render the reviews to display the change
+                // await resetAndRenderReviews();
 
                 switch (action) {
                     case "delete":
@@ -453,6 +453,8 @@
                         alert("Review successfully submitted.");
                         break;
                 }
+
+                window.location.reload();
             }
         }
 
@@ -495,7 +497,7 @@
             const { action, success } = responseObj;
 
             if (success) {
-                await resetAndRenderReviews(); // re-render the reviews to display the change
+                // await resetAndRenderReviews();
 
                 switch (action) {
                     case "delete":
@@ -509,6 +511,8 @@
                         alert("Reply successfully submitted.");
                         break;
                 }
+
+                window.location.reload(); // re-render the reviews to display the change
             }
         }
 
