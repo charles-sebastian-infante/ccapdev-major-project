@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Test</title>
+    </head>
+
+    <body>
+        <h1>This is the test page</h1>
+        <button onclick="main();">Press me to execute function</button>
+        <p id="message"></p>
+
+        <script>
+            async function login() {
+                const body = {
+                    username: "teslacia",
+                    password: "password"
+                };
+
+                const response = await fetch("/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                if (response.ok) {
+                    alert("Logged in");
+                    return;
+                }
+
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                } else {
+                    alert("Failed, no message");
+                }
+            }
+
+            async function main() {
+                await login();
+
+                const body = {
+                    username: "teslacia",
+                    email: "a@a.b",
+                    rating: "-1"
+                };
+
+                const response = await fetch("/edit_profile", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                if (response.ok) {
+                    alert("Success");
+                    return;
+                }
+
+                const message = await response.text();
+                if (message) {
+                    alert(message);
+                } else {
+                    alert("Failed, no message");
+                }
+            }
+        </script>
+    </body>
+</html>
