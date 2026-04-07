@@ -94,14 +94,93 @@ const checkIfRequestIsValid = (req, res, next) => {
 // main route for the home page
 app.get("/", async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();
-
+    pipeline = [ {
+            $lookup: {
+                from: "reviews",
+                localField: "_id",
+                foreignField: "chartId",
+                as: "reviews"
+            }
+        },
+        {
+            $addFields: {
+                reviewCount: { $size: "$reviews" },
+                averageRating: { $avg: "$reviews.rating" },
+                accurateCount: {
+                    $size: {
+                        $filter: {
+                            input: "$reviews",
+                            as: "r",
+                            cond: { $eq: ["$$r.ratedAccurately", true] }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $addFields: {
+                accuratePercent: {
+                    $cond: [
+                        { $gt: ["$reviewCount", 0] },
+                        {
+                            $round: [
+                                { $multiply: [{ $divide: ["$accurateCount", "$reviewCount"] }, 100] },
+                                0
+                            ]
+                        },
+                        null
+                    ]
+                },
+                notAccuratePercent: {
+                    $cond: [
+                        { $gt: ["$reviewCount", 0] },
+                        {
+                            $round: [
+                                {
+                                    $multiply: [
+                                        { $divide: [{ $subtract: ["$reviewCount", "$accurateCount"] }, "$reviewCount"] },
+                                        100
+                                    ]
+                                },
+                                0
+                            ]
+                        },
+                        null
+                    ]
+                }
+            }
+        },
+        { $unset: "reviews" } ];
+    const charterLookup = {
+        $lookup: {
+            from: "users",
+            localField: "charterId",
+            foreignField: "_id",
+            as: "charterInfo"
+        }
+    };
+    const charterName = {
+        $addFields: {
+            "charterId.username": { $arrayElemAt: ["$charterInfo.username", 0] }
+        }
+    };
     let charts;
     if (currentUser?.userType === "charter") {
-        charts = await Chart.find({ charterId: currentUser._id }).populate("charterId", "username");
+        charts = await Chart.aggregate([
+            { $match: { charterId: currentUser._id } },
+            ...pipeline,
+            charterLookup,
+            charterName,
+            { $unset: "charterInfo" }
+        ]);
     } else {
-        charts = await Chart.find({}).populate("charterId", "username");
+        charts = await Chart.aggregate([
+            ...pipeline,
+            charterLookup,
+            charterName,
+            { $unset: "charterInfo" }
+        ]);
     }
-
     res.render("index", {charts, currentUser});
 });
 
@@ -111,56 +190,7 @@ app.get("/search_charts", async (req, res) => {
     const currentUser = await User.findById(req.session.userId).lean();
 
     // aggregation pipeline
-    const pipeline = [
-        {
-            $lookup: {
-                from: "users",
-                localField: "charterId",
-                foreignField: "_id",
-                as: "charterId"
-            }
-        },
-        {
-            $unwind: { path: "$charterId" }
-        }
-    ];
-
-    if (currentUser?.userType === "charter") {
-        pipeline.unshift({ // adds to start of array
-            $match: {
-                charterId: currentUser._id
-            }
-        })
-    }
-
-    if (search) {
-        pipeline.push({
-            $match: {
-                songName: {
-                    $regex: RegExp.escape(search), // search can match middle of title
-                    $options: "i" // case-insensitive
-                }
-            }
-        });
-    }
-
-    if (difficulty) {
-        pipeline.push({
-            $match: {
-                difficultyLevel: difficulty
-            }
-        });
-    }
-
-    let sortObject;
-    if (!sort || sort === "songtitle") {  // defaults to sorting by song title
-        sortObject = { lowercaseSongName: 1 }  // 1 means ascending
-    } else if (sort === "charter") {
-        sortObject = { "charterId.lowercaseUsername": 1 }
-    } else if (sort === "rating") {
-        sortObject = { numericRating: 1 };
-    }
-    pipeline.push({ $sort: sortObject });
+    const pipeline = chartSearchPipeline(currentUser, search, difficulty, sort);
 
     const charts = await Chart.aggregate(pipeline);
 
@@ -214,7 +244,7 @@ app.get("/charts/:chartId", async (req, res) => {
         },
         {
             $sort: { likes: -1 }
-        }
+        },
     ];
 
     if (userId) {
@@ -229,6 +259,13 @@ app.get("/charts/:chartId", async (req, res) => {
 
     const reviews = await Review.aggregate(pipeline);
     chart.reviews = reviews;
+
+    const reviewCount = reviews.length;
+    const accurateCount = reviews.filter(r => r.ratedAccurately).length;
+    chart.reviewCount = reviewCount;
+    chart.averageRating = reviewCount ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount : null;
+    chart.accuratePercent = reviewCount ? Math.round((accurateCount / reviewCount) * 100) : null;
+    chart.notAccuratePercent = reviewCount ? Math.round(((reviewCount - accurateCount) / reviewCount) * 100) : null;
 
     // null if the user is not signed in or the user doesn't have a comment
     const userReview = await Review.findOne({ chartId: chartId, userId: userId }).lean();
@@ -1017,3 +1054,114 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running at port ${PORT}`);
 });
+
+function chartSearchPipeline(currentUser, search, difficulty, sort) {
+    const pipeline = [
+        {
+            $lookup: {
+                from: "users",
+                localField: "charterId",
+                foreignField: "_id",
+                as: "charterId"
+            }
+        },
+        {
+            $unwind: { path: "$charterId" }
+        },
+        {
+            $lookup: {
+                from: "reviews",
+                localField: "_id",
+                foreignField: "chartId",
+                as: "reviews"
+            }
+        },
+        {
+            $addFields: {
+                reviewCount: { $size: "$reviews" },
+                averageRating: { $avg: "$reviews.rating" },
+                accurateCount: {
+                    $size: {
+                        $filter: {
+                            input: "$reviews",
+                            as: "r",
+                            cond: { $eq: ["$$r.ratedAccurately", true] }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $addFields: {
+                accuratePercent: {
+                    $cond: [
+                        { $gt: ["$reviewCount", 0] },
+                        {
+                            $round: [
+                                { $multiply: [{ $divide: ["$accurateCount", "$reviewCount"] }, 100] },
+                                0
+                            ]
+                        },
+                        null
+                    ]
+                },
+                notAccuratePercent: {
+                    $cond: [
+                        { $gt: ["$reviewCount", 0] },
+                        {
+                            $round: [
+                                {
+                                    $multiply: [
+                                        { $divide: [{ $subtract: ["$reviewCount", "$accurateCount"] }, "$reviewCount"] },
+                                        100
+                                    ]
+                                },
+                                0
+                            ]
+                        },
+                        null
+                    ]
+                }
+            }
+        },
+        { $unset: "reviews" }
+    ];
+
+    if (currentUser?.userType === "charter") {
+        pipeline.unshift({
+            $match: {
+                charterId: currentUser._id
+            }
+        });
+    }
+
+    if (search) {
+        pipeline.push({
+            $match: {
+                songName: {
+                    $regex: RegExp.escape(search), // search can match middle of title
+                    $options: "i" // case-insensitive
+                }
+            }
+        });
+    }
+
+    if (difficulty) {
+        pipeline.push({
+            $match: {
+                difficultyLevel: difficulty
+            }
+        });
+    }
+
+    let sortObject;
+    if (!sort || sort === "songtitle") { // defaults to sorting by song title
+        sortObject = { lowercaseSongName: 1 }; // 1 means ascending
+    } else if (sort === "charter") {
+        sortObject = { "charterId.lowercaseUsername": 1 };
+    } else if (sort === "rating") {
+        sortObject = { numericRating: 1 };
+    }
+    pipeline.push({ $sort: sortObject });
+    return pipeline;
+}
