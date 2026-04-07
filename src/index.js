@@ -1,3 +1,4 @@
+require("dotenv").config(); // for testing
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -16,7 +17,10 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(fileUpload());
 
-mongoose.connect("mongodb://localhost/offbeatDB");
+require("node:dns/promises").setServers(["1.1.1.1", "8.8.8.8"]);
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/offbeatDB";
+console.log(MONGODB_URI);
+mongoose.connect(MONGODB_URI);
 
 const Chart = require("./database/models/Chart");
 const Review = require("./database/models/Review");
@@ -650,10 +654,6 @@ app.get("/signup", (req, res) => {
     }
 });
 
-app.get("/about", (req, res) => {
-    res.render("about");
-});
-
 app.post("/login", [
     body("username").notEmpty(),
     body("password").notEmpty(),
@@ -944,6 +944,13 @@ app.post("/logout", (req, res) => {
     })
 });
 
-app.listen(3000, () => {
-    console.log("Server running at port 3000");
+app.get("/about", async (req, res) => {
+    const currentUser = await User.findById(req.session.userId).lean();
+
+    res.render("about", { currentUser });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running at port ${PORT}`);
 });

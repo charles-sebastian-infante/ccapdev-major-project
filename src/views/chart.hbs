@@ -351,6 +351,12 @@
         }
 
         function closeReview() {
+            const video = document.querySelector('.review_attachment').querySelector("video");
+
+            if (video) {
+                video.pause();
+            }
+
             document.getElementById("full_review").close();
         }
 

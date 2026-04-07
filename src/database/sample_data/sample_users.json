@@ -4,7 +4,6 @@
         "username": "pieisspy",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$T9RfJOnOj2bU3ih2W/srUQ$gZfOaVkvkHoGxjjmZzrk9203ZZsIqJYGuOwTLXahRGo",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 11394,
         "description": ""
     },
@@ -13,7 +12,6 @@
         "username": "malding_maimai",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$5tR1lndlO1DK9cSO2iiIBw$7D56Iwcap6zjjTiMjyhsCd7G0b2guQqn/BzeRgSCyNs",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 14210,
         "description": ""
     },
@@ -22,7 +20,6 @@
         "username": "tarosushiramen",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$la779sB2OqiY/FnbM1c9dQ$eoGhQWawl7cv9mCnMhR8G0n1Ja7w9FrigOCH0bKaS5c",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 15200,
         "description": ""
     },
@@ -40,8 +37,199 @@
         "username": "pro_baiter",
         "password": "$argon2id$v=19$m=19456,t=2,p=1$6RPieB8XnV60NPewwDXFvA$pd4O6kWjpf4r5hE3TkcJL0WUkcTFJj9h105eVG2IeEo",
         "email": "abc@xyz.com",
-        "imagePath": "/sample_images/pfp1.png",
         "rating": 16200,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "Annoy-o-Tron",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/annoy_o_tron.png",
+        "rating": 12120,
+        "description": "Hello! Hello! Hello!"
+    },
+    {
+        "userType": "regular",
+        "username": "AmazingAatrox",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/aatrox.png",
+        "rating": 14828,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "BustlingBard",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/bard.png",
+        "rating": 13606,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "CerebralCassio",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/cassiopeia.png",
+        "rating": 13801,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "DominicDarius",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/darius.png",
+        "rating": 15715,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "EnigmaticEkko",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/ekko.png",
+        "rating": 14017,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "FeelGoodFizz",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/fizz.png",
+        "rating": 11974,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "GreatGalio",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/galio.png",
+        "rating": 11797,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "HappyHeimer",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/heimerdinger.png",
+        "rating": 12841,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "InvestingIvern",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/ivern.png",
+        "rating": 14535,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "JoyfulJayce",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/jayce.png",
+        "rating": 14023,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "KindKarthus",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/karthus.png",
+        "rating": 11011,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "LaughingLucian",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/lucian.png",
+        "rating": 14966,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "MakingMaokai",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/maokai.png",
+        "rating": 13066,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "NiceNasus",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/nasus.png",
+        "rating": 11899,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "OldOlaf",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/olaf.png",
+        "rating": 13792,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "PeskyPyke",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/pyke.png",
+        "rating": 12814,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "RollingRammus",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/rammus.png",
+        "rating": 14337,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "TerrificTaric",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/taric.png",
+        "rating": 12391,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "UniqueUdyr",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/udyr.png",
+        "rating": 15196,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "VillainousVeigar",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/veigar.png",
+        "rating": 15906,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "WorthyWarwick",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/warwick.png",
+        "rating": 12103,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "YoungYasuo",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/yasuo.png",
+        "rating": 13531,
+        "description": ""
+    },
+    {
+        "userType": "regular",
+        "username": "ZanyZac",
+        "email": "abc@xyz.com",
+        "imagePath": "/sample_images/zac.png",
+        "rating": 13071,
         "description": ""
     },
     {

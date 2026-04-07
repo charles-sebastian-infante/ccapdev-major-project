@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
     imagePath: {
         type: String,
-        default: "/sample_images/pfp1.png"
+        default: "/sample_images/default_pfp.jpg"
     },
     rating: Int32,
     description: String,
