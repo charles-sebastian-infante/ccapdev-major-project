@@ -292,3 +292,7 @@ a:has(img) {
 	display: inline;
 	margin-right: 5px;
 }
+
+.hidden_pagdiv {
+    display: none !important;
+}

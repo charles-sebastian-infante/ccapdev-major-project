@@ -553,3 +553,32 @@ input.hidden,
 .close_btn.hidden {
     display: none;
 }
+
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+#page-numbers {
+    display: flex;
+    gap: 5px;
+}
+
+.page-num, .pagination button, .page-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor:pointer
+}
+
+.page-num:hover, .page-btn:hover{
+    box-shadow: 0 6px 15px lightpink;
+    transition: 0.2s;
+}
