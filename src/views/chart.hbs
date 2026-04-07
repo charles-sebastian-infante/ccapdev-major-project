@@ -467,7 +467,7 @@
                     method: "DELETE"
                 });
             } else {
-                const body = reviewText.value;
+                const body = reviewText.value();
 
                 if (body === "") {
                     alert("Please enter a reply body.");
