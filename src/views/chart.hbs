@@ -57,7 +57,7 @@
                     </select>
                 </div>
             </search>
-
+            <div class="review_wrapper" id="reviews_div"></div>
                 <nav class="pagination">
                     <button class="page-btn" id="previous" onclick="changePage(currentPage-1)"disabled>
                         Prev
@@ -100,19 +100,7 @@
                         <span class="user_cc" id="dialog_cc"></span>
                         <img class="recommendation_icon" id="dialog_reco_icon">
                     </div>
-                    <div id="dialog_comment"></div>
-                    <div class="review_attachment"></div>
-                    <p class="review_additional_info" id="dialog_created_at"></p>
-                    <p class="review_additional_info" id="dialog_edited_at"></p>
-                    <div class="dialog_actions">
-                        <button class="like_button" id="dialog_like_button">
-                            <img src="/assets/icons/heart.png" class="icon" id="dialog_like_icon">
-                            <span class="like_count" id="dialog_likes"></span>
-                        </button>
-                        <button onclick="closeReview();" class="exit">Exit Review</button>
-                    </div>
-                </div>
-            </dialog>
+                </dialog>
         </div>
 
         <div class="user_review {{#unless currentUser}}blur{{/unless}} {{#if (isCharter currentUser.userType)}}hidden{{/if}}"

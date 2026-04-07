@@ -115,6 +115,7 @@ app.get("/get_chart_count", async (req, res) => {
         res.status(500).json({error: "Error counting charts."});
    }
 });
+
 // returns the HTML for the list of charts through fetch()
 app.get("/search_charts", async (req, res) => {
     const { search, difficulty, sort } = req.query;
@@ -198,50 +199,6 @@ app.get("/charts/:chartId", async (req, res) => {
         res.status(404).send("<h1>404 Not Found - Chart Not Found</h1>");
         return;
     }
-
-    /*
-
-    // aggregation pipeline, used for sorting by most likes by default
-    const pipeline = [
-        {
-            $match: {
-                chartId: new mongoose.Types.ObjectId(chartId)
-            }
-        },
-        {
-            $addFields: {
-                likes: { $size: "$likedBy" }
-            }
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "userId",
-                foreignField: "_id",
-                as: "userId"
-            }
-        },
-        {
-            $unwind: { path: "$userId" }
-        },
-        {
-            $sort: { likes: -1 }
-        }
-    ];
-
-    if (userId) {
-        pipeline.push({
-            $addFields: {
-                likedByUser:  {
-                    $in: [new mongoose.Types.ObjectId(userId), "$likedBy"]
-                }
-            }
-        });
-    }
-
-    const reviews = await Review.aggregate(pipeline);
-    chart.reviews = reviews;
-    */
 
     // null if the user is not signed in or the user doesn't have a comment
     const userReview = await Review.findOne({ chartId: chartId, userId: userId }).lean();
