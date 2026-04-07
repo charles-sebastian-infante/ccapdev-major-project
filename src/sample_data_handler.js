@@ -20,6 +20,11 @@ async function insertSampleData() {
     try {
         // the sample data is stored in JSON files
         const userSampleData = require("./database/sample_data/sample_users.json");
+        for (const user of userSampleData) {
+            if (!user.password) {
+                user.password = await argon2id.hash("1234");
+            }
+        }
         const sampleUsers = await User.insertMany(userSampleData);
 
         const userIds = {};

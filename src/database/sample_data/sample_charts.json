@@ -17,6 +17,14 @@
                     "teslacia",
                     "tarosushiramen"
                 ]
+            },
+            {
+                "body": "this chart is fine",
+                "rating": 12.4,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
             }
         ]
     },
@@ -56,6 +64,14 @@
                     "pieisspy",
                     "pro_baiter"
                 ]
+            },
+            {
+                "body": "this chart is okay",
+                "rating": 13.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
             }
         ]
     },
@@ -77,6 +93,14 @@
                     "pieisspy",
                     "tarosushiramen"
                 ]
+            },
+            {
+                "body": "this chart is easy",
+                "rating": 13.2,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
             }
         ]
     },
@@ -99,6 +123,14 @@
                 "usersThatLiked": [
                     "tarosushiramen"
                 ]
+            },
+            {
+                "body": "this chart is hard",
+                "rating": 15.0,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
             }
         ]
     },
@@ -109,7 +141,16 @@
         "difficultyLevel": "Master",
         "imagePath": "/sample_images/fluffy_flash.png",
         "charterName": "はっぴー",
-        "reviews": []
+        "reviews": [
+            {
+                "body": "this chart is chill",
+                "rating": 14.4,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
+            }
+        ]
     },
     {
         "songName": "Comet Panto Men!",
@@ -118,7 +159,16 @@
         "difficultyLevel": "Master",
         "imagePath": "/sample_images/comet_panto_men.png",
         "charterName": "Jack",
-        "reviews": []
+        "reviews": [
+            {
+                "body": "this chart is meh",
+                "rating": 13.8,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
+            }
+        ]
     },
     {
         "songName": "Rising on the horizon",
@@ -127,7 +177,310 @@
         "difficultyLevel": "Expert",
         "imagePath": "/sample_images/rising_on_the_horizon.png",
         "charterName": "ロシェ@ペンギン",
-        "reviews": []
+        "reviews": [
+            {
+                "body": "THIS CHART IS TOO EASY FOR A WORLD ENDER LIKE ME!",
+                "rating": 12.2,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "AmazingAatrox",
+                "usersThatLiked": []
+            },
+            {
+                "body": "*happy chime noises*",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "BustlingBard",
+                "usersThatLiked": [
+                    "AmazingAatrox",
+                    "CerebralCassio",
+                    "DominicDarius"
+                ]
+            },
+            {
+                "body": "I like thissss chart",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "CerebralCassio",
+                "usersThatLiked": [
+                    "AmazingAatrox",
+                    "CerebralCassio"
+                ]
+            },
+            {
+                "body": "Noxus does not approve.",
+                "rating": 13.1,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "DominicDarius",
+                "usersThatLiked": []
+            },
+            {
+                "body": "I wish I could go back in time to try this chart again! Oh wait...",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "EnigmaticEkko",
+                "usersThatLiked": [
+                    "AmazingAatrox",
+                    "CerebralCassio",
+                    "DominicDarius",
+                    "BustlingBard"
+                ]
+            },
+            {
+                "body": "This chart made me feel like a fish out of water",
+                "rating": 13.3,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "FeelGoodFizz",
+                "usersThatLiked": []
+            },
+            {
+                "body": "This game for tiny humans is quite difficult",
+                "rating": 13.5,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "GreatGalio",
+                "usersThatLiked": [
+                    "DominicDarius"
+                ]
+            },
+            {
+                "body": "Playing this chart was a wise choice indeed!",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "HappyHeimer",
+                "usersThatLiked": [
+                    "AmazingAatrox",
+                    "CerebralCassio"
+                ]
+            },
+            {
+                "body": "This chart is fun!",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "InvestingIvern",
+                "usersThatLiked": [
+                    "AmazingAatrox",
+                    "BustlingBard",
+                    "CerebralCassio",
+                    "DominicDarius",
+                    "EnigmaticEkko",
+                    "FeelGoodFizz",
+                    "GreatGalio",
+                    "HappyHeimer",
+                    "JoyfulJayce",
+                    "KindKarthus",
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus",
+                    "OldOlaf",
+                    "PeskyPyke",
+                    "RollingRammus",
+                    "TerrificTaric",
+                    "UniqueUdyr",
+                    "VillainousVeigar",
+                    "WorthyWarwick",
+                    "YoungYasuo",
+                    "ZanyZac"
+                ]
+            },
+            {
+                "body": "Easier than putting hammer to steel",
+                "rating": 12.1,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "JoyfulJayce",
+                "usersThatLiked": [
+                    "EnigmaticEkko",
+                    "FeelGoodFizz"
+                ]
+            },
+            {
+                "body": "This chart made me feel alive again!",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "KindKarthus",
+                "usersThatLiked": [
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus",
+                    "OldOlaf",
+                    "PeskyPyke",
+                    "RollingRammus",
+                    "TerrificTaric"
+                ]
+            },
+            {
+                "body": "Hahahaha this chart is too easy",
+                "rating": 12.5,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "LaughingLucian",
+                "usersThatLiked": [
+                    "VillainousVeigar"
+                ]
+            },
+            {
+                "body": "The isles are not blooming after playing this chart",
+                "rating": 13.2,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "MakingMaokai",
+                "usersThatLiked": [
+                    "NiceNasus",
+                    "OldOlaf"
+                ]
+            },
+            {
+                "body": "This chart gets easier the more you practice.",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "NiceNasus",
+                "usersThatLiked": [
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus"
+                ]
+            },
+            {
+                "body": "This chart will not reach Valhalla.",
+                "rating": 13.0,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "OldOlaf",
+                "usersThatLiked": [
+                    "EnigmaticEkko",
+                    "FeelGoodFizz",
+                    "GreatGalio",
+                    "HappyHeimer",
+                    "JoyfulJayce",
+                    "KindKarthus",
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus"
+                ]
+            },
+            {
+                "body": "THIS CHART IS ON THE LIST!",
+                "rating": 13.5,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "PeskyPyke",
+                "usersThatLiked": [
+                    "FeelGoodFizz",
+                    "GreatGalio",
+                    "HappyHeimer",
+                    "JoyfulJayce",
+                    "KindKarthus",
+                    "LaughingLucian",
+                    "MakingMaokai"
+                ]
+            },
+            {
+                "body": "Ok",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "RollingRammus",
+                "usersThatLiked": [
+                    "TerrificTaric",
+                    "UniqueUdyr",
+                    "VillainousVeigar",
+                    "WorthyWarwick",
+                    "YoungYasuo",
+                    "ZanyZac"
+                ]
+            },
+            {
+                "body": "I feel like a star after that performance!",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "TerrificTaric",
+                "usersThatLiked": [
+                    "WorthyWarwick",
+                    "YoungYasuo",
+                    "ZanyZac"
+                ]
+            },
+            {
+                "body": "I have four stances but no maimai skills",
+                "rating": 13.5,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "charterResponse": "F",
+                "responseCreatedAt": "2026-04-06T00:00:00Z",
+                "user": "UniqueUdyr",
+                "usersThatLiked": [
+                    "GreatGalio",
+                    "HappyHeimer",
+                    "JoyfulJayce",
+                    "KindKarthus",
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus",
+                    "OldOlaf",
+                    "PeskyPyke",
+                    "RollingRammus",
+                    "TerrificTaric"
+                ]
+            },
+            {
+                "body": "I CAN'T BELIEVE PEOPLE FIND THIS HARD!",
+                "rating": 12.0,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "VillainousVeigar",
+                "usersThatLiked": []
+            },
+            {
+                "body": "I hunger for more difficult charts",
+                "rating": 12.6,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "WorthyWarwick",
+                "usersThatLiked": [
+                    "TerrificTaric"
+                ]
+            },
+            {
+                "body": "I failed this chart 10 times in a row",
+                "rating": 13.3,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "YoungYasuo",
+                "usersThatLiked": [
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus",
+                    "OldOlaf"
+                ]
+            },
+            {
+                "body": "Woohoo! This chart is great!",
+                "rating": 12.7,
+                "ratedAccurately": true,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "ZanyZac",
+                "usersThatLiked": [
+                    "JoyfulJayce",
+                    "KindKarthus",
+                    "LaughingLucian",
+                    "MakingMaokai",
+                    "NiceNasus",
+                    "OldOlaf",
+                    "PeskyPyke"
+                ]
+            }
+        ]
     },
     {
         "songName": "Southern Cross",
@@ -136,7 +489,16 @@
         "difficultyLevel": "Re:Master",
         "imagePath": "/sample_images/southern_cross.png",
         "charterName": "Jack",
-        "reviews": []
+        "reviews": [
+            {
+                "body": "this chart could be harder",
+                "rating": 13.7,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
+            }
+        ]
     },
     {
         "songName": "Never Give Up!",
@@ -145,6 +507,15 @@
         "difficultyLevel": "Re:Master",
         "imagePath": "/sample_images/never_give_up.png",
         "charterName": "鳩ホルダー",
-        "reviews": []
+        "reviews": [
+            {
+                "body": "this chart is too hard",
+                "rating": 13.9,
+                "ratedAccurately": false,
+                "createdAt": "2026-04-06T00:00:00Z",
+                "user": "Annoy-o-Tron",
+                "usersThatLiked": []
+            }
+        ]
     }
 ]
