@@ -20,61 +20,60 @@
 - `node index.js insert-sample-data` - Populates the database with sample data
 - `node index.js reset` - Empties the database, then inserts sample data
 
-## Planned Features & Feature Descriptions
+## Features
 ```
-- View establishments
-  - an unregistered visitor may see a list of establishments featured in the web application
-  - overall rating & brief description can be seen from the list
+- View charts
+  - An unregistered visitor may see a list of charts featured in the web application.
+  - The actual difficulty rating and average user rating can be seen from the list.
 
-- View establishment reviews
-  - on selecting an establishment, users can see top reviews; the next set of top reviews can be auto-loaded or on a new page
-  - long reviews are to be truncated; the full review can be seen by clicking said review
-  - includes a count for how many users found the review un/helpful
+- View chart reviews
+  - On selecting a chart, users can see top reviews - the rest of the reviews are on the succeeding pages.
+  - Long reviews are truncated.
+  - The number of people who have liked each review is also shown.
 
 - Register
-  - users must register an account in order to post reviews
-  - users must have: a username, a password, an avatar, and an optional description
+  - Users must register an account in order to post reviews.
+  - Users must have a username, a password, an avatar (can be a default avatar), and an optional description.
 
 - Login
-  - users can login once registered
-  - users have the option to be remembered upon login, where they do not need to log in each time they visit
-  - each subsequent login & visit extends the "remember" period by three (3) weeks
+  - Users can login once registered.
+  - Users have the option to be remembered upon login, where they do not need to log in each time they visit
+  - Each subsequent login and visit extends the "remember" period by three (3) weeks.
 
 - Logout
-  - logs the user out of the website
-  - all session data is removed and the "remember" period is cut short
+  - Logs the user out of the website.
+  - All session data is removed and the "remember" period is cut short.
 
 - View a user profile
-  - each user has a public page which shows their profile
-  - visitors can see a user's username, profile picture/avatar, short description, and recent reviews & comments
-  - visitors may opt to see the rest of the posts and comments by said user
+  - Each user has a public page which shows their profile.
+  - Visitors can see a user's username, profile picture, short description, and a list of their reviews.
+  - Visitors may opt to see the rest of the posts and comments by said user.
 
 - Edit profile
-  - logged-in users can edit their user profile,
-  - can add/modify profile picture/avatar, and change the short description
+  - Logged-in users can edit their user profile.
+  - Users can modify their username, password, rating, description, and profile picture.
 
 - Create review
-  - logged in users can create a review on an establishment
-  - must have title, rating, and post body.
-  - users can attach forms of media (ex. image, videos) to their review
+  - Logged-in users can create a review on a chart.
+  - A review must have title, rating, and post body.
+  - A user can attach an image or video to their review.
 
-- Mark as Un/Helpful
-  - logged-in users can mark reviews as helpful / unhelpful only once
+- Like Review
+  - Logged-in users can like reviews.
 
 - Edit / Delete review
-  - a user can edit / delete a review they posted at any time.
-  - edits must have an indication that the review was edited.
+  - A user can edit / delete a review they posted at any time.
+  - Edits leave an indication that the review was edited.
 
-- Search establishments
-  - visitors/users can search for establishments w/ name or description similarities
-  - when entering a search phrase/word, all establishments containing the key word appears
-  - users can filter by overall rating 
+- Search charts
+  - Visitors and users can search for charts.
+  - When entering a search phrase/word, all chart containing the search phrase appear.
+  - Users can filter by difficulty, or sort by rating or charter name.
 
 - Search reviews
-  - works similarly to establishments, but instead of name/description it is title/post body
-  - does not have to be filtered
+  - Visitors and users can also search for reviews.
 
-- Establishment owner response
-  - additional user role; not necessarily integrated with register system
-  - tied to single establishment, can publicly respond to reviews to their specific establishment
+- Charter response
+  - A charter can respond to reviews on any of their charts.
+  - Note that charters must be manually added by a database administrator.
 ```
