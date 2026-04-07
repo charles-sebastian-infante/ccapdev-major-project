@@ -101,5 +101,50 @@
                 ]
             }
         ]
+    },
+    {
+        "songName": "FLUFFY FLASH",
+        "songAuthor": "Kobaryo",
+        "numericRating": 14.4,
+        "difficultyLevel": "Master",
+        "imagePath": "/sample_images/fluffy_flash.png",
+        "charterName": "はっぴー",
+        "reviews": []
+    },
+    {
+        "songName": "Comet Panto Men!",
+        "songAuthor": "MYUKKE.",
+        "numericRating": 13.9,
+        "difficultyLevel": "Master",
+        "imagePath": "/sample_images/comet_panto_men.png",
+        "charterName": "Jack",
+        "reviews": []
+    },
+    {
+        "songName": "Rising on the horizon",
+        "songAuthor": "TAG",
+        "numericRating": 12.7,
+        "difficultyLevel": "Expert",
+        "imagePath": "/sample_images/rising_on_the_horizon.png",
+        "charterName": "ロシェ@ペンギン",
+        "reviews": []
+    },
+    {
+        "songName": "Southern Cross",
+        "songAuthor": "403",
+        "numericRating": 13.9,
+        "difficultyLevel": "Re:Master",
+        "imagePath": "/sample_images/southern_cross.png",
+        "charterName": "Jack",
+        "reviews": []
+    },
+    {
+        "songName": "Never Give Up!",
+        "songAuthor": "nanobii",
+        "numericRating": 13.7,
+        "difficultyLevel": "Re:Master",
+        "imagePath": "/sample_images/never_give_up.png",
+        "charterName": "鳩ホルダー",
+        "reviews": []
     }
 ]

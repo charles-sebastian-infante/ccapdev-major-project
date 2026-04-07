@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Chart = require("./database/models/Chart");
 const User = require("./database/models/User");
 const Review = require("./database/models/Review");
+const argon2id = require("@node-rs/argon2");
 
 async function clearDb() {
     try {
@@ -34,12 +35,38 @@ async function insertSampleData() {
             const reviews = chart.reviews;
             delete chart.reviews;
 
-            chart.charterId = userIds[chart.charterName];
+            let charterId = userIds[chart.charterName];
+            if (!charterId) {
+                // making accounts for charters not defined in the sample data
+                const hashedPassword = await argon2id.hash("1234");
+                const newUser = await User.create({
+                    userType: "charter",
+                    username: chart.charterName,
+                    password: hashedPassword,
+                    email: "abc@xyz.com",
+                });
+                userIds[chart.charterName] = newUser.id;
+                charterId = newUser.id;
+            }
+            chart.charterId = charterId;
             delete chart.charterName;
 
             const chartDoc = await Chart.create(chart);
 
             for (const review of reviews) {
+                let userId = userIds[review.user];
+                if (!userId) {
+                    // making accounts for users not defined in the sample data
+                    const hashedPassword = await argon2id.hash("1234");
+                    const newUser = await User.create({
+                        userType: "user",
+                        username: review.user,
+                        password: hashedPassword,
+                        email: "abc@xyz.com",
+                    });
+                    userIds[review.user] = newUser.id;
+                    userId = newUser.id;
+                }
                 review.userId = userIds[review.user];
                 delete review.user;
 

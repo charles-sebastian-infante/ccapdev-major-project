@@ -1,4 +1,4 @@
-require("dotenv").config(); // probably should remove this before submitting
+require("dotenv").config(); // for testing
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
