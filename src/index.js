@@ -105,6 +105,16 @@ app.get("/", async (req, res) => {
     res.render("index", {charts, currentUser});
 });
 
+// returns chart count for pagination purposes
+app.get("/get_chart_count", async (req, res) => {
+    
+   try {
+        const count = await Chart.countDocuments({});
+        res.json({total: count});
+   } catch (err) {
+        res.status(500).json({error: "Error counting charts."});
+   }
+});
 // returns the HTML for the list of charts through fetch()
 app.get("/search_charts", async (req, res) => {
     const { search, difficulty, sort } = req.query;
@@ -311,6 +321,53 @@ app.get("/search_reviews/:chartId", async (req, res) => {
     res.render("partials/review_list", {reviews, chart, currentUser}); 
 });
 
+// returns review count for a specific chart through fetch()
+app.get("/get_review_count/:chartId", async (req, res) => {
+    const { chartId } = req.params;
+    console.log("Checking count for Chart ID:", chartId);
+
+    if (!mongoose.isValidObjectId(chartId)) {
+        return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    try {
+        const count = await Review.countDocuments({ chartId: chartId });
+        console.log("Found count:", count);
+        res.json({ totalReviews: count });
+    } catch (err) {
+        console.error("Database Error:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// render a partial review list
+app.get("/get_reviews/:chartId", async (req, res) => {
+    const { chartId } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5; 
+    const skip = (page - 1) * limit;
+
+    try {
+        const currentUser = await User.findById(req.session.userId).lean();
+
+        const reviews = await Review.find({ chartId: new mongoose.Types.ObjectId(chartId) })
+            .sort({ createdAt: -1, _id: 1 }) 
+            .skip(skip)
+            .limit(limit)
+            .populate("userId")
+            .lean();
+    
+        res.render("partials/review_list", { 
+            reviews, 
+            currentUser,
+            layout: false 
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("<p>Error loading reviews...</p>");
+    }
+});
+
 // returns chart info through fetch()
 app.get("/get_chart_info/:chartId", async (req, res) => {
     const chartId = req.params.chartId;
@@ -350,6 +407,7 @@ app.get("/get_review_info/:reviewId", async (req, res) => {
     review.formattedLikes = customHbsHelpers.displayLikeCount(review.likes);
     res.json(review);
 });
+
 
 // lets the user submit or edit a review
 app.post("/charts/:chartId/submit_review", [
