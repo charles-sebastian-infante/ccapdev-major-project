@@ -422,7 +422,7 @@ button.like_button:hover{
     letter-spacing: 0.5px;
 }
 
-.charter_response_text {
+.charter_response_text > * {
     font-size: 14px;
     color: #555;
     line-height: 1.5;
