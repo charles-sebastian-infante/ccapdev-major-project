@@ -41,7 +41,7 @@
         <a class="charter_name" href="/view_profile/{{../chart.charterId._id}}"><i>Charter Response: {{../chart.charterId.username}}</i></a>
         <span class="review_additional_info">{{formatDate responseCreatedAt}} {{displayAdditionalResponseInfo responseEditedAt}}</span>
     </div>
-    <p class="charter_response_text">{{charterResponse}}</p>
+    <div class="charter_response_text">{{{renderMarkdown charterResponse}}}</div>
 </div>
     {{/if}}
 {{else}}

@@ -422,7 +422,7 @@ button.like_button:hover{
     letter-spacing: 0.5px;
 }
 
-.charter_response_text {
+.charter_response_text > * {
     font-size: 14px;
     color: #555;
     line-height: 1.5;
@@ -581,4 +581,8 @@ input.hidden,
 .page-num:hover, .page-btn:hover{
     box-shadow: 0 6px 15px lightpink;
     transition: 0.2s;
+}
+
+.hidden_review {
+    display: none;
 }
