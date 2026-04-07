@@ -654,10 +654,6 @@ app.get("/signup", (req, res) => {
     }
 });
 
-app.get("/about", (req, res) => {
-    res.render("about");
-});
-
 app.post("/login", [
     body("username").notEmpty(),
     body("password").notEmpty(),
@@ -946,6 +942,12 @@ app.post("/logout", (req, res) => {
         res.clearCookie("connect.sid");
         res.redirect("/");
     })
+});
+
+app.get("/about", async (req, res) => {
+    const currentUser = await User.findById(req.session.userId).lean();
+
+    res.render("about", { currentUser });
 });
 
 const PORT = process.env.PORT || 3000;
