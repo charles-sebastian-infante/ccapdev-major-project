@@ -75,7 +75,7 @@
                         <span class="user_cc" id="dialog_cc"></span>
                         <img class="recommendation_icon" id="dialog_reco_icon">
                     </div>
-                    <p id="dialog_comment"></p>
+                    <div id="dialog_comment"></div>
                     <div class="review_attachment"></div>
                     <p class="review_additional_info" id="dialog_created_at"></p>
                     <p class="review_additional_info" id="dialog_edited_at"></p>
@@ -142,6 +142,8 @@
 
 
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
     <script>
         const reviewForm = document.getElementById("review_form");
         const reviewFormDiv = document.getElementById("review_form_div");
@@ -312,7 +314,9 @@
             document.getElementById("dialog_avatar").src = reviewInfo.userId.imagePath;
             document.getElementById("dialog_skill").textContent = reviewInfo.userId.rating;
             document.getElementById("dialog_cc").textContent = reviewInfo.formattedRating;
-            document.getElementById("dialog_comment").textContent = reviewInfo.body;
+
+            document.getElementById("dialog_comment").innerHTML = DOMPurify.sanitize(marked.parse(reviewInfo.body, { mangle: false, headerIds: false }));
+
             document.getElementById("dialog_created_at").textContent = `Created at: ${formatDate(reviewInfo.createdAt)}`;
             if (reviewInfo.isEdited) {
                 document.getElementById("dialog_edited_at").textContent = `Edited at: ${formatDate(reviewInfo.editedAt)}`;
@@ -398,7 +402,7 @@
                     return;
                 }
 
-                if (reviewText.value() === "") {
+                if (reviewInfo.get("body") === "") {
                     alert("Please enter a review body.");
                     return;
                 }
@@ -449,7 +453,7 @@
                     method: "DELETE"
                 });
             } else {
-                const body = reviewText.value("");
+                const body = reviewText.value;
 
                 if (body === "") {
                     alert("Please enter a reply body.");

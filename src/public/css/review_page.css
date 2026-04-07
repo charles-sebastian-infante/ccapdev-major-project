@@ -103,7 +103,7 @@ input[type=number] {
 	font-style: italic;
 }
 
-.review_comment {
+.review_comment > * {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;

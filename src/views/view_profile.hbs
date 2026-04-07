@@ -56,7 +56,7 @@
                             " class="recommendation_icon">
                             <span class="review_additional_info">{{formatDate createdAt}} {{displayAdditionalReviewInfo isEdited filePath fileType}}</span>
                         </div>
-                        <p class="review_comment">{{body}}</p>
+                        <div class="review_comment">{{{renderMarkdown body}}}</div>
                     </div>
                     <div class="review_actions">
                         <button class="see_full">

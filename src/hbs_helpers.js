@@ -1,4 +1,9 @@
 // note: dl stands for difficulty level
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+const marked = require('marked');
 
 function formatDate(date) {
     date = date.toISOString();
@@ -73,5 +78,7 @@ module.exports = {
         return `(edited ${formatDate(responseEditedAt)})`;
     },
     formatDate: formatDate,
-    isCharter: (userType) => (userType === "charter")
+    isCharter: (userType) => (userType === "charter"),
+    renderMarkdown: (markdownString) => DOMPurify.sanitize(marked.parse(markdownString, { mangle: false, headerIds: false })),
+    // Safely rendering markdown using marked to turn it into HTML and DOMPurify to sanitize dangerous tags
 }
